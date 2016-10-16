@@ -1,0 +1,1 @@
+# Contains all 'Managers' for User, Room, Reservation, WaitingList
