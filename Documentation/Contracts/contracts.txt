@@ -1,0 +1,45 @@
+						
+
+
+										System Operations 
+
+makeReservation(userId, roomNumber, timeslot)
+viewReservations(roomNumber)
+cancelReservation(userId, roomNumber, timeslot)
+modifyReservation(userId, roomNumber, timeslot, newTimeslot)
+
+
+										System Contracts
+--------------------------------------------------------------------------------------------
+Contract CO1: makeReservation
+Operation: makeReservation(userId, roomNumber, timeslot)
+Cross References: Use Case Manage Reservations
+Preconditions: A User is logged in.
+Postconditions: 
+	1. A Reservation instance reserv was created. (instance created and attribute modification)
+	2. reserv was associated with Room. (association formed)
+--------------------------------------------------------------------------------------------
+Contract CO2: viewReservations
+Operation: viewReservations(roomNumber)
+Cross References: Use Case Manage Reservations
+Preconditions: A User is logged in.
+Postconditions: None
+--------------------------------------------------------------------------------------------
+Contract CO3: cancelReservation
+Operation: cancelReservation(userId, roomNumber, timeslot)
+Cross References: Use Case Manage Reservations
+Preconditions: 
+	1. A User is logged in.
+	2. A Reservation is associated with a User.
+Postconditions: 
+	1. A Reservation instance reserv was deleted. (instance deletion)
+	2. reserv was unlinked to Room. (association broken)
+--------------------------------------------------------------------------------------------
+Contract CO4: modifyReservation
+Operation: modifyReservation(userId, roomNumber, timeslot, newTimeslot)
+Cross References: Use Case Manage Reservations
+Preconditions:
+	1. A User is logged in.
+	2. A Reservation is associated with User.
+Postconditions: Reservation.timeInterval was set to newTimeslot (attribute modification)
+--------------------------------------------------------------------------------------------
