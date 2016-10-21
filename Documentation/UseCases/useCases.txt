@@ -1,0 +1,82 @@
+UC1: View Reservations
+Level: user goal
+Primary Actor: User
+Preconditions: User is authenticated.
+Main Scenario:
+1. User chooses the option to view reservations.
+2. System prompts for a room.
+3. User selects room.
+4. System displays all reservations for the selected room.
+
+
+UC2: Make Reservation
+Level: user goal
+Primary Actor: User
+Preconditions: User is authenticated.
+Main Success Scenario:
+1. User chooses the option to make a reservation
+2. System prompts for a timeslot.
+3. User selects a timeslot.
+4. System creates a reservation and returns a confirmation message.
+
+Extensions:
+	3.A. Timeslot is already reserved by another user.
+		3.A.1 System informs User that
+		//TODO 
+
+//TODO
+UC3: Modfiy Reservation
+Level: user goal
+Primary Actor: User
+Preconditions: 
+Postconditions:
+Main Success Scenario:
+Extensions:
+
+UC4: Cancel Reservation
+// TODO
+
+
+
+UC1: Manage Reservations
+Scope: Reservator applicaton
+Level: user goal
+Primary Actor: User
+Stackholders and Interests: 
+	- User: Wants to make reservations for multiple rooms. Wants to view all reservations for a room. Want to modfiy and cancel his/her reservations.
+Preconditions: User is authenticated.
+Postconditions: 
+Main Scenario:
+1. User chooses the option to view reservations for a room.
+2. System displays all reservations for the selected room.
+
+
+Extensions:
+2.A. User chooses to make a reservation.
+	2.A.1. System prompts for a timeslot.
+	2.A.2. User selects a timeslot.
+	2.A.3. 
+2.B User chooses to modify 
+
+
+UC5: Log in
+Scope: Reservator application
+Level: sub-function
+Primary Actor: User
+Preconditions: User is registered.
+Postconditions: User is identified and authenticated.
+Main Scenario: 1. User enters username and password.
+			   2. System authenticates User.
+Extensions:
+
+
+UC6: Log out
+Scope: Reservator application
+Level: sub-function
+Primary Actor: User
+Preconditions: User is logged in.
+Postconditions: User was logged out.
+Main Scenario:
+	1. User indicates that he/she wants to log out
+	2. System logs out User.
+
