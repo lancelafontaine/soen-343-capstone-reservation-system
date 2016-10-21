@@ -14,32 +14,30 @@ modifyReservation(userId, roomNumber, timeslot, newTimeslot)
 Contract CO1: makeReservation
 Operation: makeReservation(userId, roomNumber, timeslot)
 Cross References: Use Case Manage Reservations
-Preconditions: A User is logged in.
+Preconditions: None
 Postconditions: 
 	1. A Reservation instance reserv was created. (instance created and attribute modification)
 	2. reserv was associated with Room. (association formed)
+	3. reserv was associated with User. (association formed)
 --------------------------------------------------------------------------------------------
 Contract CO2: viewReservations
 Operation: viewReservations(roomNumber)
 Cross References: Use Case Manage Reservations
-Preconditions: A User is logged in.
+Preconditions: None
 Postconditions: None
 --------------------------------------------------------------------------------------------
 Contract CO3: cancelReservation
 Operation: cancelReservation(userId, roomNumber, timeslot)
 Cross References: Use Case Manage Reservations
 Preconditions: 
-	1. A User is logged in.
-	2. A Reservation is associated with a User.
+	1. A Reservation is associated with a User.
 Postconditions: 
-	1. A Reservation instance reserv was deleted. (instance deletion)
-	2. reserv was unlinked to Room. (association broken)
+	1. A Reservation instance was deleted. (instance deletion)
 --------------------------------------------------------------------------------------------
 Contract CO4: modifyReservation
 Operation: modifyReservation(userId, roomNumber, timeslot, newTimeslot)
 Cross References: Use Case Manage Reservations
 Preconditions:
-	1. A User is logged in.
-	2. A Reservation is associated with User.
+	1. A Reservation is associated with User.
 Postconditions: Reservation.timeInterval was set to newTimeslot (attribute modification)
 --------------------------------------------------------------------------------------------
