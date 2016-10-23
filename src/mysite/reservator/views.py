@@ -2,39 +2,31 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 
-# Reservation manager attribute
+def home(request):
+	return render(request, 'reservator/index.html')
 
-def index(request):
-    return render(request, 'reservator/login.html')
 
 def log_in(request):
-    # Check if username and password match 
-    user = authenticate(username=request.POST['username'], password=request.POST['password'])
-    if user is not None:
-        login(request, user)
-        # Redirect to a success
-    else:
-        render(request, 'reservation/index.html')
-        # Return 'invalid' login
+    return render(request, 'reservator/login.html')
+
 
 def log_out(request):
-    logout(request)
-    # Redirect to a success page
-
-def modifyReservation(self, request):
-    # rm.modfiyReservation()
+    print "log_out"
 
 
-def cancelReservation(self, request):
-    # rm.cancelReservation()
+def modifyReservation(request):
+    print "modify"
 
 
-def makeReservation(self, request):
-    # rm.makeReservation()
+def cancelReservation(request):
+    print "cancel"
 
 
-def viewReservations(self, request):
-    # rm.getReservations(roomNumber);
-    # Display
+def makeReservation(request):
+    print "make"
+
+
+def viewReservations(request):
+    print "view"
 
 
