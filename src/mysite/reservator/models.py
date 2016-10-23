@@ -1,19 +1,10 @@
-from __future__ import unicode_literals
+class Reservation:
+    pass
 
-from django.db import models
 
-# Create your models here.
-class Reservation(models.Model):
-    he = 2
-    # start_time
-    # end_time
-    # user_id
-    # room_number
+class User:
+    pass
 
-class Room(models.Model):
-    df = 3
-    # number
 
-class WaitingList(models.Model):
-    d = 3
-    # Linked to many reservations
+class Room:
+    pass

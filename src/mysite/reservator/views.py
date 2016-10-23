@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
-from django.contrib.auth import authenticate, login, logout
 
 
 class Registry(View):
@@ -12,7 +11,6 @@ class Registry(View):
 
     def log_in(request):
         # Check if username and password match 
-        # Save current Users in a Session Table
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         if user is not None:
             login(request, user)
@@ -25,19 +23,19 @@ class Registry(View):
         logout(request)
         # Redirect to a success page
 
-    def modifyReservation(request):
+    def modifyReservation(self, request):
         # rm.modfiyReservation()
-        print "modify"
 
-    def cancelReservation(request):
+
+    def cancelReservation(self, request):
         # rm.cancelReservation()
-        print "cancel"
 
-    def makeReservation(request):
+
+    def makeReservation(self, request):
         # rm.makeReservation()
-        print "make"
+
     
-    def viewReservations(request):
+    def viewReservations(self, request):
         # rm.getReservations(roomNumber);
         # Display
 
