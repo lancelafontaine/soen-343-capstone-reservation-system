@@ -16,9 +16,10 @@ Operation: makeReservation(userId, roomNumber, timeslot)
 Cross References: Use Case Manage Reservations
 Preconditions: None
 Postconditions: 
-	1. A Reservation instance reserv was created. (instance created and attribute modification)
-	2. reserv was associated with Room. (association formed)
-	3. reserv was associated with User. (association formed)
+	1. A Reservation instance reserv was created. (instance created)
+        2. reserv.timeInterval was modified (attribute modification)
+	3. reserv was associated with Room. (association formed)
+        4. reserv was associated with User. (association formed)
 --------------------------------------------------------------------------------------------
 Contract CO2: viewReservations
 Operation: viewReservations(roomNumber)
