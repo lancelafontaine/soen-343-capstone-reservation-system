@@ -5,24 +5,19 @@ class UnitOfWork:
         self.dirtyObjects = []
         self.removedObjects = []
 
-    def registerNew(obj):
-        newObjects.append(obj)
+    def registerNew(self, obj):
+        self.newObjects.append(obj)
 
-    def registerDirty(obj):
-        dirtyObjects.append(obj)
+    def registerDirty(self, obj):
+        self.dirtyObjects.append(obj)
     
-    def registerRemoved(obj):
-        removedObjects.append(obj)
+    def registerRemoved(self, obj):
+        self.removedObjects.append(obj)
 
     def commit(self):
-        for obj in self.newObjects:
-            self.mapper.insert(obj)
-
-        for obj in self.dirtyObjects:
-            self.mapper.update(obj)
-
-        for objc in self.removedObjects:
-            self.mapper.delete(obj)
+        self.mapper.insert(self.newObjects)
+        self.mapper.update(self.dirtyObjects)
+        self.mapper.delete(self.removedObjects)
 
     def rollback():
         pass
