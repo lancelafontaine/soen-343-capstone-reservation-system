@@ -16,4 +16,8 @@
 
 ### Server-Side
 
-- TBD
+- Install [`Python 2.7.9+`](https://www.python.org/downloads/release/python-2712/).
+- `cd src/`
+- `pip2 install -r requirements.txt`
+- `cd server/`
+- `python2 manage.py runserver`
