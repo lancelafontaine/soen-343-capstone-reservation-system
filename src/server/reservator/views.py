@@ -1,8 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+#from django.shortcuts import render
+#from django.http import HttpResponse
 from .managers import ReservationsManager
 from django.db import connection
-
+from django.http import JsonResponse
 rm = ReservationsManager()
 
 def home(request):
@@ -11,12 +11,11 @@ def home(request):
         cursor.execute('SELECT symbol from stocks LIMIT 1')
         for row in cursor:
             listy.append(row)
-    return render(request, 'reservator/index.html', {'test':listy[0]})
-
+    return JsonResponse({'list':'bar'})
 
 def log_in(request):
     # request.session['username'] = 'Jack'
-    return render(request, 'reservator/login.html')
+    return JsonResponse({'foo':'bar'})
 
 def log_out(request):
     print "log_out"
