@@ -19,7 +19,8 @@ def log_in(request):
     return render(request, 'reservator/login.html')
 
 def log_out(request):
-    print ("log_out")
+
+    return render(request, 'reservator/login.html')
 
 
 def modifyReservation(request):

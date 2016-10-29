@@ -1,3 +1,4 @@
+
 class Reservation:
 
     def __init__(self, username, roomNumber, timeslot, timestamp):
