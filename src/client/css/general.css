@@ -1,0 +1,21 @@
+#page-header {
+  margin: 50px 0;
+  text-align: center;
+}
+
+td {
+  min-height: 100px;
+}
+
+#calendar {
+  text-align: center;
+  font-size: 10.5px;
+}
+
+.calendar-label {
+  font-weight: bold;
+}
+
+.calendar-timeslot:hover {
+  background-color: rgba(0,0,0,0.05);
+}
