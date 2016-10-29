@@ -19,22 +19,22 @@ def log_in(request):
     return render(request, 'reservator/login.html')
 
 def log_out(request):
-    print "log_out"
+    print ("log_out")
 
 
 def modifyReservation(request):
-    print "modify"
+    print ("modify")
 
 
 def cancelReservation(request):
-    print "cancel"
+    print ("cancel")
 
 
 def makeReservation(request):
-    print "make"
+    print ("make")
 
 
 def viewReservations(request):
-    print "view"
+    print ("view")
 
 
