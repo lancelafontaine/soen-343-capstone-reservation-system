@@ -1,9 +1,12 @@
 class UnitOfWork:
-    def __init__(self, mapper):
-        self.mapper = mapper
+    def __init__(self):
+        self.mapper = None
         self.newObjects = []
         self.dirtyObjects = []
         self.removedObjects = []
+
+    def attachMapper(self, mapper):
+        self.mapper = mapper
 
     def registerNew(self, obj):
         self.newObjects.append(obj)
