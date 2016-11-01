@@ -21,6 +21,11 @@ class UnitOfWork:
         self.mapper.insert(self.newObjects)
         self.mapper.update(self.dirtyObjects)
         self.mapper.delete(self.removedObjects)
+        
+        #clear buffers
+        del self.newObjects[:]
+        del self.dirtyObjects[:]
+        del self.removedObjects[:]
 
     def rollback():
         pass
