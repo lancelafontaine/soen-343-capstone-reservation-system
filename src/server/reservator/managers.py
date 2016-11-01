@@ -1,4 +1,3 @@
-# Contains all 'Managers' for User, Room and Reservation
 from datagateways import ReservationTDG
 from datamappers import ReservationMapper 
 from identitymaps import ReservationIdentityMap
@@ -20,30 +19,56 @@ class ReservationsManager:
 
 
     def makeReservation(username, roomNumber, timeslot):
-        # Cannot make a reservation for the same timeslot in different rooms
-        # If the chosen timeslot is free:
-        #   1. Check maxReservations limit for that week, for that username is less than some number X.
-        #       If maxReservation is less than limit X:
-        #           Instantiate UnitOfWork
-        #           Create a new Reservation instance:
-        #               fields: username, roomNumber, startWeek, timeslot, status=filled, timestamp=now
-        #           Add the new Reservation to ReservationIdentityMap
-        #           Register the new Reservation with UnitOfWork
-        #            
-        #
-        #
-        #
-        #
+        #========================= ERRORS =====================================#
+        # ERROR SCENARIO 1: Reservation already exists for that room and timeslot
+        # OUTPUT: Error msg (timeslot already reserved)
+
+        # ERROR SCENARIO 2: Username has reached maximum amount of reservation per week (week of the timeslot)
+        # OUTPUT: Error msg (maximum reservations reached for this week)
+
+        # ERROR SCENARIO 3: Failed to make reservation
+        # OUTPUT: Error msg (could not make reservation)
+
+        #========================= REQUIREMENTS ================================#
+        # 1. User can only make 3 reservations per week across all rooms.
+        # 2. User cannot make a reservation for the same timeslot in more than one room.
+        # 3. User is removed from all waiting lists for the same timeslot if the user's reservation succeeds. 
+        # 4. User is automatically put on the waiting list for a timeslot that is unavailable, if condition (1) holds.
+
+        #========================= BASIC FUNCTION FLOW ==========================#
+        # 1. Check if a reservation exists for that timeslot (database query)
+        #       If True, place User's reservation on the waiting list..
+        # 2. Check if number of user's weekly reservations < 3 
+        #       If False, return error
+        # 3. Make reservation for user
+        #       3.1 Create Reservation object
+        #       3.2 Add Reservation object to identityMap
+        #       3.3 Register Reservation object with UnitOfWork 
+        #       3.4 Send commit() message to UnitOfWork
+        # 4. Process data operation
+        #       - If insertion is successful, return confirmation msg
+        #       - If insertion is unsucessful, return error msg
         pass
 
 
     def modfiyReservation(username, roomNumber, timeslot):
-        # Can change the room of the reservation and the timeslot
-        # But will be put at the back of the waiting list (due to newer timestamp)
+        #========================= REQUIREMENTS ================================#
+        # 1. User can modify the room and the timeslot of his own reservations.
+        # 2. If the new timeslot if unavailable, User's reservation placed on the waiting list.
+
+        #========================= BASIC FUNCTION FLOW ==========================#
+        # 1. Check if a reservation exists for that timeslot (database query)
+        #       If True, place User's reservation on the waiting list.
+        #       If False, update User's reservation.
         pass
 
     def cancelReservation(username, roomNumber, timeslot):
-        mapper.delete(obj)
+        #========================= REQUIREMENTS ================================#
+        # 1. User can cancel his reservations at any time.
+
+        #========================= BASIC FUNCTION FLOW ==========================#
+        # 1. Delete User's reservation
+        pass
 
 
     def getReservations(roomNumber, startWeek):
