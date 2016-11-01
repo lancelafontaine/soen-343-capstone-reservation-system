@@ -9,7 +9,7 @@ class Reservation:
 
     def hashCode(self):
         lst = [self.username, self.roomNumber, self.timeslot, self.timestamp]
-        return hashlib.md5(''.join(str(s) for s in lst))
+        return hashlib.md5(''.join(str(s) for s in lst)).hexdigest()
 
 class User:
     def __init__(self, username, password):
