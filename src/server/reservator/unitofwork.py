@@ -1,9 +1,12 @@
 class UnitOfWork:
-    def __init__(self, mapper):
-        self.mapper = mapper
+    def __init__(self):
+        self.mapper = None
         self.newObjects = []
         self.dirtyObjects = []
         self.removedObjects = []
+
+    def attachMapper(self, mapper):
+        self.mapper = mapper
 
     def registerNew(self, obj):
         self.newObjects.append(obj)
@@ -18,6 +21,11 @@ class UnitOfWork:
         self.mapper.insert(self.newObjects)
         self.mapper.update(self.dirtyObjects)
         self.mapper.delete(self.removedObjects)
+        
+        #clear buffers
+        del self.newObjects[:]
+        del self.dirtyObjects[:]
+        del self.removedObjects[:]
 
     def rollback():
         pass

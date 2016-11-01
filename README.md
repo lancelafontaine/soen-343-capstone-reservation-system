@@ -17,6 +17,7 @@
 ### Server-Side
 
 - Install [`Python 2.7.9+`](https://www.python.org/downloads/release/python-2712/).
+- Set `python27` and `python27/scripts` in windows environment variables
 - `cd src/`
 - `pip2 install -r requirements.txt`
 - `cd server/`
