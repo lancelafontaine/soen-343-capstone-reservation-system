@@ -1,13 +1,17 @@
 class ReservationIdentityMap:
+    # Naive implementation with no error checking
+    def __init__(self):
+        self.ids = {}
 
-    def insert(obj):
-        pass
+    def add(obj):
+        ids[obj.hashCode()] = obj
     
     def delete(obj):
-        pass
+        del ids[obj.hashCode()]
 
     def update(obj):
+        # Could be split into more specialized updates (ex: updateTimeslot)
         pass
 
     def find(obj):
-        pass
+        return ids[obj.hashCode()]
