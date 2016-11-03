@@ -39,17 +39,17 @@
   });
 
   gulp.task('js', function() {
-    return browserify('./js/imports.js')
+    return browserify('js/imports.js')
       .bundle()
       .pipe(source('bundle.js'))
       .pipe(gulp.dest('build'));
- });
+  });
 
- gulp.task('uglifyjs', function() {
+  gulp.task('uglifyjs', function() {
     return gulp.src('build/*.js')
       .pipe(uglify())
       .pipe(gulp.dest('build'));
- })
+  })
 
   gulp.task('watch', function() {
     watch('js/*.js', function() {
@@ -61,7 +61,6 @@
     watch('css/*.css', function() {
       runSequence('css');
     });
-
     connect.server({
       livereload: true,
       root: 'build'

@@ -1,21 +1,35 @@
-#page-header {
-  margin: 50px 0;
-  text-align: center;
+body {
+  background: url("../img/landing.jpg");
+  background-repeat:no-repeat;
+  background-size:cover;
 }
 
-td {
-  min-height: 100px;
+.navbar {
+  background-color: rgba(255,255,255,0.7);
+  transition: all 0.35s;
+  font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+  font-weight: 200;
+  letter-spacing: 1px;
 }
 
-#calendar {
-  text-align: center;
-  font-size: 10.5px;
+.navbar .navbar-header {
+  font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+  font-weight: bolder;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 20px;
+  color: tomato;
 }
 
-.calendar-label {
-  font-weight: bold;
+.dashboard {
+  background-color: rgba(255,255,255,0.7);
+  margin-top: 8%;
 }
 
-.calendar-timeslot:hover {
-  background-color: rgba(0,0,0,0.05);
+.dashboard-column {
+  border: solid pink;
+}
+
+.dashboard .container .row{
+  width: 100%;
 }
