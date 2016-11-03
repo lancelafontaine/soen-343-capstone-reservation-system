@@ -18,10 +18,10 @@ class ReservationsManager:
         self.mapper.attachIdentityMap(self.identitymap)
 
 
-    def makeReservation(username, roomNumber, timeslot):
+    def makeReservation(self, username, roomNumber, timeslot):
         #========================= ERRORS =====================================#
         # ERROR SCENARIO 1: Reservation already exists for that room and timeslot
-        # OUTPUT: Error msg (timeslot already reserved)
+        # OUTPUT: Reservation is placed on a waiting list (timeslot already reserved)
 
         # ERROR SCENARIO 2: Username has reached maximum amount of reservation per week (week of the timeslot)
         # OUTPUT: Error msg (maximum reservations reached for this week)
@@ -42,16 +42,24 @@ class ReservationsManager:
         #       If False, return error
         # 3. Make reservation for user
         #       3.1 Create Reservation object
-        #       3.2 Add Reservation object to identityMap
-        #       3.3 Register Reservation object with UnitOfWork 
-        #       3.4 Send commit() message to UnitOfWork
+        #       3.2 Add Reservation object to identityMap (internally done)
+        #       3.3 Register Reservation object with UnitOfWork (internally done)
+        #       3.4 Send commit() message to mapper to persist changes..
         # 4. Process data operation
         #       - If insertion is successful, return confirmation msg
         #       - If insertion is unsucessful, return error msg
+
+        # EXECUTION
+        # Check identityMap for existing reservation at that timeslot.
+        # If not in Map, check Database using TDG find(timeslot)(SQL exists query)
+        # If not in Database, self.mapper.insert(Reservation(username,roomNumber,timeslot,status,timestamp)).
+
+        # Decide how to commit the operation (either through mapper or uow)
+        # self.mapper.commit()
         pass
 
 
-    def modfiyReservation(username, roomNumber, timeslot):
+    def modfiyReservation(self, username, roomNumber, timeslot):
         #========================= REQUIREMENTS ================================#
         # 1. User can modify the room and the timeslot of his own reservations.
         # 2. If the new timeslot if unavailable, User's reservation placed on the waiting list.
@@ -62,7 +70,7 @@ class ReservationsManager:
         #       If False, update User's reservation.
         pass
 
-    def cancelReservation(username, roomNumber, timeslot):
+    def cancelReservation(self, username, roomNumber, timeslot):
         #========================= REQUIREMENTS ================================#
         # 1. User can cancel his reservations at any time.
 
@@ -71,5 +79,5 @@ class ReservationsManager:
         pass
 
 
-    def getReservations(roomNumber, startWeek):
+    def getReservations(self, roomNumber, startWeek):
         pass
