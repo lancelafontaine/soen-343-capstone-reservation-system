@@ -114,3 +114,9 @@ class ReservationsManager:
         return response
 
 
+    def updateWaitingList(self):
+        # Somehow keep track of all timeslots that were modified
+        # and check if some pending reservations have been 'unlocked'.
+        # If some pending reservations can become 'filled'(ex: timeslot is now free),
+        # change their status to 'filled' and modify their timestamp to 'now'.
+        pass
