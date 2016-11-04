@@ -1,7 +1,4 @@
-from datagateways import ReservationTDG
 from datamappers import ReservationMapper 
-from identitymaps import ReservationIdentityMap
-from unitofwork import UnitOfWork
 
 
 class ReservationsManager:
@@ -9,13 +6,6 @@ class ReservationsManager:
 
     def __init__(self):
         self.mapper = ReservationMapper()
-        self.uow = UnitOfWork()
-        self.identitymap = ReservationIdentityMap()
-
-        # Create links
-        self.uow.attachMapper(self.mapper)
-        self.mapper.attachUnitOfWork(self.uow)
-        self.mapper.attachIdentityMap(self.identitymap)
 
 
     def makeReservation(self, username, roomNumber, timeslot):
