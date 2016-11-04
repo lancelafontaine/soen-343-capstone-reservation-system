@@ -38,10 +38,10 @@ class ReservationsManager:
         #========================= BASIC FUNCTION FLOW ==========================#
         # 1. Check if a reservation exists for that timeslot (database query)
         #       If True, place User's reservation on the waiting list..
-        # 2. Check if number of user's weekly reservations < 3 
-        #       If False, return error
+        # 2. Check if number of user's weekly reservations >= maxReservationsPerWeekPerUser 
+        #       If True, return error
         # 3. Make reservation for user
-        #       3.1 Create Reservation object
+        #       3.1 Create Reservation object (through mapper)
         #       3.2 Add Reservation object to identityMap (internally done)
         #       3.3 Register Reservation object with UnitOfWork (internally done)
         #       3.4 Send commit() message to mapper to persist changes..
@@ -49,17 +49,26 @@ class ReservationsManager:
         #       - If insertion is successful, return confirmation msg
         #       - If insertion is unsucessful, return error msg
 
-        # EXECUTION
-        # Check identityMap for existing reservation at that timeslot.
-        # If not in Map, check Database using TDG find(timeslot)(SQL exists query)
-        # If not in Database, self.mapper.insert(Reservation(username,roomNumber,timeslot,status,timestamp)).
+        response = {}
+        if self.mapper.numOfReservations(username, week) >= maxReservationsPerWeekPerUser:
+            response['error'] = 'max reservations'
+            return response
 
-        # Decide how to commit the operation (either through mapper or uow)
-        # self.mapper.commit()
-        pass
+        status = ''
+
+        if self.mapper.reservationExists(timeslot):
+            status = 'pending'
+        else:
+            status = 'filled'
+            
+        self.mapper.insert(username,roomNumber,timeslot,status,timestamp)
+        self.mapper.commit()
+
+        response['reservation_status'] = status
+        return response
 
 
-    def modfiyReservation(self, username, roomNumber, timeslot):
+    def modfiyReservation(self, username, oldRoomNumber, oldTimeslot, newRoomNumber, newTimeslot):
         #========================= REQUIREMENTS ================================#
         # 1. User can modify the room and the timeslot of his own reservations.
         # 2. If the new timeslot if unavailable, User's reservation placed on the waiting list.
@@ -68,7 +77,20 @@ class ReservationsManager:
         # 1. Check if a reservation exists for that timeslot (database query)
         #       If True, place User's reservation on the waiting list.
         #       If False, update User's reservation.
-        pass
+
+        response = {}
+        status = ''
+        if self.mapper.reservationExists(timeslot):
+            status = 'pending'
+        else:
+            status = 'filled'
+
+        self.mapper.updateReservation(username, oldRoomNumber, oldTimeslot, \
+                newRoomNumber, newTimeslot, status, timestamp)
+        self.mapper.commit()
+        
+        return response
+        
 
     def cancelReservation(self, username, roomNumber, timeslot):
         #========================= REQUIREMENTS ================================#
@@ -76,8 +98,19 @@ class ReservationsManager:
 
         #========================= BASIC FUNCTION FLOW ==========================#
         # 1. Delete User's reservation
-        pass
+
+        response = {}
+        self.mapper.deleteReservation(username, roomNumber, timeslot)
+        self.mapper.commit()
+
+        return response
 
 
     def getReservations(self, roomNumber, startWeek):
-        pass
+        # Default week is the current week
+        response = {}
+        # TBD: How to format the response containing all reservations for a room
+
+        return response
+
+
