@@ -68,7 +68,7 @@ class ReservationsManager:
         return response
 
 
-    def modfiyReservation(self, username, oldRoomNumber, oldTimeslot, newRoomNumber, newTimeslot):
+    def modifyReservation(self, username, oldRoomNumber, oldTimeslot, newRoomNumber, newTimeslot):
         #========================= REQUIREMENTS ================================#
         # 1. User can modify the room and the timeslot of his own reservations.
         # 2. If the new timeslot if unavailable, User's reservation placed on the waiting list.
