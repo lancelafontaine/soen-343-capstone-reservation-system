@@ -1,18 +1,13 @@
-# Add your mappers here.
+from unitofwork import UnitOfWork
+from identitymaps import ReservationIdentityMap
 from datagateways import ReservationTDG
 
 class ReservationMapper:
 
     def __init__(self):
-        self.uow = None
-        self.identitymap = None
+        self.uow = UnitOfWork(self) 
+        self.identitymap = ReservationIdentityMap() 
         self.tdg = ReservationTDG()
-
-    def attachUnitOfWork(self, unitofwork):
-        self.uow = unitofwork 
-
-    def attachIdentityMap(self, identitymap):
-        self.identitymap = identitymap
 
     def insert(obj):
         # self.tdg.insert(obj.attribute...)
