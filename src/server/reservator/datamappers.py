@@ -1,6 +1,8 @@
+from hashlib import md5
 from unitofwork import UnitOfWork
 from identitymaps import ReservationIdentityMap
 from datagateways import ReservationTDG
+from models import Reservation
 
 class ReservationMapper:
 
@@ -9,27 +11,49 @@ class ReservationMapper:
         self.identitymap = ReservationIdentityMap() 
         self.tdg = ReservationTDG()
 
-    def insert(obj):
-        # self.tdg.insert(obj.attribute...)
+    # Called by ReservationsManager 
+    # TODO: Check if already in the cache (idmap)
+    def insert(self, username, roomNumber, timeslot, status, timestamp):
+        r = Reservation(username, roomNumber, timeslot, status, timestamp)
+        self.identitymap.add(r)
+        self.uow.registerNew(r)
+
+    # Called by ReservationsManager
+    def delete(self, username, roomNumber, timeslot):
+        r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
+        # Error: What if object doesn't exist in identitymap?
+        # Occurence: Restart Server (lose identitymap information)
+        # Solution: Use the TDG to get the record from the database
+
+        # Temporary
+        if r is not None:
+            self.identitymap.delete(r)
+            self.uow.registerRemoved(r)
+
+    # Called by ReservationsManager
+    def update(self):
         pass
 
-    def update(self, obj):
-        # self.tdg.update(obj.attribute, ...)
+    # Called by ReservationsManager
+    def updateWaitingList(self):
+        pass
+  
+    # Called by UnitOfWork
+    def applyInsert(self, objects):
+        for obj in objects:
+            self.tdg.insert(obj.username, obj.roomNumber, obj.timeslot, obj.status, obj.timestamp)
+
+    def applyDelete(self, objects):
+        for obj in objects:
+            self.tdg.delete(obj.username, obj.roomNumber, obj.timeslot)
+
+    def applyUpdate(self, obj):
         pass
 
-    def delete(obj):
-        # self.tdg.delete(obj.attribute, obj.attribute2,...)
-        pass
+    def commit(self):
+        self.uow.commit()
 
-    def remove(self, obj):
-        #self.identitymap.delete(obj)
-        #self.uow.register(obj)
-        #self.uow.commit()
-        pass
-
-    def findAll():
-        pass
-
-    def find(identifier):
-        pass
+    def getHash(self, username, roomNumber, timeslot):
+        lst = [username, roomNumber, timeslot]
+        return md5(''.join(str(s) for s in lst)).hexdigest()
 

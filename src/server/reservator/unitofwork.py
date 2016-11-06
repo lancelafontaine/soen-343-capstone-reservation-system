@@ -15,10 +15,10 @@ class UnitOfWork:
         self.removedObjects.append(obj)
 
     def commit(self):
-        self.mapper.insert(self.newObjects)
-        self.mapper.update(self.dirtyObjects)
-        self.mapper.delete(self.removedObjects)
-        
+        self.mapper.applyInsert(self.newObjects)
+        self.mapper.applyDelete(self.removedObjects)
+        #self.mapper.applyUpdate(self.dirtyObjects)
+
         #clear buffers
         del self.newObjects[:]
         del self.dirtyObjects[:]

@@ -2,23 +2,26 @@ from django.db import connection
 
 # Warning: Django is set to AUTOCOMMIT mode unless otherwise specified.
 class ReservationTDG:
+
+    def __init__(self):
+        pass
     
-    def insert(username, roomNumber, status, timeslot, timestamp):
+    def insert(self, username, roomNumber, timeslot, status, timestamp):
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,\
-                    STATUS,TIMESLOT,TIMESTAMP) VALUES (SELECT ID from users WHERE USERNAME=%s,\
-                    SELECT ID from rooms WHERE ROOMNUMBER=%s,%s,%s,%s)", [username,roomNumber,status,timeslot,timestamp])
+                    STATUS,TIMESLOT,TIMESTAMP) VALUES ((SELECT ID from users WHERE USERNAME=%s),\
+                    (SELECT ID from rooms WHERE ROOMNUMBER=%s),%s,%s,%s)", [username,roomNumber,status,timeslot,timestamp])
 
-    def delete(username, roomNumber, timeslot):
+    def delete(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM reservations (USER_ID,ROOM_ID,\
-                    STATUS,TIMESLOT,TIMESTAMP) VALUES (SELECT ID from users WHERE USERNAME=%s,\
-                    SELECT ID from rooms WHERE ROOMNUMBER=%s,%s)", [username,roomNumber,timeslot])
+            cursor.execute("DELETE FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                    AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                    AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
-    def update(username, roomNumber, timeslot, timestamp):
+    def update(self, username, roomNumber, timeslot, timestamp):
         pass
 
-    def find(username, roomNumber, timeslot, timestamp):
+    def find(self, username, roomNumber, timeslot, timestamp):
         pass
 
 
