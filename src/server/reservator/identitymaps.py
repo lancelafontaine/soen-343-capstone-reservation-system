@@ -3,15 +3,19 @@ class ReservationIdentityMap:
     def __init__(self):
         self.ids = {}
 
-    def add(obj):
-        ids[obj.hashCode()] = obj
+    def add(self, obj):
+        self.ids[obj.hashCode()] = obj
     
-    def delete(obj):
-        del ids[obj.hashCode()]
+    def delete(self, obj):
+        del self.ids[obj.hashCode()]
 
-    def update(obj):
-        # Could be split into more specialized updates (ex: updateTimeslot)
+    def update(self, obj):
         pass
 
-    def find(obj):
-        return ids[obj.hashCode()]
+    def find(self, hashCode):
+        try:
+            reservation = self.ids[hashCode]
+        except KeyError:
+            reservation = None
+
+        return reservation
