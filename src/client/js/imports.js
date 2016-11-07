@@ -1,5 +1,5 @@
 (function() {
-
-  //require("./calendar_week.js")
-
+  require("./calendar.js");
+  require("./jquery.js");
+  require("./bootstrap.min.js");
 })();
