@@ -13,7 +13,7 @@ with connection.cursor() as cursor:
     cursor.execute('CREATE TABLE reservations (USER_ID INT REFERENCES users(ID), ROOM_ID INT REFERENCES rooms(ID),\
             STATUS TEXT, TIMESLOT TEXT, TIMESTAMP TEXT)')
     cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,STATUS,TIMESLOT,TIMESTAMP) \
-            VALUES (1,1,'filled','2016-10-28T130000Z', '2016-10-27T145420Z')")
+            VALUES (1,1,'filled','2016-10-28 13:00:00', '2016-10-27 14:54:20')")
 
 
 print 'Database setup has been completed.'

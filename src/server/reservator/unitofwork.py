@@ -10,14 +10,14 @@ class UnitOfWork:
 
     def registerDirty(self, obj):
         self.dirtyObjects.append(obj)
-    
+
     def registerRemoved(self, obj):
         self.removedObjects.append(obj)
 
     def commit(self):
         self.mapper.applyInsert(self.newObjects)
         self.mapper.applyDelete(self.removedObjects)
-        #self.mapper.applyUpdate(self.dirtyObjects)
+        self.mapper.applyUpdate(self.dirtyObjects)
 
         #clear buffers
         del self.newObjects[:]

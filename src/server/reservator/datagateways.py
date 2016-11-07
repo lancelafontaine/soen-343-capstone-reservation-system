@@ -18,10 +18,30 @@ class ReservationTDG:
                     AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                     AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
-    def update(self, username, roomNumber, timeslot, timestamp):
+    def getNumOfReservations(self, username, timeslot):
         pass
 
-    def find(self, username, roomNumber, timeslot, timestamp):
+    def find(self, username, roomNumber, timeslot):
+        pass
+
+    def findNextPendingReservation(self, roomNumber, timeslot):
+        pass
+
+    def setFilled(self, username, roomNumber, timeslot):
+        pass
+
+    def isFilled(self, roomNumber, timeslot):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(1) FROM reservations WHERE ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                    AND TIMESLOT=%s AND STATUS='filled'", [roomNumber, timeslot])
+
+    def hasReservation(self, username, roomNumber, timeslot):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(1) FROM reservations WHERE ")
+        # Returns count
+        pass
+
+    def getReservations(self, roomNumber, startWeek):
         pass
 
 

@@ -39,18 +39,20 @@ class ReservationsManager:
         #       - If insertion is unsucessful, return error msg
 
         response = {}
-        #timeslotWeek = __getWeek(timeslot)
-        #if self.mapper.numOfReservations(username, timeslotWeek) >= maxReservationsPerWeekPerUser:
-        #    response['error'] = 'Maximum reservations reached for this week.'
-        #    return response
+        if self.mapper.getNumOfReservations(username, timeslot) >= self.maxReservationsPerWeekPerUser:
+            response['error'] = 'Maximum reservations reached for this week.'
+            return response
 
         status = ''
         timestamp = ''
 
-        #if self.mapper.reservationExists(timeslot):
-        #    status = 'pending'
-        #else:
-        #    status = 'filled'
+        if self.mapper.reservationExists(roomNumber, timeslot):
+            if not self.mapper.isOnWaitingList(username, roomNumber, timeslot):
+                # Add User to WaitingList for that timeslot
+                status = 'pending'
+        else:
+            # Reservation is set to be successful
+            status = 'filled'
 
         self.mapper.insert(username, roomNumber, timeslot, status, timestamp)
         self.mapper.commit()
@@ -71,13 +73,21 @@ class ReservationsManager:
         response = {}
         timestamp = ''
         status = ''
-        # if self.mapper.reservationExists(timeslot):
-        #    status = 'pending'
-        # else:
-        #    status = 'filled'
+        if self.mapper.reservationExists(newRoomNumber, newTimeslot):
+            if not self.mapper.isOnWaitingList(username, newRoomNumber, newTimeslot):
+                status = 'pending'
+            else:
+                response['error'] = 'You are already placed on a waiting list for that timeslot.'
+                return response
+        else:
+            status = 'filled'
 
-        # self.mapper.update(username, oldRoomNumber, newRoomNumber, oldTimeslot, newTimeslot, status, timestamp)
-        # self.mapper.commit()
+        self.mapper.delete(username, oldRoomNumber, oldTimeslot)
+        self.mapper.insert(username, newRoomNumber, newTimeslot, status, timestamp)
+        self.mapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
+        self.mapper.commit()
+
+        response['reservation_status'] = status
 
         return response
 
@@ -91,20 +101,14 @@ class ReservationsManager:
         response = {}
         self.mapper.delete(username, roomNumber, timeslot)
         self.mapper.commit()
+        self.mapper.updatePendingReservation(roomNumber, timeslot)
 
         return response
 
     def getReservations(self, roomNumber, startWeek):
         # Default week is the current week
-        response = {}
         # TBD: How to format the response containing all reservations for a room
+        response = self.mapper.getReservations(roomNumber, startWeek)
 
         return response
 
-    def __updateWaitingList(self, timeslotList):
-        #self.mapper.updateWaitingList(timeslotList)
-        # Somehow keep track of all timeslots that were modified
-        # and check if some pending reservations have been 'unlocked'.
-        # If some pending reservations can become 'filled'(ex: timeslot is now free),
-        # change their status to 'filled'.
-        pass
