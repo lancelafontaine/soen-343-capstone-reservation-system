@@ -175,6 +175,10 @@ Sidebar
   background-position: center center;
 }
 
+.sidebar a {
+  text-align: center;
+}
+
 .sidebar .sidebar-wrapper {
   position: relative;
   max-height: none;
