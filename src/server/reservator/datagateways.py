@@ -22,8 +22,8 @@ class ReservationTDG:
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(TIMESLOT) FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s)\
              AND strftime('%W', TIMESLOT)=strftime('%W', %s)", [username, timeslot])
-            row = cursor.fetchone()
-        return row
+            count = int(cursor.fetchone()[0])
+        return count
 
     def find(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
@@ -46,20 +46,20 @@ class ReservationTDG:
                     AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                     AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
-    def isFilled(self, roomNumber, timeslot):
+    def getFilledCount(self, roomNumber, timeslot):
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(1) FROM reservations WHERE ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                     AND TIMESLOT=%s AND STATUS='filled'", [roomNumber, timeslot])
-            row = cursor.fetchone()
-        return row
+            count = int(cursor.fetchone()[0])
+        return count
 
-    def hasReservation(self, username, roomNumber, timeslot):
+    def getReservationCount(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(1) FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
                     AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                     AND TIMESLOT=%s", [username,roomNumber,timeslot])
-            row = cursor.fetchone()
-        return row
+            count = int(cursor.fetchone()[0])
+        return count
 
     def getReservations(self, roomNumber, startWeek):
         pass

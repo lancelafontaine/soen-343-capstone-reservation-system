@@ -10,21 +10,28 @@ class ReservationIdentityMap:
         del self.ids[obj.hashCode()]
 
     def findNextPendingReservation(self, roomNumber, timeslot):
-        pass
+        #reservation = None
+        #minTimestamp = ''
+        #for key, value in self.ids.iteritems():
+        #    if value.roomNumber == roomNumber and value.timeslot == timeslot:
+                # Conver to datetime
+        #        if value.timestamp
+
+
 
     def findReserved(self, roomNumber, timeslot):
-        pass
+        reservation = None
+        for key, value in self.ids.iteritems():
+            if value.status =='filled' and value.roomNumber == roomNumber and value.timeslot == timeslot:
+                reservation = value
+        return reservation
 
     def setFilled(self, obj):
-        pass
-
-    def update(self, obj):
-        pass
+        self.ids[ob.obj.hashCode()].status = 'filled'
 
     def find(self, hashCode):
         try:
             reservation = self.ids[hashCode]
         except KeyError:
             reservation = None
-
         return reservation

@@ -47,29 +47,27 @@ class ReservationMapper:
     # Change to counter method
     def isTimeslotReserved(self, roomNumber, timeslot):
         # Could use a counter instead (tdg)
-        found = False
+        isReserved = True
         r = self.identitymap.findReserved(roomNumber, timeslot)
         if r is None:
-            r = self.loadReservation(self.tdg.findFilled(roomNumber, timeslot))
-            if r is not None:
-                found = True
-        return found
+            if self.tdg.getFilledCount(roomNumber, timeslot) == 0:
+                isReserved = False
+        return isReserved
 
     # Change to counter method
     def hasReservation(self, username, roomNumber, timeslot):
-        isWaiting = False
-        r = self.identitymap.isOnWaitingList(username, roomNumber, timeslot)
+        hasReservation = True
+        r = self.identitymap.find(username, roomNumber, timeslot)
         if r is None:
-            r = self.loadReservation(self.tdg.isWaitlisted(username, roomNumber, timeslot))
-            if r is not None:
-                isWaiting = True
-        return isWaiting
+            if self.tdg.getReservationCount(username, roomNumber, timeslot) == 0:
+                hasReservation = False
+        return hasReservation
 
     def getReservations(self, roomNumber, startWeek):
         pass
 
     def getNumOfReservations(self, username, timeslot):
-        pass
+        return self.tdg.getNumOfReservations(username, timeslot)
 
     # Called by UnitOfWork
     def applyInsert(self, objects):
@@ -88,8 +86,11 @@ class ReservationMapper:
     def commit(self):
         self.uow.commit()
 
-    def loadReservation(self, attributes):
-        pass
+    def loadReservation(self, row):
+        reservation = None
+        if row:
+            reservation = Reservation(row[0], row[1], row[2], row[3], row[4])
+        return reservation
 
     def getHash(self, username, roomNumber, timeslot):
         lst = [username, roomNumber, timeslot]
