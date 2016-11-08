@@ -24,40 +24,39 @@ class ReservationMapper:
         r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
         if r is None:
             r = self.loadReservation(self.tdg.find(username, roomNumber, timeslot))
-            if r is not None:
-                self.uow.registerRemoved(r)
-            else:
+            if r is None:
                 return 'Reservation does not exist.'
+            else:
+                self.uow.registerRemoved(r)
         else:
             self.identitymap.delete(r)
             self.uow.registerRemoved(r)
 
     # Called by ReservationsManager
     def updatePendingReservation(self, roomNumber, timeslot):
-        r = self.identitymap.find(roomNumber, timeslot)
+        r = self.identitymap.findNextPendingReservation(roomNumber, timeslot)
         if r is None:
             r = self.loadReservation(self.tdg.findNextPendingReservation(roomNumber, timeslot))
             if r is not None:
                 self.identitymap.add(r)
                 self.uow.registerDirty(r)
-            else:
-                # No pending reservations found.
-                pass
         else:
             self.identitymap.setFilled(r)
             self.uow.registerDirty(r)
 
-    def reservationExists(self, roomNumber, timeslot):
+    # Change to counter method
+    def isTimeslotReserved(self, roomNumber, timeslot):
         # Could use a counter instead (tdg)
         found = False
-        r = self.identitymap.searchFilled(roomNumber, timeslot)
+        r = self.identitymap.findReserved(roomNumber, timeslot)
         if r is None:
             r = self.loadReservation(self.tdg.findFilled(roomNumber, timeslot))
             if r is not None:
                 found = True
         return found
 
-    def isOnWaitingList(self, username, roomNumber, timeslot):
+    # Change to counter method
+    def hasReservation(self, username, roomNumber, timeslot):
         isWaiting = False
         r = self.identitymap.isOnWaitingList(username, roomNumber, timeslot)
         if r is None:
