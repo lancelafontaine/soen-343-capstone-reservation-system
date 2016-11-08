@@ -9,6 +9,15 @@ class ReservationIdentityMap:
     def delete(self, obj):
         del self.ids[obj.hashCode()]
 
+    def findNextPendingReservation(self, roomNumber, timeslot):
+        pass
+
+    def findReserved(self, roomNumber, timeslot):
+        pass
+
+    def setFilled(self, obj):
+        pass
+
     def update(self, obj):
         pass
 
