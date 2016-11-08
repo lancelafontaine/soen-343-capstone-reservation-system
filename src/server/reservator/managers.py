@@ -1,3 +1,4 @@
+import datetime
 from datamappers import ReservationMapper
 
 
@@ -43,15 +44,11 @@ class ReservationsManager:
             response['error'] = 'Maximum reservations reached for this week.'
             return response
 
-        status = ''
-        timestamp = ''
+        status = 'pending'
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        if self.mapper.reservationExists(roomNumber, timeslot):
-            if not self.mapper.isOnWaitingList(username, roomNumber, timeslot):
-                # Add User to WaitingList for that timeslot
-                status = 'pending'
-        else:
-            # Reservation is set to be successful
+        if not (self.mapper.isTimeslotReserved(roomNumber, timeslot)
+                or self.mapper.hasReservation(username, roomNumber, timeslot)):
             status = 'filled'
 
         self.mapper.insert(username, roomNumber, timeslot, status, timestamp)
@@ -71,15 +68,11 @@ class ReservationsManager:
         #       If False, update User's reservation.
 
         response = {}
-        timestamp = ''
-        status = ''
-        if self.mapper.reservationExists(newRoomNumber, newTimeslot):
-            if not self.mapper.isOnWaitingList(username, newRoomNumber, newTimeslot):
-                status = 'pending'
-            else:
-                response['error'] = 'You are already placed on a waiting list for that timeslot.'
-                return response
-        else:
+        status = 'pending'
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        if not (self.mapper.isTimeslotReserved(newRoomNumber, newTimeslot)
+                or self.mapper.hasReservation(username, newRoomNumber, newTimeslot)):
             status = 'filled'
 
         self.mapper.delete(username, oldRoomNumber, oldTimeslot)
