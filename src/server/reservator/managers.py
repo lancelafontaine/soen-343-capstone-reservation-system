@@ -44,12 +44,14 @@ class ReservationsManager:
             response['error'] = 'Maximum reservations reached for this week.'
             return response
 
-        status = 'pending'
+        status = 'filled'
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        if not (self.mapper.isTimeslotReserved(roomNumber, timeslot)
-                or self.mapper.hasReservation(username, roomNumber, timeslot)):
-            status = 'filled'
+        if self.mapper.hasReservation(username, roomNumber, timeslot):
+            response['error'] = 'Cannot make two reservations for the same date in the same room.'
+            return response
+        elif self.mapper.isTimeslotReserved(roomNumber, timeslot):
+            status = 'pending'
 
         self.mapper.insert(username, roomNumber, timeslot, status, timestamp)
         self.mapper.commit()
@@ -68,12 +70,14 @@ class ReservationsManager:
         #       If False, update User's reservation.
 
         response = {}
-        status = 'pending'
+        status = 'filled'
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        if not (self.mapper.isTimeslotReserved(newRoomNumber, newTimeslot)
-                or self.mapper.hasReservation(username, newRoomNumber, newTimeslot)):
-            status = 'filled'
+        if self.mapper.hasReservation(username, newRoomNumber, newTimeslot):
+            response['error'] = 'Cannot make two reservations for the same date in the same room.'
+            return response
+        elif self.mapper.isTimeslotReserved(newRoomNumber, newTimeslot):
+            status = 'pending'
 
         self.mapper.delete(username, oldRoomNumber, oldTimeslot)
         self.mapper.insert(username, newRoomNumber, newTimeslot, status, timestamp)
