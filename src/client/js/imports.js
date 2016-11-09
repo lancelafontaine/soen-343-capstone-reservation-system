@@ -1,10 +1,14 @@
 (function() {
 	$ = jQuery = require('jquery');
+	require('fullCalendar');
 	require('./library/bootstrap.min.js');
 })();
 
 $(document).ready(function(){
     setSideBarConcordia();  
+    $('#calendar').fullCalendar({
+        // put your options and callbacks here
+    })
 });
 
 function setSideBarConcordia(){
@@ -15,4 +19,3 @@ function setSideBarConcordia(){
         $sidebar.append(sidebar_container);
     }  
 }
-
