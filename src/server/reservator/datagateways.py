@@ -19,9 +19,15 @@ class ReservationTDG:
                     AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
     def update(self, username, roomNumber, timeslot, timestamp):
-        pass
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                    AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                    AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
     def find(self, username, roomNumber, timeslot, timestamp):
-        pass
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                    AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                    AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
 
