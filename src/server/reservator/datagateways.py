@@ -61,7 +61,10 @@ class ReservationTDG:
             count = int(cursor.fetchone()[0])
         return count
 
-    def getReservations(self, roomNumber, startWeek):
-        pass
-
-
+    def getReservations(self, roomNumber, startTimeslot):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM reservations WHERE ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s)  \
+                           AND strftime('%W', TIMESLOT)=strftime('%W', %s) \
+                           AND STATUS='filled' ORDER BY TIMESLOT ASC", [roomNumber, startTimeslot])
+            rows = cursor.fetchall()
+        return rows
