@@ -1,3 +1,4 @@
+import datetime
 class ReservationIdentityMap:
     # Naive implementation with no error checking
     def __init__(self):
@@ -10,14 +11,16 @@ class ReservationIdentityMap:
         del self.ids[obj.hashCode()]
 
     def findNextPendingReservation(self, roomNumber, timeslot):
-        #reservation = None
-        #minTimestamp = ''
-        #for key, value in self.ids.iteritems():
-        #    if value.roomNumber == roomNumber and value.timeslot == timeslot:
-                # Conver to datetime
-        #        if value.timestamp
-
-
+        reservation = None
+        lowest = datetime.datetime.max
+        format = "%Y-%m-%d %H:%M:%S"
+        for key, value in self.ids.iteritems():
+            if value.roomNumber == roomNumber and value.timeslot == timeslot and value.status == 'pending':
+                timestamp = datetime.datetime.strptime(value.timestamp, format)
+                if timestamp < lowest:
+                    lowest = timestamp
+                    reservation = value
+        return reservation
 
     def findReserved(self, roomNumber, timeslot):
         reservation = None
@@ -27,7 +30,7 @@ class ReservationIdentityMap:
         return reservation
 
     def setFilled(self, obj):
-        self.ids[ob.obj.hashCode()].status = 'filled'
+        self.ids[obj.hashCode()].status = 'filled'
 
     def find(self, hashCode):
         try:
