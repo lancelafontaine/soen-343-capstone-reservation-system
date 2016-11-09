@@ -5,13 +5,13 @@ Software Requirements Specification                         Last Modified:  Satu
 
 
 
-Version 1.0
+Version X.X
 
 
 for
 
 
-<Capstone Room Reservation System>
+<Project name>
 
 
 Prepared by
