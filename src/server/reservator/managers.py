@@ -102,10 +102,9 @@ class ReservationsManager:
 
         return response
 
-    def getReservations(self, roomNumber, startWeek):
+    def getReservations(self, roomNumber, startTimeslot):
         # Default week is the current week
-        # TBD: How to format the response containing all reservations for a room
-        response = self.mapper.getReservations(roomNumber, startWeek)
+        response = self.mapper.getReservations(roomNumber, startTimeslot)
 
         return response
 
