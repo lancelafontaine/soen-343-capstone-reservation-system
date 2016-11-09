@@ -12,10 +12,8 @@ class ReservationMapper:
         self.tdg = ReservationTDG()
 
     # Called by ReservationsManager 
-    # TODO: Check if already in the cache (idmap)
     def insert(self, username, roomNumber, timeslot, status, timestamp):
         r = Reservation(username, roomNumber, timeslot, status, timestamp)
-        # If already exists in identity map, throw error
         self.identitymap.add(r)
         self.uow.registerNew(r)
 
@@ -63,8 +61,8 @@ class ReservationMapper:
                 hasReservation = False
         return hasReservation
 
-    def getReservations(self, roomNumber, startWeek):
-        pass
+    def getReservations(self, roomNumber, startTimeslot):
+        return self.tdg.getReservations(roomNumber, startTimeslot)
 
     def getNumOfReservations(self, username, timeslot):
         return self.tdg.getNumOfReservations(username, timeslot)
