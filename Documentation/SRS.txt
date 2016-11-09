@@ -1,0 +1,441 @@
+﻿Project Name                                                                                            Version 0.1
+Software Requirements Specification                         Last Modified:  Saturday October 8th 2016
+  Software Requirements Specification
+
+
+
+
+Version X.X
+
+
+for
+
+
+<Project name>
+
+
+Prepared by
+
+
+
+
+Name
+	StudentID
+	Email
+	Lance Lafontaine
+	26349188
+	lance.lafontaine92@gmail.com
+	Jason Tsalikis
+	25892120
+	jtsalikis@hotmail.ca
+	Lenz Petion
+	26775837
+	lenzpetion@gmail.com
+	Rameen Rastan-Vadiveloo
+	27191863
+	rameenrastanv@hotmail.com
+	
+
+
+
+
+
+Instructor
+	Professor Constantinos Constantinides
+	Course
+	SOEN 343
+Software Architecture and Design I
+	Date:
+	??
+	
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+Document History
+
+
+Date
+	Version
+	Description
+	Authors
+	Saturday October 8th 2016
+	0.1
+	
+
+	All
+	Saturday October 23rd
+	0.2
+	
+
+	Simeon Cvetkovic,
+Lance Lafontaine
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+Table of contents
+        
+1.        Introduction        5
+        Purpose        5
+        Scope        5
+        Definitions, acronyms,         and abbreviations        5
+        References        5
+2.        Overall         description        6
+        Product perspective        6
+        Product functions        6
+        User characteristics        6
+        Constraints        6
+        Assumptions and         dependencies        6
+3.        Specific         requirements        7
+        External interfaces        7
+        Functionality        7
+        Actor goal list        7
+        Use case view        8
+        Reliability        8
+        Usability        8
+        Efficiency        8
+        Maintainability        9
+        Portability        9
+        Design constraints        9
+        (On-line) user         documentation and help        9
+        Purchased components        9
+        Licensing requirements        9
+        Legal, copyright and         other notices        9
+3.        Analysis         Models        10
+        
+
+
+        
+
+
+
+
+
+
+________________
+
+
+List of figures
+        
+Figure         1. Use case model.        7
+        
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+
+
+INTRODUCTION
+Introduction
+The introduction of the Software Requirements Specifications Document provides an overview of the entire document.
+
+
+Purpose
+Role or purpose of srs. Describe structure of document. Intended audience, indication of how to use it.
+
+
+The purpose of a Software Requirements Specification (SRS) is to 
+
+
+• Requirements engineering: Elicitation, analysis, specification,
+and validation of requirements.
+
+
+Scope
+A brief description of what the Software Requirements Specifications Document applies to; what is affected or influenced by this document.
+
+
+
+
+Definitions, acronyms, and abbreviations
+Provides the definitions of all terms, acronyms, and abbreviations required to properly interpret the Software Requirements Specifications Document. This information may be provided by reference to the project’s Glossary.
+
+
+References
+Provide a list of all documents referenced in the SRS.
+
+
+
+
+
+
+
+
+OVERALL DESCRIPTION
+This section describes a background to the requirements: The general factors that affect the product, such as constraints, assumptions and dependencies.
+
+
+
+
+
+
+
+
+
+
+Product perspective
+Is the product self-contained? If not, then put the product into perspective with other related products. Use a block diagram to show the big picture.
+
+
+No, it requires:
+Concordia  infrastructure:
+* Rooms
+* If we wanted to incorporate it with other systems, or if we wanted to ensure that the student was registered in a CAPSTONE course we would have to validate student id. Would require access to Concordia’s database
+* Must run on hardware, so we may need to depend on an external service
+* Requires clients for users to use (computers/browsers)
+* 
+
+Product functions
+Provide a summary of the major system functions.
+* User characteristics
+Who are the intended users of the system what is their expected educational level, experience and technical expertise?
+
+
+Constraints
+Describe any items that will limit the options of the developers (such as regulations, hardware limitations, safety and security etc.)
+
+
+Assumptions and dependencies
+What assumptions are there? For example, a specific operating system should be present on a given hardware platform. If not, this document would have to be changed.
+* All operating systems should work
+* All modern browsers that respect html5 standards should work
+* Available all week
+* Except holidays?
+* 
+
+
+
+SPECIFIC REQUIREMENTS 
+This section contains all requirements in detail: Functional as well as non-functional requirements (quality attributes and constraints). The quality attributes are listed according to the ISO/IEC 25010 standard that classifies software quality in a structured set of characteristics and sub-characteristics.
+
+
+External interfaces
+A detailed description of all inputs into the system and all outputs from it (in terms of content and form).
+
+
+Functionality
+
+
+Functional requirements capture the intended behaviour of the system. This section contains the Actor Goal List and the Use Case view.
+
+
+Actor goal list
+                        
+Actor
+                
+	                        
+Goal
+                
+	                        
+
+
+                        
+                
+	                        
+
+
+                        
+                
+	
+
+
+
+Use case view
+The use case model is shown in Figure 1.
+
+
+Figure 1. Use case model.
+
+
+Reliability
+Description goes here.
+
+
+Usability
+Description goes here.
+
+
+Efficiency
+Description goes here.-------
+Maintainability
+Description goes here.------
+
+
+Portability
+Description goes here.-------
+
+
+Design constraints
+Decisions that must be followed, such as languages, processes, prescribed use of tools, architectural and design constraints, purchased components, class libraries, etc.
+
+
+(On-line) user documentation and help
+Description.
+
+
+Purchased components
+Description.
+
+
+Licensing requirements
+Description.
+
+
+Legal, copyright and other notices
+Description.
+
+
+
+
+
+
+ANALYSIS MODELS
+
+
+List all analysis models used in developing specific requirements previously given in this SRS. Each model should include an introduction and a narrative description. Furthermore, each model should be traceable the SRS’s requirements.
+
+
+Illustrate (system) UML sequence diagrams (one for each critical scenario), identify system operations and describe operation contracts, one per critical system operation. You may also use UML state diagrams to describe critical use cases. Additionally, create a domain model for the system. Make sure that each model is traceable to the requirements.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Use case UC1: Make Reservation
+Primary Actor: 
+Stakeholders and Interests:
+Preconditions:
+* User is authenticated in system
+* Room and desired timeslot is available
+Success Guarantee (Postconditions):
+* User has booked a room
+Main Success Scenario (or basic flow):
+* User specifies a room
+* User views calendar for room
+* User chooses an available timeslot in room
+* User books reservation
+* User receives confirmation of successful reservation
+Extensions (or alternative flows):
+* If timeslot is booked by other user during the transaction, show error and prompt to add to waitlist.
+
+
+	
+
+
+
+
+
+
+
+ANOTHER USER CASE: User can view another room
+
+
+
+
+
+
+* ANOTHER USE CASE: User can view status of waitlist and bookings
+
+
+* By default, first room appears as calendar.
+
+
+
+
+
+
+
+
+DISCUSS THE THE SOFTWARE PROCESS THAT WE ARE USING?
+
+
+
+
+ASSUMPTION:
+* Can’t have more than X hours successfully registered for in a week. 
+* Can’t have successfuly reservations of more than X hours across all rooms room per week per user.
+* A user can register for the same timeslot in different rooms.
+* Once you have successfully booked a timeslot in a room:
+   * All reservations in the waitlist in that timeslot are automatically removed.
+   * All new attempts at reserving (whether waitlist or not) are forbidden.
+
+
+MaxReservationPerWeek should be an attribute for User
+
+
+The reservation table should
