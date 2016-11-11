@@ -32,7 +32,7 @@
   });
 
   gulp.task('css', function() {
-    return gulp.src(['css/*.css', 'css/library/*.css'])
+    return gulp.src(['css/*.css', 'css/library/*.css', 'node_modules/fullcalendar/dist/fullcalendar.css'])
       .pipe(cleanCSS({compatibility: 'ie8'}))
       .pipe(concat('style.css'))
       .pipe(gulp.dest('build'));
