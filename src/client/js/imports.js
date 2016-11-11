@@ -52,7 +52,7 @@ $(document).ready(function(){
         slotEventOverlap: false,
         eventColor: "#FF4A55",
         editable: true,
-        events: [], //mock bookings
+        events: [], //mock bookings, we need more investigation on events implementation
         //select code: start time, end time
         select: function(start, end) {
 			var title = prompt('Event Title:');
@@ -63,11 +63,11 @@ $(document).ready(function(){
 					start: start,
 					end: end
 				},
-				true // make the event "stick"
-				);
+				true);
 			}
 		}
     });
+
 });
 
 function setSideBarConcordia(){
@@ -114,10 +114,10 @@ function appendRoomList() {
 }
 
 function appendBookingList(booking) {
-	$("#roomList").append("<tr><td>" + booking["roomNumber"] + " " + booking["Date"] + " " + booking["Time"] + " "
+	$("#roomList").append("<tr><td>" 
+		+ booking["roomNumber"] + " " 
+		+ booking["Date"] + " " 
+		+ booking["Time"] + " "
 		+ "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
 		+ "<i class='fa fa-times'></i></button></td></tr>");
 }
-
-
-
