@@ -52,62 +52,7 @@ $(document).ready(function(){
         slotEventOverlap: false,
         eventColor: "#FF4A55",
         editable: true,
-        events: [
-				{
-					title: 'All Day Event',
-					start: '2016-09-01'
-				},
-				{
-					title: 'Long Event',
-					start: '2016-09-07',
-					end: '2016-09-10'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-09-09T16:00:00'
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2016-09-16T16:00:00'
-				},
-				{
-					title: 'Conference',
-					start: '2016-09-11',
-					end: '2016-09-13'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-09-12T10:30:00',
-					end: '2016-09-12T12:30:00'
-				},
-				{
-					title: 'Lunch',
-					start: '2016-09-12T12:00:00'
-				},
-				{
-					title: 'Meeting',
-					start: '2016-09-12T14:30:00'
-				},
-				{
-					title: 'Happy Hour',
-					start: '2016-09-12T17:30:00'
-				},
-				{
-					title: 'Dinner',
-					start: '2016-09-12T20:00:00'
-				},
-				{
-					title: 'Birthday Party',
-					start: '2016-09-13T07:00:00'
-				},
-				{
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2016-09-28'
-				}
-			],
+        events: [], //mock bookings
         //select code: start time, end time
         select: function(start, end) {
 			var title = prompt('Event Title:');
@@ -134,6 +79,10 @@ function setSideBarConcordia(){
     }  
 }
 
+/*
+AJAX function
+*/
+
 function updateBooking() {
 	//TODO: implementatuon
 }
@@ -151,7 +100,24 @@ function getRoomList() {
 	//This is to get a list of room
 }
 
+/*
+Helpers
+*/
+
+function showRoom() {
+	//TODO: implementation
+	//This is to append room to sidebar 
+}
+
 function getUserInfo() {
 	//TODO: implementation
 	//This is to get the waiting list and reservation list
 }
+
+function appendToList() {
+	//TODO: implementation
+	//This is a helper to append an item to a list
+}
+
+
+
