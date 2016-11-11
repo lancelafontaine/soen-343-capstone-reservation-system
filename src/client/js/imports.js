@@ -133,3 +133,25 @@ function setSideBarConcordia(){
         $sidebar.append(sidebar_container);
     }  
 }
+
+function updateBooking() {
+	//TODO: implementatuon
+}
+
+function createBooking() {
+	//TODO: implementatuon
+}
+
+function deleteBooking() {
+	//TODO: implementatuon
+}
+
+function getRoomList() {
+	//TODO: implementatuon
+	//This is to get a list of room
+}
+
+function getUserInfo() {
+	//TODO: implementation
+	//This is to get the waiting list and reservation list
+}
