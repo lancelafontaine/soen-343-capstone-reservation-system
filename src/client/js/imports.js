@@ -100,23 +100,23 @@ function getRoomList() {
 	//This is to get a list of room
 }
 
-/*
-Helpers
-*/
-
-function showRoom() {
-	//TODO: implementation
-	//This is to append room to sidebar 
-}
-
 function getUserInfo() {
 	//TODO: implementation
 	//This is to get the waiting list and reservation list
 }
 
-function appendToList() {
-	//TODO: implementation
-	//This is a helper to append an item to a list
+/*
+Helpers
+*/
+
+function appendRoomList() {
+	$("#roomList").append("<li><a><p>" + roomNumber "</p></a></li>");
+}
+
+function appendBookingList(booking) {
+	$("#roomList").append("<tr><td>" + booking["roomNumber"] + " " + booking["Date"] + " " + booking["Time"] + " "
+		+ "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
+		+ "<i class='fa fa-times'></i></button></td></tr>");
 }
 
 
