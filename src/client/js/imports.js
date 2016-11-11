@@ -109,12 +109,12 @@ function getUserInfo() {
 Helpers
 */
 
-function appendRoomList() {
-	$("#roomList").append("<li><a><p>" + roomNumber "</p></a></li>");
+function appendRoomList(roomNumber) {
+	$("#room-list").append("<li><a><p>" + roomNumber "</p></a></li>");
 }
 
-function appendBookingList(booking) {
-	$("#roomList").append("<tr><td>" 
+function appendBookingList(booking, listType) {
+	$("#"+listType).append("<tr><td>" 
 		+ booking["roomNumber"] + " " 
 		+ booking["Date"] + " " 
 		+ booking["Time"] + " "
