@@ -41,13 +41,88 @@ $(document).ready(function(){
         header: {
         	left: "prev, next today",
         	center: "title",
-        	right: "month, agendaWeek, agendaDay"
+        	right: "agendaWeek, agendaDay"
         },
-        defaultViews: "basicWeek",
+        defaultView: "agendaWeek",
         selectable: true,
-        selectHelper: true
+		selectHelper: true,
+        allDaySlot: false,
+        minTime: "08:00:00",
+        maxTime: "23:00:00",
+        slotEventOverlap: false,
+        eventColor: "#FF4A55",
+        editable: true,
+        events: [
+				{
+					title: 'All Day Event',
+					start: '2016-09-01'
+				},
+				{
+					title: 'Long Event',
+					start: '2016-09-07',
+					end: '2016-09-10'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2016-09-09T16:00:00'
+				},
+				{
+					id: 999,
+					title: 'Repeating Event',
+					start: '2016-09-16T16:00:00'
+				},
+				{
+					title: 'Conference',
+					start: '2016-09-11',
+					end: '2016-09-13'
+				},
+				{
+					title: 'Meeting',
+					start: '2016-09-12T10:30:00',
+					end: '2016-09-12T12:30:00'
+				},
+				{
+					title: 'Lunch',
+					start: '2016-09-12T12:00:00'
+				},
+				{
+					title: 'Meeting',
+					start: '2016-09-12T14:30:00'
+				},
+				{
+					title: 'Happy Hour',
+					start: '2016-09-12T17:30:00'
+				},
+				{
+					title: 'Dinner',
+					start: '2016-09-12T20:00:00'
+				},
+				{
+					title: 'Birthday Party',
+					start: '2016-09-13T07:00:00'
+				},
+				{
+					title: 'Click for Google',
+					url: 'http://google.com/',
+					start: '2016-09-28'
+				}
+			],
+        //select code: start time, end time
+        select: function(start, end) {
+			var title = prompt('Event Title:');
+			if (title) {
+				calendar.fullCalendar('renderEvent',
+				{
+					title: title,
+					start: start,
+					end: end
+				},
+				true // make the event "stick"
+				);
+			}
+		}
     });
-
 });
 
 function setSideBarConcordia(){
