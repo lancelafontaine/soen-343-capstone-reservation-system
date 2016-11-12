@@ -88,7 +88,7 @@ class ReservationTDG:
         with connection.cursor() as cursor:
 
             cursor.execute("SELECT USERNAME, TIMESLOT FROM users INNER JOIN reservations \
-                            ON users.ID=reservations.ID \
+                            ON users.ID=reservations.USER_ID \
                             AND reservations.ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                             AND STATUS='filled' \
                             AND strftime('%%W', TIMESLOT)=strftime('%%W', %s) \
@@ -99,7 +99,7 @@ class ReservationTDG:
     def getReservationsForUsername(self, username, status):
         with connection.cursor() as cursor:
             cursor.execute("SELECT USERNAME, TIMESLOT FROM users INNER JOIN reservations \
-                            ON users.ID = reservations.ID \
+                            ON users.ID = reservations.USER_ID \
                             AND USERNAME=%s \
                             AND STATUS=%s \
                             ORDER BY TIMESLOT ASC", [username, status])
