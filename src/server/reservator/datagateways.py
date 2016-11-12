@@ -8,71 +8,101 @@ class ReservationTDG:
     
     def insert(self, username, roomNumber, timeslot, status, timestamp):
         with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,\
-                    STATUS,TIMESLOT,TIMESTAMP) VALUES ((SELECT ID from users WHERE USERNAME=%s),\
-                    (SELECT ID from rooms WHERE ROOMNUMBER=%s),%s,%s,%s)", [username,roomNumber,status,timeslot,timestamp])
+            cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,STATUS,TIMESLOT,TSP) \
+                            VALUES ((SELECT ID from users WHERE USERNAME=%s), \
+                                    (SELECT ID from rooms WHERE ROOMNUMBER=%s),%s,%s,%s)",
+                            [username,roomNumber,status,timeslot,timestamp])
 
     def delete(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
-                    AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
-                    AND TIMESLOT=%s", [username,roomNumber,timeslot])
+            cursor.execute("DELETE FROM reservations \
+                            WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                            AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                            AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
     def getNumOfReservations(self, username, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(TIMESLOT) FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s)\
-             AND strftime('%W', TIMESLOT)=strftime('%W', %s)", [username, timeslot])
+            cursor.execute("SELECT COUNT(TIMESLOT) FROM reservations \
+                            WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s)\
+                            AND strftime('%%W', TIMESLOT)=strftime('%%W', %s)", [username, timeslot])
             count = int(cursor.fetchone()[0])
         return count
 
     def find(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
-                    AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
-                    AND TIMESLOT=%s", [username,roomNumber,timeslot])
+            cursor.execute("SELECT users.USERNAME, rooms.ROOMNUMBER, reservations.TIMESLOT,\
+                                    reservations.STATUS, reservations.TSP \
+                            FROM reservations \
+                            INNER JOIN users ON users.ID=reservations.USER_ID \
+                            INNER JOIN rooms ON rooms.ID=reservations.ROOM_ID \
+                            AND USERNAME=%s \
+                            AND ROOMNUMBER=%s \
+                            AND TIMESLOT=%s", [username, roomNumber, timeslot])
             row = cursor.fetchone()
         return row
 
     def findNextPendingReservation(self, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM reservations WHERE TSP=(SELECT min(TSP) FROM reservations WHERE STATUS='pending' \
-            AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) AND TIMESLOT=%s)", [roomNumber, timeslot])
+            cursor.execute("SELECT users.USERNAME,\
+                                   rooms.ROOMNUMBER,\
+                                   reservations.TIMESLOT \
+                                   reservations.STATUS \
+                                   reservations.TSP \
+                            FROM reservations \
+                            INNER JOIN users ON users.ID=reservations.USER_ID \
+                            INNER JOIN rooms ON rooms.ID=reservations.ROOM_ID \
+                            WHERE reservations.TSP=(SELECT min(TSP) FROM reservations \
+                                                    WHERE ROOMNUMBER=%s \
+                                                    AND TIMESLOT=%s \
+                                                    AND STATUS='pending'", [roomNumber, timeslot])
             row = cursor.fetchone()
         return row
 
     def setFilled(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("UPDATE reservations SET STATUS='filled' WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
-                    AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
-                    AND TIMESLOT=%s", [username,roomNumber,timeslot])
+            cursor.execute("UPDATE reservations \
+                            SET STATUS='filled' \
+                            WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                            AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                            AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
     def getFilledCount(self, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(1) FROM reservations WHERE ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
-                    AND TIMESLOT=%s AND STATUS='filled'", [roomNumber, timeslot])
+            cursor.execute("SELECT COUNT(1) FROM reservations \
+                            WHERE ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                            AND TIMESLOT=%s \
+                            AND STATUS='filled'", [roomNumber, timeslot])
             count = int(cursor.fetchone()[0])
         return count
 
     def getReservationCount(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(1) FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
-                    AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
-                    AND TIMESLOT=%s", [username,roomNumber,timeslot])
+            cursor.execute("SELECT COUNT(1) FROM reservations \
+                            WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                            AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                            AND TIMESLOT=%s", [username,roomNumber,timeslot])
             count = int(cursor.fetchone()[0])
         return count
 
     def getReservations(self, roomNumber, startTimeslot):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM reservations WHERE ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s)  \
-                           AND strftime('%W', TIMESLOT)=strftime('%W', %s) \
-                           AND STATUS='filled' ORDER BY TIMESLOT ASC", [roomNumber, startTimeslot])
+
+            cursor.execute("SELECT USERNAME, TIMESLOT FROM users INNER JOIN reservations \
+                            ON users.ID=reservations.ID \
+                            AND reservations.ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                            AND STATUS='filled' \
+                            AND strftime('%%W', TIMESLOT)=strftime('%%W', %s) \
+                            ORDER BY TIMESLOT ASC", [roomNumber, startTimeslot])
             rows = cursor.fetchall()
         return rows
 
     def getReservationsForUsername(self, username, status):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
-                            AND STATUS=%s ORDER BY TIMESLOT ASC", [username, status])
+            cursor.execute("SELECT USERNAME, TIMESLOT FROM users INNER JOIN reservations \
+                            ON users.ID = reservations.ID \
+                            AND USERNAME=%s \
+                            AND STATUS=%s \
+                            ORDER BY TIMESLOT ASC", [username, status])
             rows = cursor.fetchall()
         return rows
 
@@ -86,7 +116,7 @@ class RoomTDG:
 
     def getRooms(self):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM rooms")
+            cursor.execute("SELECT ROOMNUMBER FROM rooms")
             rows = cursor.fetchall()
         return rows
 
@@ -103,3 +133,4 @@ class UserTDG:
             cursor.execute("SELECT COUNT(1) FROM users WHERE USERNAME=%s", [username])
             count = int(cursor.fetchone()[0])
         return count
+
