@@ -17,7 +17,7 @@
     <div class="sidebar" data-image="http://thetalon.ca/wp-content/uploads/2015/03/Concordia_University_06.jpg"> 
         <div class="sidebar-wrapper">
             <h1 style="text-align:center">Rooms</h1>
-            <ul class="nav">
+            <ul id="room-list" class="nav">
                 <li class="active"><a><p>H917-1</p></a></li>
                 <li><a><p>H917-2</p></a></li>
                 <li><a><p>H917-3</p></a></li>
@@ -56,15 +56,10 @@
                     <!-- Calendar View -->
                     <div class="col-md-8">
                         <div class="view">
-                            <!-- Calendar Header -->
-                            <div class="header">
-                                <h4 class="title">Reservation Calendar</h4>
-                            </div>
-                            <!-- Calendar Header End-->
                             <!-- Calendar Body -->
                             <div class="content">
                                 <!-- Calendar -->
-                                <div id="calendar" class="calendar ct-perfect-fourth">
+                                <div id="calendar" class="calendar">
                                 </div>
                                 <!-- Calendar End-->
                                 <!-- Calendar Footer -->
@@ -94,7 +89,7 @@
                             <div class="content">
                                 <div class="table-full-width">
                                     <table class="table">
-                                        <tbody>
+                                        <tbody id="booking-list">
                                             <tr>
                                                 <td>H916-12 - Friday - Octorber 2</td>
                                                 <td class="td-actions text-right">
@@ -125,7 +120,7 @@
                             <div class="content">
                                 <div class="table-full-width">
                                     <table class="table">
-                                        <tbody>
+                                        <tbody id="waiting-list">
                                             <tr>
                                                 <td>H916-2 - Sunday - Octorber 12</td>
                                                 <td class="td-actions text-right">

@@ -130,7 +130,7 @@ View
 
 .view .calendar {
   margin: 30px 0 30px;
-  height: 245px;
+  height: 100%;
   display: block;
   position: relative;
   width: 100%;
