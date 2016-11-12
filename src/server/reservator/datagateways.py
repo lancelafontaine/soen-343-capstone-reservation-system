@@ -30,8 +30,11 @@ class ReservationTDG:
 
     def find(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT users.USERNAME, rooms.ROOMNUMBER, reservations.TIMESLOT,\
-                                    reservations.STATUS, reservations.TSP \
+            cursor.execute("SELECT users.USERNAME, \
+                                   rooms.ROOMNUMBER, \
+                                   reservations.TIMESLOT,\
+                                   reservations.STATUS, \
+                                   reservations.TSP \
                             FROM reservations \
                             INNER JOIN users ON users.ID=reservations.USER_ID \
                             INNER JOIN rooms ON rooms.ID=reservations.ROOM_ID \
@@ -45,8 +48,8 @@ class ReservationTDG:
         with connection.cursor() as cursor:
             cursor.execute("SELECT users.USERNAME,\
                                    rooms.ROOMNUMBER,\
-                                   reservations.TIMESLOT \
-                                   reservations.STATUS \
+                                   reservations.TIMESLOT, \
+                                   reservations.STATUS, \
                                    reservations.TSP \
                             FROM reservations \
                             INNER JOIN users ON users.ID=reservations.USER_ID \
@@ -54,7 +57,7 @@ class ReservationTDG:
                             WHERE reservations.TSP=(SELECT min(TSP) FROM reservations \
                                                     WHERE ROOMNUMBER=%s \
                                                     AND TIMESLOT=%s \
-                                                    AND STATUS='pending'", [roomNumber, timeslot])
+                                                    AND STATUS='pending')", [roomNumber, timeslot])
             row = cursor.fetchone()
         return row
 
