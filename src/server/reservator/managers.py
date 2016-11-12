@@ -53,7 +53,7 @@ class ReservationsManager:
         elif self.mapper.isTimeslotReserved(roomNumber, timeslot):
             status = 'pending'
 
-        self.mapper.insert(username, roomNumber, timeslot, status, timestamp)
+        self.mapper.insert(username, roomNumber, status, timeslot, timestamp)
         self.mapper.commit()
 
         response['reservation_status'] = status
@@ -80,7 +80,7 @@ class ReservationsManager:
             status = 'pending'
 
         self.mapper.delete(username, oldRoomNumber, oldTimeslot)
-        self.mapper.insert(username, newRoomNumber, newTimeslot, status, timestamp)
+        self.mapper.insert(username, newRoomNumber, status, newTimeslot, timestamp)
         self.mapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
         self.mapper.commit()
 

@@ -12,8 +12,8 @@ class ReservationMapper:
         self.tdg = ReservationTDG()
 
     # Called by ReservationsManager 
-    def insert(self, username, roomNumber, timeslot, status, timestamp):
-        r = Reservation(username, roomNumber, timeslot, status, timestamp)
+    def insert(self, username, roomNumber, status, timeslot, timestamp):
+        r = Reservation(username, roomNumber, status, timeslot, timestamp)
         self.identitymap.add(r)
         self.uow.registerNew(r)
 
@@ -71,7 +71,7 @@ class ReservationMapper:
     # Called by UnitOfWork
     def applyInsert(self, objects):
         for obj in objects:
-            self.tdg.insert(obj.username, obj.roomNumber, obj.timeslot, obj.status, obj.timestamp)
+            self.tdg.insert(obj.username, obj.roomNumber, obj.status, obj.timeslot, obj.timestamp)
 
     def applyDelete(self, objects):
         for obj in objects:

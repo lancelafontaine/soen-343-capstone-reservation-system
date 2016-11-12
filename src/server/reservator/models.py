@@ -1,11 +1,11 @@
 from hashlib import md5
 
 class Reservation:
-    def __init__(self, username, roomNumber, timeslot, status, timestamp):
+    def __init__(self, username, roomNumber, status, timeslot, timestamp):
         self.username = username
         self.roomNumber = roomNumber
-        self.timeslot = timeslot
         self.status = status
+        self.timeslot = timeslot
         self.timestamp = timestamp
 
     def hashCode(self):

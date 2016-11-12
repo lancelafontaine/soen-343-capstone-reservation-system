@@ -6,12 +6,12 @@ class ReservationTDG:
     def __init__(self):
         pass
     
-    def insert(self, username, roomNumber, timeslot, status, timestamp):
+    def insert(self, username, roomNumber, status, timeslot, timestamp):
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,STATUS,TIMESLOT,TSP) \
                             VALUES ((SELECT ID from users WHERE USERNAME=%s), \
                                     (SELECT ID from rooms WHERE ROOMNUMBER=%s),%s,%s,%s)",
-                            [username,roomNumber,status,timeslot,timestamp])
+                            [username, roomNumber, status, timeslot, timestamp])
 
     def delete(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
