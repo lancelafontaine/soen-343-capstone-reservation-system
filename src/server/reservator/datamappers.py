@@ -64,6 +64,9 @@ class ReservationMapper:
     def getReservations(self, roomNumber, startTimeslot):
         return self.tdg.getReservations(roomNumber, startTimeslot)
 
+    def getReservationForUsername(self, username, status):
+        return self.tdg.getReservationsForUsername(username, status)
+
     def getNumOfReservations(self, username, timeslot):
         return self.tdg.getNumOfReservations(username, timeslot)
 

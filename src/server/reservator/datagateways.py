@@ -68,3 +68,11 @@ class ReservationTDG:
                            AND STATUS='filled' ORDER BY TIMESLOT ASC", [roomNumber, startTimeslot])
             rows = cursor.fetchall()
         return rows
+
+    def getReservationsForUsername(self, username, status):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM reservations WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                            AND STATUS=%s ORDER BY TIMESLOT ASC", [username, status])
+            rows = cursor.fetchall()
+        return rows
+
