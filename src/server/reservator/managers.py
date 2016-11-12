@@ -97,8 +97,8 @@ class ReservationsManager:
 
         response = {}
         self.mapper.delete(username, roomNumber, timeslot)
-        self.mapper.commit()
         self.mapper.updatePendingReservation(roomNumber, timeslot)
+        self.mapper.commit()
 
         return response
 
