@@ -1,3 +1,4 @@
+import json
 from .managers import ReservationsManager
 from django.http import JsonResponse
 
@@ -11,11 +12,6 @@ def home(request):
 
 def log_in(request):
     # request.session['username'] = 'Jack'
-
-    # For testing purposes
-    rm.makeReservation('testuser','H-905','13:00')
-    rm.makeReservation('testuser','H-831','15:00')
-    rm.cancelReservation('testuser','H-831','15:00')
     return JsonResponse({'foo':'bar'})
 
 
