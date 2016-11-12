@@ -32,8 +32,8 @@ class ReservationTDG:
         with connection.cursor() as cursor:
             cursor.execute("SELECT users.USERNAME, \
                                    rooms.ROOMNUMBER, \
-                                   reservations.TIMESLOT,\
                                    reservations.STATUS, \
+                                   reservations.TIMESLOT,\
                                    reservations.TSP \
                             FROM reservations \
                             INNER JOIN users ON users.ID=reservations.USER_ID \
@@ -48,8 +48,8 @@ class ReservationTDG:
         with connection.cursor() as cursor:
             cursor.execute("SELECT users.USERNAME,\
                                    rooms.ROOMNUMBER,\
-                                   reservations.TIMESLOT, \
                                    reservations.STATUS, \
+                                   reservations.TIMESLOT, \
                                    reservations.TSP \
                             FROM reservations \
                             INNER JOIN users ON users.ID=reservations.USER_ID \
