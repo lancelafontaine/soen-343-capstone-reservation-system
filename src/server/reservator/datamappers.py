@@ -22,9 +22,7 @@ class ReservationMapper:
         r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
         if r is None:
             r = self.loadReservation(self.tdg.find(username, roomNumber, timeslot))
-            if r is None:
-                return 'Reservation does not exist.'
-            else:
+            if r is not None:
                 self.uow.registerRemoved(r)
         else:
             self.identitymap.delete(r)
@@ -55,7 +53,7 @@ class ReservationMapper:
     # Change to counter method
     def hasReservation(self, username, roomNumber, timeslot):
         hasReservation = True
-        r = self.identitymap.find(username, roomNumber, timeslot)
+        r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
         if r is None:
             if self.tdg.getReservationCount(username, roomNumber, timeslot) == 0:
                 hasReservation = False
