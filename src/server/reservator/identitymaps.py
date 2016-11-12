@@ -46,3 +46,9 @@ class RoomIdentityMap:
     def add(self, obj):
         self.ids[obj.hashCode()] = obj
 
+class UserIdentityMap:
+    def __init__(self):
+        self.ids = {}
+
+    def add(self, obj):
+        self.ids[obj.hashCode()] = obj

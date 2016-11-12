@@ -119,3 +119,29 @@ class RoomMapper:
 
     def getRooms(self):
         return self.tdg.getRooms()
+
+
+class UserMapper:
+
+    def __init__(self):
+        self.uow = UnitOfWork(self)
+        self.identitymap = UserIdentityMap()
+        self.tdg = UserTDG()
+
+    def insert(self, username, password):
+        user = User(username, password)
+        self.identitymap.add(user)
+        self.uow.registerNew(user)
+
+    def isRegistered(self, username):
+        isRegistered = True
+        if self.tdg.isRegistered(username) == 0:
+            isRegistered = False
+        return isRegistered
+
+    def commit(self):
+        self.uow.commit()
+
+    def applyInsert(self, objects):
+        for obj in objects:
+            self.tdg.insert(obj.username, obj.password)

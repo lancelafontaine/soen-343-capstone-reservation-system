@@ -89,3 +89,17 @@ class RoomTDG:
             cursor.execute("SELECT * FROM rooms")
             rows = cursor.fetchall()
         return rows
+
+class UserTDG:
+    def __init__(self):
+        pass
+
+    def insert(self, username, password):
+        with connection.cursor() as cursor:
+            cursor.execute("INSERT INTO users (USERNAME, PASSWORD) VALUES (%s,%s)", [username, password])
+
+    def isRegistered(self, username):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(1) FROM users WHERE USERNAME=%s", [username])
+            count = int(cursor.fetchone()[0])
+        return count
