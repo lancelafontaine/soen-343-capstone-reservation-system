@@ -1,8 +1,8 @@
 from hashlib import md5
 from unitofwork import UnitOfWork
-from identitymaps import ReservationIdentityMap
-from datagateways import ReservationTDG
-from models import Reservation
+from identitymaps import *
+from datagateways import *
+from models import *
 
 class ReservationMapper:
 
@@ -97,3 +97,25 @@ class ReservationMapper:
         lst = [username, roomNumber, timeslot]
         return md5(''.join(str(s) for s in lst)).hexdigest()
 
+
+class RoomMapper:
+
+    def __init__(self):
+        self.uow = UnitOfWork(self)
+        self.identitymap = RoomIdentityMap()
+        self.tdg = RoomTDG()
+
+    def insert(self, roomNumber):
+        room = Room(roomNumber)
+        self.identitymap.add(room)
+        self.uow.registerNew(room)
+
+    def commit(self):
+        self.uow.commit()
+
+    def applyInsert(self, objects):
+        for obj in objects:
+            self.tdg.insert(obj.roomNumber)
+
+    def getRooms(self):
+        return self.tdg.getRooms()

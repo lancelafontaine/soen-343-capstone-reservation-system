@@ -38,3 +38,11 @@ class ReservationIdentityMap:
         except KeyError:
             reservation = None
         return reservation
+
+class RoomIdentityMap:
+    def __init__(self):
+        self.ids = {}
+
+    def add(self, obj):
+        self.ids[obj.hashCode()] = obj
+

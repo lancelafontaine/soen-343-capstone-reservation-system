@@ -76,3 +76,16 @@ class ReservationTDG:
             rows = cursor.fetchall()
         return rows
 
+class RoomTDG:
+    def __init__(self):
+        pass
+
+    def insert(self, roomNumber):
+        with connection.cursor() as cursor:
+            cursor.execute("INSERT INTO rooms (ROOMNUMBER) VALUES (%s)", [roomNumber])
+
+    def getRooms(self):
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT * FROM rooms")
+            rows = cursor.fetchall()
+        return rows
