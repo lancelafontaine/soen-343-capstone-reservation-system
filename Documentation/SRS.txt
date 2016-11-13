@@ -183,13 +183,9 @@ Introduction
 
 Purpose
 Role or purpose of srs. Describe structure of document. Intended audience, indication of how to use it.
+	The srs is a contract between developers and stackholders; given such it is meant to be read by both stackholders and developers and validate all requiments. The structure is such that we decribe what is feasable and the constraints we have on the system. Following that the requiments for the system are detailed, both functinal and nonfunctional. Thano use case models, use cases and the domain model. The use cases tell us a story of how our system behaves. Stackholder can verify these "stories" upon reading if it matches their requriments. 
 
 
-The purpose of a Software Requirements Specification (SRS) is to 
-
-
-• Requirements engineering: Elicitation, analysis, specification,
-and validation of requirements.
 
 
 Scope
@@ -199,7 +195,8 @@ A brief description of what the Software Requirements Specifications Document ap
 
 
 Definitions, acronyms, and abbreviations
-Provides the definitions of all terms, acronyms, and abbreviations required to properly interpret the Software Requirements Specifications Document. This information may be provided by reference to the project’s Glossary.
+Srs : Software Requirments Specification
+
 
 
 References
