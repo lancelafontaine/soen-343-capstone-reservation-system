@@ -182,7 +182,7 @@ Introduction
 	The essence of the project is a web application that displays room availabilities and allows users to reserve those rooms for a specific time slot. Below in this document the goal is to understand and document the requirements of the system, make sure they are feasible and consistent with each other. The purpose and scope are written; the description of constraints and assumptions of the project are noted. In the specific requirements section the functional and nonfunctional requirements are documented. A use case model and domain model is present; from which use cases are derived. Critical use cases are identified, the respective system sequence diagrams are shown, with the system operations, the operation contracts followed the interaction diagrams. 
 
 Purpose
-Role or purpose of srs. Describe structure of document. Intended audience, indication of how to use it.
+
 	The srs is a contract between developers and stackholders; given such it is meant to be read by both stackholders and developers and validate all requiments. The structure is such that we decribe what is feasable and the constraints we have on the system. Following that the requiments for the system are detailed, both functinal and nonfunctional. Thano use case models, use cases and the domain model. The use cases tell us a story of how our system behaves. Stackholder can verify these "stories" upon reading if it matches their requriments. 
 
 
