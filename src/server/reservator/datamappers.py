@@ -1,8 +1,8 @@
 from hashlib import md5
 from unitofwork import UnitOfWork
-from identitymaps import ReservationIdentityMap
-from datagateways import ReservationTDG
-from models import Reservation
+from identitymaps import *
+from datagateways import *
+from models import *
 
 class ReservationMapper:
 
@@ -12,48 +12,134 @@ class ReservationMapper:
         self.tdg = ReservationTDG()
 
     # Called by ReservationsManager 
-    # TODO: Check if already in the cache (idmap)
-    def insert(self, username, roomNumber, timeslot, status, timestamp):
-        r = Reservation(username, roomNumber, timeslot, status, timestamp)
+    def insert(self, username, roomNumber, status, timeslot, timestamp):
+        r = Reservation(username, roomNumber, status, timeslot, timestamp)
         self.identitymap.add(r)
         self.uow.registerNew(r)
 
     # Called by ReservationsManager
     def delete(self, username, roomNumber, timeslot):
         r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
-        # Error: What if object doesn't exist in identitymap?
-        # Occurence: Restart Server (lose identitymap information)
-        # Solution: Use the TDG to get the record from the database
-
-        # Temporary
-        if r is not None:
+        if r is None:
+            r = self.loadReservation(self.tdg.find(username, roomNumber, timeslot))
+            if r is not None:
+                self.uow.registerRemoved(r)
+        else:
             self.identitymap.delete(r)
             self.uow.registerRemoved(r)
 
     # Called by ReservationsManager
-    def update(self):
-        pass
+    def updatePendingReservation(self, roomNumber, timeslot):
+        r = self.identitymap.findNextPendingReservation(roomNumber, timeslot)
+        if r is None:
+            r = self.loadReservation(self.tdg.findNextPendingReservation(roomNumber, timeslot))
+            if r is not None:
+                self.identitymap.add(r)
+                self.uow.registerDirty(r)
+        else:
+            self.identitymap.setFilled(r)
+            self.uow.registerDirty(r)
 
-    # Called by ReservationsManager
-    def updateWaitingList(self):
-        pass
-  
+    # Change to counter method
+    def isTimeslotReserved(self, roomNumber, timeslot):
+        # Could use a counter instead (tdg)
+        isReserved = True
+        r = self.identitymap.findReserved(roomNumber, timeslot)
+        if r is None:
+            if self.tdg.getFilledCount(roomNumber, timeslot) == 0:
+                isReserved = False
+        return isReserved
+
+    # Change to counter method
+    def hasReservation(self, username, roomNumber, timeslot):
+        hasReservation = True
+        r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
+        if r is None:
+            if self.tdg.getReservationCount(username, roomNumber, timeslot) == 0:
+                hasReservation = False
+        return hasReservation
+
+    def getReservations(self, roomNumber, startTimeslot):
+        return self.tdg.getReservations(roomNumber, startTimeslot)
+
+    def getReservationForUsername(self, username, status):
+        return self.tdg.getReservationsForUsername(username, status)
+
+    def getNumOfReservations(self, username, timeslot):
+        return self.tdg.getNumOfReservations(username, timeslot)
+
     # Called by UnitOfWork
     def applyInsert(self, objects):
         for obj in objects:
-            self.tdg.insert(obj.username, obj.roomNumber, obj.timeslot, obj.status, obj.timestamp)
+            self.tdg.insert(obj.username, obj.roomNumber, obj.status, obj.timeslot, obj.timestamp)
 
     def applyDelete(self, objects):
         for obj in objects:
             self.tdg.delete(obj.username, obj.roomNumber, obj.timeslot)
 
-    def applyUpdate(self, obj):
-        pass
+    def applyUpdate(self, objects):
+        # Update the status of a reservation
+        for obj in objects:
+            self.tdg.setFilled(obj.username, obj.roomNumber, obj.timeslot)
 
     def commit(self):
         self.uow.commit()
+
+    def loadReservation(self, row):
+        reservation = None
+        if row:
+            reservation = Reservation(row[0], row[1], row[2], row[3], row[4])
+        return reservation
 
     def getHash(self, username, roomNumber, timeslot):
         lst = [username, roomNumber, timeslot]
         return md5(''.join(str(s) for s in lst)).hexdigest()
 
+
+class RoomMapper:
+
+    def __init__(self):
+        self.uow = UnitOfWork(self)
+        self.identitymap = RoomIdentityMap()
+        self.tdg = RoomTDG()
+
+    def insert(self, roomNumber):
+        room = Room(roomNumber)
+        self.identitymap.add(room)
+        self.uow.registerNew(room)
+
+    def commit(self):
+        self.uow.commit()
+
+    def applyInsert(self, objects):
+        for obj in objects:
+            self.tdg.insert(obj.roomNumber)
+
+    def getRooms(self):
+        return self.tdg.getRooms()
+
+
+class UserMapper:
+
+    def __init__(self):
+        self.uow = UnitOfWork(self)
+        self.identitymap = UserIdentityMap()
+        self.tdg = UserTDG()
+
+    def insert(self, username, password):
+        user = User(username, password)
+        self.identitymap.add(user)
+        self.uow.registerNew(user)
+
+    def isRegistered(self, username):
+        isRegistered = True
+        if self.tdg.isRegistered(username) == 0:
+            isRegistered = False
+        return isRegistered
+
+    def commit(self):
+        self.uow.commit()
+
+    def applyInsert(self, objects):
+        for obj in objects:
+            self.tdg.insert(obj.username, obj.password)
