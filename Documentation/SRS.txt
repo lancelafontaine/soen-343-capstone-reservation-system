@@ -1,11 +1,11 @@
-﻿Project Name                                                                                            Version 0.1
-Software Requirements Specification                         Last Modified:  Saturday October 8th 2016
+﻿Project Name  Concordia Scheduler                                                                                          Version 2.0
+Software Requirements Specification                         Last Modified:  November, 13th, 2016
   Software Requirements Specification
 
 
 
 
-Version X.X
+Version 2.0
 
 
 for
@@ -178,8 +178,8 @@ ________________
 
 INTRODUCTION
 Introduction
-The introduction of the Software Requirements Specifications Document provides an overview of the entire document.
 
+	The essence of the project is a web application that displays room availabilities and allows users to reserve those rooms for a specific time slot. Below in this document the goal is to understand and document the requirements of the system, make sure they are feasible and consistent with each other. The purpose and scope are written; the description of constraints and assumptions of the project are noted. In the specific requirements section the functional and nonfunctional requirements are documented. A use case model and domain model is present; from which use cases are derived. Critical use cases are identified, the respective system sequence diagrams are shown, with the system operations, the operation contracts followed the interaction diagrams. 
 
 Purpose
 Role or purpose of srs. Describe structure of document. Intended audience, indication of how to use it.
