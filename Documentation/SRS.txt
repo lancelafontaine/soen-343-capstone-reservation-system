@@ -265,7 +265,7 @@ Product functions
 
 
 Constraints
-Describe any items that will limit the options of the developers (such as regulations, hardware limitations, safety and security etc.)
+	The system must promote fairness by limiting the number of reservations a given user can occupy at a time. The system must also incorporate a level of safety and security, by ensuring a user’s credentials and information cannot be accessed by other users of the system, and also that a user’s information, such as their current reservations or waiting list status, cannot be overwritten by another user. If two or more users make a reservation for an available room simultaneously, the system must award the reservation to one user, and provide an error message to the other user(s). 
 
 
 Assumptions and dependencies
