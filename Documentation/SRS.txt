@@ -227,7 +227,7 @@ Product perspective
 
 
 Product functions
-Provide a summary of the major system functions.
+	The major system functions provided by the product include making a new reservation for an available room at a desired timeslot, entering the waiting list for a booked room at a desired timeslot, deleting an existing room reservation, modifying an existing reservation, and viewing their current reservations. 
 * User characteristics
 Who are the intended users of the system what is their expected educational level, experience and technical expertise?
 
