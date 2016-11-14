@@ -231,6 +231,10 @@ Python is a high-level, general-purpose programming language
 References
 Provide a list of all documents referenced in the SRS.
 
+https://en.oxforddictionaries.com/definition/reservation
+https://en.wikipedia.org/wiki/Project_stakeholder
+https://www.google.com 
+
 
 
 
