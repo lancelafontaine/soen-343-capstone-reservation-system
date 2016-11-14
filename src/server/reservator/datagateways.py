@@ -131,9 +131,9 @@ class UserTDG:
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO users (USERNAME, PASSWORD) VALUES (%s,%s)", [username, password])
 
-    def isRegistered(self, username):
+    def isRegistered(self, username, password):
         with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(1) FROM users WHERE USERNAME=%s", [username])
+            cursor.execute("SELECT COUNT(1) FROM users WHERE USERNAME=%s AND PASSWORD=%s", [username, password])
             count = int(cursor.fetchone()[0])
         return count
 
