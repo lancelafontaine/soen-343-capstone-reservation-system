@@ -200,6 +200,34 @@ Srs : Software Requirments Specification
 
 
 
+Term
+Definition
+User
+Someone who interacts with the reservation system.
+Registry
+A system for keeping a official record of room reservation
+Room
+A space where
+Wait list
+A list of people waiting for something, especially housing or admission to a school.
+Reservation
+The action  of reserving something
+Time Slot
+A conventionally defined time interval in a schedule.
+Calendar
+A chart or series of pages showing the days, weeks, and months of a particular year, or giving particular seasonal information
+Stakeholder
+An individual, group, or organization, who may affect, be affected by, or perceive itself to be affected by a decision, activity, or outcome of a project.
+SRS
+Software requirements specification
+SAD
+Software Architecture Documentation
+Python
+Python is a high-level, general-purpose programming language
+
+
+
+
 References
 Provide a list of all documents referenced in the SRS.
 
@@ -423,3 +451,4 @@ MaxReservationPerWeek should be an attribute for User
 
 
 The reservation table should
+
