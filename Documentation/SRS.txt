@@ -189,7 +189,8 @@ Purpose
 
 
 Scope
-A brief description of what the Software Requirements Specifications Document applies to; what is affected or influenced by this document.
+
+	The project allows a user to log into the webpage. A schedule appears wiht a list of rooms; the user can view the scheduele for different rooms and see avaliable timeslots. The user can thus book a timeslot for a room or if deserired timeslot is taken can go on the waitlist. The goals essentialy is to allow users find a room that is free and book a timeslot, and should it all be taken go on the waitlist. This will allow students to organize meetings with far more ease. 
 
 
 
