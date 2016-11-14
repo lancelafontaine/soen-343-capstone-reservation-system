@@ -278,7 +278,20 @@ This section contains all requirements in detail: Functional as well as non-func
 
 
 External interfaces
-A detailed description of all inputs into the system and all outputs from it (in terms of content and form).
+1-	Input: Username and Password (login)
+	Output: Error message if the user isn’t found in the database
+
+
+2-	Input: Room information (day, timeslot, room number)
+	Output: Display room status (Free or full)
+
+
+3-	Input: View rooms calendar
+	Output: Calendar showing the information of each room
+
+
+4-	Input: Modified room reservation ( delete reservation, new day, new timesolt)
+	Output: Display room status (Free or full)
 
 
 Functionality
@@ -330,11 +343,12 @@ Description goes here.------
 
 
 Portability
-Description goes here.-------
+Desktop friendly user interface
 
 
 Design constraints
-Decisions that must be followed, such as languages, processes, prescribed use of tools, architectural and design constraints, purchased components, class libraries, etc.
+-Used languages: HTML, CSS JavaScript, Python, SQL
+-Framework: Django
 
 
 (On-line) user documentation and help
@@ -342,15 +356,15 @@ Description.
 
 
 Purchased components
-Description.
+No purchased components for this project.
 
 
 Licensing requirements
-Description.
+No licensing requirements for this project.
 
 
 Legal, copyright and other notices
-Description.
+Intellectual property
 
 
 
