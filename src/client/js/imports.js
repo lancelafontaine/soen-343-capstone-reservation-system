@@ -1,15 +1,15 @@
-(function() {
-	$ = jQuery = require('jquery');
-	require('fullCalendar');
-	require('moment');
-	require('./library/bootstrap.min.js');
-})();
+( function() {
+$ = jQuery = require('jquery');
+require('fullcalendar');
+require('moment');
+require('./library/bootstrap.min.js');
 
 $(document).ready(function(){
 
-	//set sidebar backgoround
-    setSideBarConcordia(); 
-    //these codes need to be organized 
+    //set sidebar backgoround
+    setSideBarConcordia();
+
+    //these codes need to be organized
     $('input').blur(function() {
     	var $this = $(this);
     	if ($this.val()) $this.addClass('used');
@@ -19,7 +19,7 @@ $(document).ready(function(){
   	$ripples.on('click.Ripples', function(e) {
     	var $this = $(this);
     	var $offset = $this.parent().offset();
-    	var $circle = $this.find('.ripplesCircle');	
+    	var $circle = $this.find('.ripplesCircle');
     	var x = e.pageX - $offset.left;
     	var y = e.pageY - $offset.top;
     	$circle.css({
@@ -27,7 +27,7 @@ $(document).ready(function(){
       		left: x + 'px'
     	});
     	$this.addClass('is-active');
-  	});	
+  	});
   	$ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
   		$(this).removeClass('is-active');
   	});
@@ -76,7 +76,7 @@ function setSideBarConcordia(){
     if(image_src !== undefined){
         sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>'
         $sidebar.append(sidebar_container);
-    }  
+    }
 }
 
 /*
@@ -110,14 +110,16 @@ Helpers
 */
 
 function appendRoomList(roomNumber) {
-	$("#room-list").append("<li><a><p>" + roomNumber "</p></a></li>");
+	$("#room-list").append("<li><a><p>" + roomNumber + "</p></a></li>");
 }
 
 function appendBookingList(booking, listType) {
-	$("#"+listType).append("<tr><td>" 
-		+ booking["roomNumber"] + " " 
-		+ booking["Date"] + " " 
+	$("#"+listType).append("<tr><td>"
+		+ booking["roomNumber"] + " "
+		+ booking["Date"] + " "
 		+ booking["Time"] + " "
 		+ "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
 		+ "<i class='fa fa-times'></i></button></td></tr>");
 }
+
+})();
