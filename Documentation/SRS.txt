@@ -588,67 +588,6 @@ A Reservation instance was deleted. (instance deletion)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Use case UC1: Make Reservation
-Primary Actor: 
-Stakeholders and Interests:
-Preconditions:
-* User is authenticated in system
-* Room and desired timeslot is available
-Success Guarantee (Postconditions):
-* User has booked a room
-Main Success Scenario (or basic flow):
-* User specifies a room
-* User views calendar for room
-* User chooses an available timeslot in room
-* User books reservation
-* User receives confirmation of successful reservation
-Extensions (or alternative flows):
-* If timeslot is booked by other user during the transaction, show error and prompt to add to waitlist.
-
-
-	
-
-
-
-
-
-
-
-ANOTHER USER CASE: User can view another room
-
-
-
-
-
-
-* ANOTHER USE CASE: User can view status of waitlist and bookings
-
-
-* By default, first room appears as calendar.
-
-
-
-
-
-
-
-
 DISCUSS THE THE SOFTWARE PROCESS THAT WE ARE USING?
 
 
