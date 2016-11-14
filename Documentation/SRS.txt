@@ -223,16 +223,8 @@ This section describes a background to the requirements: The general factors tha
 
 
 Product perspective
-Is the product self-contained? If not, then put the product into perspective with other related products. Use a block diagram to show the big picture.
+	The product is available to all concordia engineering students. It is a web based application that uses layered architecture + client server architecture. It works among all the major browsers. User account, the system allows the user to login to their accounts in the system and provide features of updating and viewing their reservations. The system can support a small to medium number of users as it is hosted off a computer. 
 
-
-No, it requires:
-Concordia  infrastructure:
-* Rooms
-* If we wanted to incorporate it with other systems, or if we wanted to ensure that the student was registered in a CAPSTONE course we would have to validate student id. Would require access to Concordia’s database
-* Must run on hardware, so we may need to depend on an external service
-* Requires clients for users to use (computers/browsers)
-* 
 
 Product functions
 Provide a summary of the major system functions.
