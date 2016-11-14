@@ -237,12 +237,7 @@ Describe any items that will limit the options of the developers (such as regula
 
 
 Assumptions and dependencies
-What assumptions are there? For example, a specific operating system should be present on a given hardware platform. If not, this document would have to be changed.
-* All operating systems should work
-* All modern browsers that respect html5 standards should work
-* Available all week
-* Except holidays?
-* 
+	As a web application, the system’s main dependency will be a web browser. It is assumed that the system will be compatible with all major operating systems (Windows, Linux and macOS). It is expected to be compatible with all modern browsers that respect HTML5 web standards. It assumes that rooms will be available for reservation on any day of the week, including weekends, with the exception of holidays recognized by the University.
 
 
 
