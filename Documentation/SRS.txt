@@ -373,11 +373,209 @@ Intellectual property
 
 ANALYSIS MODELS
 
+Domain Model 
 
-List all analysis models used in developing specific requirements previously given in this SRS. Each model should include an introduction and a narrative description. Furthermore, each model should be traceable the SRS’s requirements.
+(Insert Domain Model)
+
+Use Cases
 
 
-Illustrate (system) UML sequence diagrams (one for each critical scenario), identify system operations and describe operation contracts, one per critical system operation. You may also use UML state diagrams to describe critical use cases. Additionally, create a domain model for the system. Make sure that each model is traceable to the requirements.
+
+
+Use case UC1: Make Reservation
+Primary Actor: User
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+Room and desired timeslot is available
+Success Guarantee (Postconditions):
+User has booked a room
+Main Success Scenario (or basic flow):
+User specifies a room
+User views calendar for room
+User chooses an available timeslot in room
+User books reservation
+User receives confirmation of successful reservation
+Extensions (or alternative flows):
+If time slot is booked by another user during the transaction, show error and prompt to add to waitlist.
+
+
+
+
+
+
+
+
+
+
+Use case UC2: View Reservation
+Primary Actor: User
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+Success Guarantee (Postconditions):
+User can view his reservation
+Main Success Scenario (or basic flow):
+User chooses the option to view reservations
+System prompts for a room
+User selects room
+ System displays all reservations for the selected room
+
+
+
+
+
+
+
+
+Use case UC3: Modify Reservation
+Primary Actor: User
+Stakeholders and Interests:
+Preconditions: 
+User is authenticated in system
+The user is viewing an existing reservation of his
+Success Guarantee (Postconditions):
+User has changed his reservation and can view it
+Main Success Scenario (or basic flow):
+User chooses the option to view his reservations
+System displays his reservations
+User edits timeslot
+ System displays message confirming modification of reservation
+Extensions (or alternative flows):
+User chooses the option to view his reservations
+System displays his reservations
+User edits timeslot
+ System displays message saying time slot is booked, prompts to ask if user wants to go on waitlist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Use case UC4: Cancel Reservation
+Primary Actor: User
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+The user is viewing an existing reservation of his
+Success Guarantee (Postconditions):
+User has cancelled his reservation 
+Main Success Scenario (or basic flow):
+User selects cancel reservation
+System displays message of confirmation
+
+
+
+
+
+
+
+
+Use case UC4: Log in
+Primary Actor: User
+Stakeholders and Interests:
+Preconditions:
+User is registered
+Success Guarantee (Postconditions):
+User is identified and authenticated
+Main Success Scenario (or basic flow):
+User enters credentials
+System confirms authentication
+
+
+
+
+Use case UC5: Log out
+Primary Actor: User
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+Success Guarantee (Postconditions):
+User is logged out 
+Main Success Scenario (or basic flow):
+User prompts log out
+System confirms log out
+
+System Sequence Diagrams
+(Insert SSDs)
+
+System Operations
+
+
+makeReservation(userId, roomNumber, timeslot)
+viewReservations(roomNumber)
+cancelReservation(userId, roomNumber, timeslot)
+modifyReservation(userId, roomNumber, timeslot, newTimeslot)
+
+
+
+
+Operation Contracts
+
+
+
+
+Contract C01: Make Reservation
+Operation: makeReservation(userId, roomNumber, timeslot)
+Cross Reference : UC1 Make Reservation
+Preconditions:
+None
+Postconditions:
+A Reservation instance reserv was created. (instance created)
+reserv.timeInterval was modified (attribute modification)
+reserv was associated with Room. (association formed)
+reserv was associated with User. (association formed)
+
+
+
+
+
+
+
+
+
+
+Contract C02: View Reservation
+Operation: viewReservation(userId, roomNumber, timeslot)
+Cross Reference : UC2 View Reservation
+Preconditions:
+None
+Postconditions:
+None
+
+
+
+
+Contract C03: Modify Reservation
+Operation: modifyReservation(userId, roomNumber, timeslot, newTimeslot)
+Cross Reference : UC3 Modify Reservation
+Preconditions:
+A Reservation is associated with User.
+Postconditions:
+Reservation.timeInterval was set to newTimeslot (attribute modification)
+
+
+
+
+Contract C04: Cancel Reservation
+Operation: cancelReservation(userId, roomNumber, timeslo
+Cross Reference : UC4 Cancel Reservation
+Preconditions:
+A Reservation is associated with User.
+Postconditions:
+A Reservation instance was deleted. (instance deletion)
+
+
+
+
 
 
 
