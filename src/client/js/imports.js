@@ -108,10 +108,6 @@ function getUserInfo() {
 
 // EXAMPLE
 $.ajax({
-  //type: 'GET',
-  //beforeSend: function (req) {
-      //req.setRequestHeader('X-Frame-Options', 'ALLOW-FROM http://localhost:8080/');
-  //},
   url: 'http://localhost:8000/getReservations/?roomNumber=H-905&startTimeslot=2016-10-27%2014:54:20',
   cache: false,
   success: function(res){
