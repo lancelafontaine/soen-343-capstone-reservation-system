@@ -14,6 +14,8 @@ with connection.cursor() as cursor:
             STATUS TEXT, TIMESLOT TEXT, TSP TEXT)')
     cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,STATUS,TIMESLOT,TSP) \
             VALUES (1,1,'filled','2016-10-28 13:00:00', '2016-10-27 14:54:20')")
+    cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,STATUS,TIMESLOT,TSP) \
+            VALUES (1,1,'filled','2016-10-28 14:00:00', '2016-10-27 14:54:20')")
 
 
 print 'Database setup has been completed.'
