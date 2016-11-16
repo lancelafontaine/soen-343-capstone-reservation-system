@@ -31,7 +31,26 @@ def makeReservation(request):
     pass
 
 
-def viewReservations(request):
-    pass
+def getReservations(request):
+    if request.method == 'GET':
+        params = request.GET
+        # ReservationsManager.
+        if params.__contains__('roomNumber'):
+            roomNumber = params.__getitem__('roomNumber')
+        else:
+            return JsonResponse({'error':'roomNumber required as GET parameter'}, status=422)
+        if params.__contains__('startTimeslot'):
+            startTimeslot = params.__getitem__('startTimeslot')
+        else:
+            return JsonResponse({'error':'startTimeslot required as GET parameter'}, status=422)
+
+        json = {}
+        for v,k in rm.getReservations(roomNumber,startTimeslot):
+            json.update({k:v})
+
+        return JsonResponse(json)
+
+    else:
+        return JsonResponse({'error':'POST not supported'}, status=405)
 
 
