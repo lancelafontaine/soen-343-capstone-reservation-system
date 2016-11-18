@@ -1,12 +1,13 @@
 import datetime
-from datamappers import ReservationMapper
+from datamappers import ReservationMapper,RoomMapper
 
 
 class ReservationsManager:
     maxReservationsPerWeekPerUser = 3
 
     def __init__(self):
-        self.mapper = ReservationMapper()
+        self.reservationMapper = ReservationMapper()
+        self.roomMapper = RoomMapper()
 
     def makeReservation(self, username, roomNumber, timeslot):
         # ========================= ERRORS =====================================#
@@ -31,30 +32,30 @@ class ReservationsManager:
         # 2. Check if number of user's weekly reservations >= maxReservationsPerWeekPerUser 
         #       If True, return error
         # 3. Make reservation for user
-        #       3.1 Create Reservation object (through mapper)
+        #       3.1 Create Reservation object (through reservationMapper)
         #       3.2 Add Reservation object to identityMap (internally done)
         #       3.3 Register Reservation object with UnitOfWork (internally done)
-        #       3.4 Send commit() message to mapper to persist changes..
+        #       3.4 Send commit() message to reservationMapper to persist changes..
         # 4. Process data operation
         #       - If insertion is successful, return confirmation msg
         #       - If insertion is unsucessful, return error msg
 
         response = {}
-        if self.mapper.getNumOfReservations(username, timeslot) >= self.maxReservationsPerWeekPerUser:
+        if self.reservationMapper.getNumOfReservations(username, timeslot) >= self.maxReservationsPerWeekPerUser:
             response['error'] = 'Maximum reservations reached for this week.'
             return response
 
         status = 'filled'
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        if self.mapper.hasReservation(username, roomNumber, timeslot):
+        if self.reservationMapper.hasReservation(username, roomNumber, timeslot):
             response['error'] = 'Cannot make two reservations for the same date in the same room.'
             return response
-        elif self.mapper.isTimeslotReserved(roomNumber, timeslot):
+        elif self.reservationMapper.isTimeslotReserved(roomNumber, timeslot):
             status = 'pending'
 
-        self.mapper.insert(username, roomNumber, status, timeslot, timestamp)
-        self.mapper.commit()
+        self.reservationMapper.insert(username, roomNumber, status, timeslot, timestamp)
+        self.reservationMapper.commit()
 
         response['reservation_status'] = status
         return response
@@ -73,16 +74,16 @@ class ReservationsManager:
         status = 'filled'
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        if self.mapper.hasReservation(username, newRoomNumber, newTimeslot):
+        if self.reservationMapper.hasReservation(username, newRoomNumber, newTimeslot):
             response['error'] = 'Cannot make two reservations for the same date in the same room.'
             return response
-        elif self.mapper.isTimeslotReserved(newRoomNumber, newTimeslot):
+        elif self.reservationMapper.isTimeslotReserved(newRoomNumber, newTimeslot):
             status = 'pending'
 
-        self.mapper.delete(username, oldRoomNumber, oldTimeslot)
-        self.mapper.insert(username, newRoomNumber, status, newTimeslot, timestamp)
-        self.mapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
-        self.mapper.commit()
+        self.reservationMapper.delete(username, oldRoomNumber, oldTimeslot)
+        self.reservationMapper.insert(username, newRoomNumber, status, newTimeslot, timestamp)
+        self.reservationMapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
+        self.reservationMapper.commit()
 
         response['reservation_status'] = status
 
@@ -96,15 +97,24 @@ class ReservationsManager:
         # 1. Delete User's reservation
 
         response = {}
-        self.mapper.delete(username, roomNumber, timeslot)
-        self.mapper.updatePendingReservation(roomNumber, timeslot)
-        self.mapper.commit()
+        self.reservationMapper.delete(username, roomNumber, timeslot)
+        self.reservationMapper.updatePendingReservation(roomNumber, timeslot)
+        self.reservationMapper.commit()
 
         return response
 
     def getReservations(self, roomNumber, startTimeslot):
         # Default week is the current week
-        response = self.mapper.getReservations(roomNumber, startTimeslot)
+        response = self.reservationMapper.getReservations(roomNumber, startTimeslot)
 
         return response
+
+    def getRooms(self):
+        # Default week is the current week
+        response = self.roomMapper.getRooms()
+
+        return response
+
+
+
 
