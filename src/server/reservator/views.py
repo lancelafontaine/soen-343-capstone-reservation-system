@@ -1,9 +1,11 @@
 import json
 from .managers import ReservationsManager
+from datamappers import RoomMapper
 from django.http import JsonResponse
 
 
-rm = ReservationsManager()
+reservationsManager = ReservationsManager()
+roomMapper = RoomMapper()
 
 
 def home(request):
@@ -45,7 +47,7 @@ def getReservations(request):
             return JsonResponse({'error':'startTimeslot required as GET parameter'}, status=422)
 
         json = {}
-        for v,k in rm.getReservations(roomNumber,startTimeslot):
+        for v,k in reservationsManager.getReservations(roomNumber,startTimeslot):
             json.update({k:v})
 
         return JsonResponse(json)
@@ -57,7 +59,7 @@ def getRooms(request):
     if request.method == 'GET':
 
         json = {}
-        roomList = [tupl[0] for tupl in rm.getRooms()]
+        roomList = [tupl[0] for tupl in roomMapper.getRooms()]
         json.update({'rooms':roomList})
 
         return JsonResponse(json)
