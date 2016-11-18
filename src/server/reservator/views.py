@@ -34,7 +34,7 @@ def makeReservation(request):
 def getReservations(request):
     if request.method == 'GET':
         params = request.GET
-        # ReservationsManager.
+
         if params.__contains__('roomNumber'):
             roomNumber = params.__getitem__('roomNumber')
         else:
@@ -47,6 +47,18 @@ def getReservations(request):
         json = {}
         for v,k in rm.getReservations(roomNumber,startTimeslot):
             json.update({k:v})
+
+        return JsonResponse(json)
+
+    else:
+        return JsonResponse({'error':'POST not supported'}, status=405)
+
+def getRooms(request):
+    if request.method == 'GET':
+
+        json = {}
+        roomList = [tupl[0] for tupl in rm.getRooms()]
+        json.update({'rooms':roomList})
 
         return JsonResponse(json)
 
