@@ -40,18 +40,21 @@ class ReservationsManager:
         #       - If insertion is unsucessful, return error msg
 
         response = {}
+
         if self.mapper.getNumOfReservations(username, timeslot) >= self.maxReservationsPerWeekPerUser:
             response['error'] = 'Maximum reservations reached for this week.'
             return response
 
-        status = 'filled'
+        if self.mapper.hasReservation(username, roomNumber, timeslot):
+            response['error'] = 'Cannot make two reservations for the same timeslot in the same room.'
+            return response
+
+        status = 'pending'
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        if self.mapper.hasReservation(username, roomNumber, timeslot):
-            response['error'] = 'Cannot make two reservations for the same date in the same room.'
-            return response
-        elif self.mapper.isTimeslotReserved(roomNumber, timeslot):
-            status = 'pending'
+        if not self.mapper.isTimeslotReserved(roomNumber, timeslot):
+            status = 'filled'
+            self.mapper.removeFromAllOtherWaitingLists(username, roomNumber, timeslot)
 
         self.mapper.insert(username, roomNumber, status, timeslot, timestamp)
         self.mapper.commit()
@@ -63,6 +66,7 @@ class ReservationsManager:
         # ========================= REQUIREMENTS ================================#
         # 1. User can modify the room and the timeslot of his own reservations.
         # 2. If the new timeslot if unavailable, User's reservation placed on the waiting list.
+        # 3. Only filled reservations can be modifiedj
 
         # ========================= BASIC FUNCTION FLOW ==========================#
         # 1. Check if a reservation exists for that timeslot (database query)
@@ -70,17 +74,22 @@ class ReservationsManager:
         #       If False, update User's reservation.
 
         response = {}
-        status = 'filled'
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         if self.mapper.hasReservation(username, newRoomNumber, newTimeslot):
             response['error'] = 'Cannot make two reservations for the same date in the same room.'
             return response
-        elif self.mapper.isTimeslotReserved(newRoomNumber, newTimeslot):
-            status = 'pending'
+
+        status = 'pending'
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        if not self.mapper.isTimeslotReserved(newRoomNumber, newTimeslot):
+            status = 'filled'
+            self.mapper.removeFromAllOtherWaitingLists(username, newRoomNumber, newTimeslot)
 
         self.mapper.delete(username, oldRoomNumber, oldTimeslot)
         self.mapper.insert(username, newRoomNumber, status, newTimeslot, timestamp)
+
+        # TODO: Fix by checking previous reservation status
         self.mapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
         self.mapper.commit()
 
@@ -97,6 +106,7 @@ class ReservationsManager:
 
         response = {}
         self.mapper.delete(username, roomNumber, timeslot)
+        # TODO: Fix by checking previous reservation status
         self.mapper.updatePendingReservation(roomNumber, timeslot)
         self.mapper.commit()
 
@@ -107,3 +117,9 @@ class ReservationsManager:
         response = self.mapper.getReservations(roomNumber, startTimeslot)
 
         return response
+
+    def getReservedList(self, username):
+        return self.mapper.getReservationForUsername(username, 'filled')
+
+    def getWaitingList(self, username):
+        return self.mapper.getReservationForUsername(username, 'pending')
