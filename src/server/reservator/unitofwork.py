@@ -23,8 +23,3 @@ class UnitOfWork:
         del self.newObjects[:]
         del self.dirtyObjects[:]
         del self.removedObjects[:]
-
-    def rollback():
-        pass
-
-
