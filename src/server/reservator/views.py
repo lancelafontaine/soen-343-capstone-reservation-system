@@ -1,10 +1,9 @@
-import json
-from .managers import ReservationsManager
-from datamappers import RoomMapper
+import datetime
+from datamappers import *
 from django.http import JsonResponse
 
-
-reservationsManager = ReservationsManager()
+reservationMapper = ReservationMapper()
+userMapper = UserMapper()
 roomMapper = RoomMapper()
 
 
@@ -21,50 +20,116 @@ def log_out(request):
     pass
 
 
-def modifyReservation(request):
-    pass
+def makeReservation(request):
+    response = {}
+    username = request.session.get('username','')
+    roomNumber = request.POST.get('roomNumber', '')
+    timeslot = request.POST.get('timeslot', '')
 
+    if not username or not roomNumber or not timeslot:
+        response['parameterError'] = 'username, roomNumber and timeslot are required parameters.'
+        return JsonResponse(response)
+
+    # Preconditions
+    if reservationMapper.getNumOfReservations(username, timeslot) >= 3:
+        response['reservationError'] = 'Maximum reservations reached for this week.'
+        return JsonResponse(response)
+
+    if reservationMapper.hasReservation(username, roomNumber, timeslot):
+        response['reservationError'] = 'Cannot make two reservations for the same timeslot in the same room.'
+        return JsonResponse(response)
+
+    status = 'pending'
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if not reservationMapper.isTimeslotReserved(roomNumber, timeslot):
+        status = 'filled'
+        reservationMapper.removeFromAllOtherWaitingLists(username, roomNumber, timeslot)
+
+    reservationMapper.insert(username, roomNumber, status, timeslot, timestamp)
+    reservationMapper.commit()
+
+    response['reservationStatus'] = status
+    return JsonResponse(response)
+
+def modifyReservation(request):
+    response = {}
+    username = request.session.get('username','')
+    oldRoomNumber = request.POST.get('oldRoomNumber', '')
+    newRoomNumber = request.POST.get('newRoomNumber', '')
+    oldTimeslot = request.POST.get('oldTimeslot', '')
+    newTimeslot = request.POST.get('newTimeslot', '')
+
+    if not username or not oldRoomNumber or not newRoomNumber or not oldTimeslot or not newTimeslot:
+        response['parameterError'] = 'username, oldRoomNumber, newRoomNumber, oldTimeslot, newTimeslot are \
+                                      required parameters.'
+        return JsonResponse(response)
+
+    if reservationMapper.hasReservation(username, newRoomNumber, newTimeslot):
+        response['reservationError'] = 'Cannot make two reservations for the same date in the same room.'
+        return response
+
+    status = 'pending'
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    if not reservationMapper.isTimeslotReserved(newRoomNumber, newTimeslot):
+        status = 'filled'
+        reservationMapper.removeFromAllOtherWaitingLists(username, newRoomNumber, newTimeslot)
+
+    reservationMapper.delete(username, oldRoomNumber, oldTimeslot)
+    reservationMapper.insert(username, newRoomNumber, status, newTimeslot, timestamp)
+
+    # TODO: Fix by checking previous reservation status
+    reservationMapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
+    reservationMapper.commit()
+
+    response['reservationStatus'] = status
+    return JsonResponse(response)
 
 def cancelReservation(request):
-    pass
+    response = {}
+    username = request.session.get('username','')
+    roomNumber = request.POST.get('roomNumber', '')
+    timeslot = request.POST.get('timeslot', '')
+
+    if not username or not roomNumber or not timeslot:
+        response['parameterError'] = 'username, roomNumber and timeslot are required parameters.'
+        return JsonResponse(response)
+
+    reservationMapper.delete(username, roomNumber, timeslot)
+    # TODO: Fix by checking previous reservation status
+    reservationMapper.updatePendingReservation(roomNumber, timeslot)
+    reservationMapper.commit()
+    response['reservationStatus'] = 'cancelled'
+    return JsonResponse(response)
 
 
-def makeReservation(request):
-    pass
+def getReservedList(request):
+    username = request.session.get('username','')
+    if not username:
+        return JsonResponse({'parameterError': 'username is a required parameter'})
+    reservedList = reservationMapper.getReservationForUsername(username, 'filled')
+    return JsonResponse({'reservedList': reservedList})
 
+
+def getWaitingList(request):
+    username = request.session.get('username','')
+    if not username:
+        return JsonResponse({'parameterError': 'username is a required parameter'})
+    waitingList = reservationMapper.getReservationForUsername(username, 'pending')
+    return JsonResponse({'waitingList': waitingList})
 
 def getReservations(request):
-    if request.method == 'GET':
-        params = request.GET
+    response = {}
+    roomNumber = request.GET.get('roomNumber','')
+    startTimeslot = request.GET.get('startTimeslot','')
 
-        if params.__contains__('roomNumber'):
-            roomNumber = params.__getitem__('roomNumber')
-        else:
-            return JsonResponse({'error':'roomNumber required as GET parameter'}, status=422)
-        if params.__contains__('startTimeslot'):
-            startTimeslot = params.__getitem__('startTimeslot')
-        else:
-            return JsonResponse({'error':'startTimeslot required as GET parameter'}, status=422)
+    if not roomNumber or not startTimeslot:
+        response['parameterError'] = 'roomNumber and startTimeslot are required parameters.'
+        return JsonResponse(response, status=422)
 
-        json = {}
-        for v,k in reservationsManager.getReservations(roomNumber,startTimeslot):
-            json.update({k:v})
-
-        return JsonResponse(json)
-
-    else:
-        return JsonResponse({'error':'POST not supported'}, status=405)
+    response['reservations'] = reservationMapper.getReservations(roomNumber, startTimeslot)
+    return JsonResponse(response)
 
 def getRooms(request):
-    if request.method == 'GET':
-
-        json = {}
-        roomList = [tupl[0] for tupl in roomMapper.getRooms()]
-        json.update({'rooms':roomList})
-
-        return JsonResponse(json)
-
-    else:
-        return JsonResponse({'error':'POST not supported'}, status=405)
-
-
+    return JsonResponse({'rooms':roomMapper.getRooms()})
