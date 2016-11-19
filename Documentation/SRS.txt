@@ -398,13 +398,14 @@ System Operations
 
 makeReservation(username, roomNumber, timeslot)
 viewReservations(roomNumber)
+modifyReservation(username, oldRoomNumber, newRoomNumber, oldTimeslot, newTimeslot)
 cancelReservation(username, roomNumber, timeslot)
-modifyReservation(username, roomNumber, timeslot, newTimeslot)
 
 
 Operation Contracts
 
-Contract C01: Make Reservation
+
+Contract C01: makeReservation
 Operation: makeReservation(username, roomNumber, timeslot)
 Cross Reference : UC1 Make Reservation
 Preconditions: None
@@ -414,42 +415,29 @@ Postconditions:
 	- reserv was associated with User. (association formed)
 
 
-Contract C02: View Reservation
-Operation: viewReservation(roomNumber, timeslot)
+Contract C02: viewReservations
+Operation: viewReservations(roomNumber, timeslot)
 Cross Reference : UC2 View Reservation
 Preconditions:None
 Postconditions:None
 
 
-Contract C03: Modify Reservation
-Operation: modifyReservation(userId, roomNumber, timeslot, newTimeslot)
+Contract C03: modifyReservation
+Operation: modifyReservation(username, oldRoomNumber, newRoomNumber, oldTimeslot, newTimeslot)
 Cross Reference : UC3 Modify Reservation
 Preconditions:
-A Reservation is associated with User.
+    - A Reservation reserv has been created and is associated to a User (user) and a Room (oldRoom).
+
 Postconditions:
-Reservation.timeInterval was set to newTimeslot (attribute modification)
+	- Reservation.timeslot was set to newTimeslot (attribute modification)
+	- Reservation.roomNumber was set to newRoomNumber (attribute modification)
+	- Reservation was association with a Room (newRoom)
+	- Association between oldRoom and reserv has been broken.
 
-
-Contract C04: Cancel Reservation
-Operation: cancelReservation(userId, roomNumber, timeslo
+Contract C04: cancelReservation
+Operation: cancelReservation(username, roomNumber, timeslot)
 Cross Reference : UC4 Cancel Reservation
 Preconditions:
-A Reservation is associated with User.
+     - A Reservation has been created.
 Postconditions:
-A Reservation instance was deleted. (instance deletion)
-
-
-
-
-DISCUSS THE THE SOFTWARE PROCESS THAT WE ARE USING?
-
-
-
-
-ASSUMPTION:
-* Can’t have more than X hours successfully registered for in a week. 
-* Can’t have successfuly reservations of more than X hours across all rooms room per week per user.
-* A user can register for the same timeslot in different rooms.
-* Once you have successfully booked a timeslot in a room:
-   * All reservations in the waitlist in that timeslot are automatically removed.
-   * All new attempts at reserving (whether waitlist or not) are forbidden.
+    - A Reservation instance was deleted. (instance deletion)
