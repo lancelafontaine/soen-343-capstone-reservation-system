@@ -41,6 +41,18 @@ def log_out(request):
 
     return JsonResponse(response)
 
+def getSessionInfo(request):
+    response = {}
+
+    # Checks whether the session key 'is-logged-in' exists 
+    if not 'is-logged-in' in request.session:
+        isLoggedIn = False
+    else:
+        isLoggedIn = True
+    response['is-logged-in'] = isLoggedIn
+
+    return JsonResponse(response)
+
 def makeReservation(request):
     response = {}
     username = request.session.get('username','')
