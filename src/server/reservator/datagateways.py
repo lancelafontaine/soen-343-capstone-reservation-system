@@ -129,7 +129,7 @@ class RoomTDG:
         with connection.cursor() as cursor:
             cursor.execute("SELECT ROOMNUMBER FROM rooms")
             rows = cursor.fetchall()
-        return rows
+        return list(rows)
 
 class UserTDG:
     def __init__(self):
