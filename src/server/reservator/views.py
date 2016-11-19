@@ -20,8 +20,9 @@ def log_in(request):
     isUserAuthenticated = userMapper.isRegistered(username, password)
 
     if isUserAuthenticated:
-        # Sets a session variable 'is-logged-in' to True
+        # Sets a session variable 'is-logged-in' to True 
         request.session['is-logged-in'] = True 
+        request.session['username'] = username 
         response['logged-in'] = isUserAuthenticated
         return JsonResponse(response)
     else:
@@ -31,8 +32,9 @@ def log_in(request):
 def log_out(request):
     response = {}
 
-    # Clearing the session variable 'is-logged-in' 
+    # Clearing the session variable 'is-logged-in' and 'username'
     del request.session['is-logged-in']
+    del request.session['username']
 
     # Checks whether the session variable 'is-logged-in' is cleared
     if not 'is-logged-in' in request.session:
