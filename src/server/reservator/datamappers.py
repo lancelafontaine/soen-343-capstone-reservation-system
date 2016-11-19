@@ -11,13 +11,19 @@ class ReservationMapper:
         self.identitymap = ReservationIdentityMap() 
         self.tdg = ReservationTDG()
 
-    # Called by ReservationsManager 
     def insert(self, username, roomNumber, status, timeslot, timestamp):
         r = Reservation(username, roomNumber, status, timeslot, timestamp)
         self.identitymap.add(r)
         self.uow.registerNew(r)
 
-    # Called by ReservationsManager
+    def find(self, username, roomNumber, timeslot):
+        r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
+        if r is None:
+            r = self.loadReservation(self.tdg.find(username, roomNumber, timeslot))
+            if r is not None:
+                self.identitymap.add(r)
+        return r
+
     def delete(self, username, roomNumber, timeslot):
         r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
         if r is None:
@@ -28,7 +34,6 @@ class ReservationMapper:
             self.identitymap.delete(r)
             self.uow.registerRemoved(r)
 
-    # Called by ReservationsManager
     def updatePendingReservation(self, roomNumber, timeslot):
         r = self.identitymap.findNextPendingReservation(roomNumber, timeslot)
         if r is None:
