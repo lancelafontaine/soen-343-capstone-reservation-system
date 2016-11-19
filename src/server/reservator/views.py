@@ -30,6 +30,7 @@ def log_in(request):
 
 def log_out(request):
     response = {}
+
     # Clearing the session variable 'is-logged-in' 
     del request.session['is-logged-in']
 
@@ -49,6 +50,7 @@ def getSessionInfo(request):
         isLoggedIn = False
     else:
         isLoggedIn = True
+        
     response['is-logged-in'] = isLoggedIn
 
     return JsonResponse(response)
