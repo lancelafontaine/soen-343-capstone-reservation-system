@@ -40,9 +40,7 @@ class ReservationMapper:
             self.identitymap.setFilled(r)
             self.uow.registerDirty(r)
 
-    # Change to counter method
     def isTimeslotReserved(self, roomNumber, timeslot):
-        # Could use a counter instead (tdg)
         isReserved = True
         r = self.identitymap.findReserved(roomNumber, timeslot)
         if r is None:
@@ -50,7 +48,6 @@ class ReservationMapper:
                 isReserved = False
         return isReserved
 
-    # Change to counter method
     def hasReservation(self, username, roomNumber, timeslot):
         hasReservation = True
         r = self.identitymap.find(self.getHash(username, roomNumber, timeslot))
@@ -58,6 +55,14 @@ class ReservationMapper:
             if self.tdg.getReservationCount(username, roomNumber, timeslot) == 0:
                 hasReservation = False
         return hasReservation
+
+    def removeFromAllOtherWaitingLists(self, username, roomNumber, timeslot):
+        reservations = self.identitymap.findAllOtherPendingReservations(username, roomNumber, timeslot)
+        if reservations is not None:
+            for r in reservations:
+                self.uow.registerRemoved(r)
+            self.identitymap.deleteAll(reservations)
+        self.tdg.deleteAllOtherPendingReservations(username, roomNumber, timeslot)
 
     def getReservations(self, roomNumber, startTimeslot):
         return self.tdg.getReservations(roomNumber, startTimeslot)
@@ -115,6 +120,12 @@ class RoomMapper:
         for obj in objects:
             self.tdg.insert(obj.roomNumber)
 
+    def applyUpdate(self):
+        pass
+
+    def applyDelete(self):
+        pass
+
     def getRooms(self):
         return self.tdg.getRooms()
 
@@ -143,3 +154,9 @@ class UserMapper:
     def applyInsert(self, objects):
         for obj in objects:
             self.tdg.insert(obj.username, obj.password)
+
+    def applyUpdate(self):
+        pass
+
+    def applyDelete(self):
+        pass
