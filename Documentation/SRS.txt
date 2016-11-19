@@ -179,7 +179,7 @@ ________________
 INTRODUCTION
 Introduction
 
-	The essence of the project is a web application that displays room availabilities and allows users to reserve those rooms for a specific time slot. Below in this document the goal is to understand and document the requirements of the system, make sure they are feasible and consistent with each other. The purpose and scope are written; the description of constraints and assumptions of the project are noted. In the specific requirements section the functional and nonfunctional requirements are documented. A use case model and domain model is present; from which use cases are derived. Critical use cases are identified, the respective system sequence diagrams are shown, with the system operations, the operation contracts followed the interaction diagrams. 
+	The essence of the project is a web application that displays the availabilities of rooms that students can use for academic activities, and allows users to reserve those rooms for a specific time slot. In this document, the goal is to understand and document the requirements of the system and ensure that they are feasible and consistent with each other. The purpose and scope are clearly defined; the description of constraints and assumptions of the project are noted. In the specific requirements section, both the functional and nonfunctional requirements are documented. A use case model and domain model are provided, from which use cases are derived. Critical use cases are identified, their respective system sequence diagrams are shown, with the system operations, the operation contracts followed the interaction diagrams. 
 
 Purpose
 
