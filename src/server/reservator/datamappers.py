@@ -142,9 +142,9 @@ class UserMapper:
         self.identitymap.add(user)
         self.uow.registerNew(user)
 
-    def isRegistered(self, username):
+    def isRegistered(self, username, password):
         isRegistered = True
-        if self.tdg.isRegistered(username) == 0:
+        if self.tdg.isRegistered(username, password) == 0:
             isRegistered = False
         return isRegistered
 
