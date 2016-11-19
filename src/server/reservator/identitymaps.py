@@ -1,6 +1,7 @@
 import datetime
+
+
 class ReservationIdentityMap:
-    # Naive implementation with no error checking
     def __init__(self):
         self.ids = {}
 
@@ -8,7 +9,17 @@ class ReservationIdentityMap:
         self.ids[obj.hashCode()] = obj
     
     def delete(self, obj):
-        del self.ids[obj.hashCode()]
+        try:
+            del self.ids[obj.hashCode()]
+        except KeyError:
+            pass
+
+    def deleteAll(self, objects):
+        for obj in objects:
+            try:
+                del self.ids[obj.hashCode()]
+            except KeyError:
+                pass
 
     def findNextPendingReservation(self, roomNumber, timeslot):
         reservation = None
@@ -29,6 +40,13 @@ class ReservationIdentityMap:
                 reservation = value
         return reservation
 
+    def findAllOtherPendingReservations(self, username, roomNumber, timeslot):
+        reservations = None
+        for key, value in self.ids.iteritems():
+            if value.username == username and value.timeslot == timeslot and value.roomNumber != roomNumber:
+                reservations.append(value)
+        return reservations
+
     def setFilled(self, obj):
         self.ids[obj.hashCode()].status = 'filled'
 
@@ -39,6 +57,7 @@ class ReservationIdentityMap:
             reservation = None
         return reservation
 
+
 class RoomIdentityMap:
     def __init__(self):
         self.ids = {}
@@ -46,9 +65,24 @@ class RoomIdentityMap:
     def add(self, obj):
         self.ids[obj.hashCode()] = obj
 
+    def find(self, hashCode):
+        try:
+            room = self.ids[hashCode]
+        except KeyError:
+            room = None
+        return room
+
+
 class UserIdentityMap:
     def __init__(self):
         self.ids = {}
 
     def add(self, obj):
         self.ids[obj.hashCode()] = obj
+
+    def find(self, hashCode):
+        try:
+            user = self.ids[hashCode]
+        except KeyError:
+            user = None
+        return user

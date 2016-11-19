@@ -20,6 +20,14 @@ class ReservationTDG:
                             AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                             AND TIMESLOT=%s", [username,roomNumber,timeslot])
 
+    def deleteAllOtherPendingReservations(self, username, roomNumber, timeslot):
+        with connection.cursor() as cursor:
+            cursor.execute("DELETE FROM reservations \
+                            WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
+                            AND ROOM_ID!=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
+                            AND STATUS='pending' \
+                            AND TIMESLOT=%s", [username, roomNumber, timeslot])
+
     def getNumOfReservations(self, username, timeslot):
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(TIMESLOT) FROM reservations \
@@ -121,7 +129,7 @@ class RoomTDG:
         with connection.cursor() as cursor:
             cursor.execute("SELECT ROOMNUMBER FROM rooms")
             rows = cursor.fetchall()
-        return rows
+        return [tupl[0] for tupl in rows]
 
 class UserTDG:
     def __init__(self):
