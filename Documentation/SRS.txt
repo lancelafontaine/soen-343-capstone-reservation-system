@@ -1,63 +1,29 @@
-﻿Project Name  Concordia Scheduler                                                                                          Version 2.0
-Software Requirements Specification                         Last Modified:  November, 13th, 2016
-  Software Requirements Specification
-
-
-
-
+﻿Project Name  Concordia Scheduler
 Version 2.0
+Software Requirements Specification
+Last Modified:  November, 13th, 2016
+Software Requirements Specification
 
-
-for
-
-
-<Project name>
-
-
+Version 2.0 for <Project name>
 Prepared by
-
-
 
 
 Name
 	StudentID
 	Email
-	Lance Lafontaine
-	26349188
-	lance.lafontaine92@gmail.com
-	Jason Tsalikis
-	25892120
-	jtsalikis@hotmail.ca
-	Lenz Petion
-	26775837
-	lenzpetion@gmail.com
-	Rameen Rastan-Vadiveloo
-	27191863
-	rameenrastanv@hotmail.com
-	Benny Zhao	
-	272051404
-	bennyzhao@live.ca
+	Lance Lafontaine 26349188 lance.lafontaine92@gmail.com
+	Jason Tsalikis	25892120 jtsalikis@hotmail.ca
+	Lenz Petion 26775837 lenzpetion@gmail.com
+	Rameen Rastan-Vadiveloo 27191863 rameenrastanv@hotmail.com 
+	Benny Zhao	272051404 bennyzhao@live.ca
 
 
 Instructor
-	Professor Constantinos Constantinides
-	Course
-	SOEN 343
+	Dr. Constantinos Constantinides
+	Course SOEN 343
 Software Architecture and Design I
-	Date:
-	??
+	Date:??
 	
-
-
-
-
-
-
-
-
-
-
-
 ________________
 
 
@@ -71,51 +37,22 @@ Date
 	Saturday October 8th 2016
 	0.1
 	
-
 	All
 	Saturday October 23rd
 	0.2
 	
-
 	Simeon Cvetkovic,
 Lance Lafontaine
 	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-
-
-
-
-
-
-
-
-________________
+_______________
 
 
 Table of contents
         
-1.        Introduction        5
+1.      Introduction        5
         Purpose        5
         Scope        5
-        Definitions, acronyms,         and abbreviations        5
+        Definitions, acronyms, and abbreviations        5
         References        5
 2.        Overall         description        6
         Product perspective        6
@@ -141,57 +78,54 @@ Table of contents
 3.        Analysis         Models        10
         
 
-
-        
-
-
-
-
-
-
 ________________
 
 
 List of figures
         
 Figure         1. Use case model.        7
-        
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
 
 ________________
 
 
-
-
 INTRODUCTION
-Introduction
 
-	The essence of the project is a web application that displays the availabilities of rooms that students can use for academic activities, and allows users to reserve those rooms for a specific time slot. In this document, the goal is to understand and document the requirements of the system and ensure that they are feasible and consistent with each other. The purpose and scope are clearly defined; the description of constraints and assumptions of the project are noted. In the specific requirements section, both the functional and nonfunctional requirements are documented. A use case model and domain model are provided, from which use cases are derived. Critical use cases are identified, their respective system sequence diagrams are shown, with the system operations, the operation contracts followed the interaction diagrams. 
+	The essence of the project is a web application that displays
+room availabilities and allows users to reserve those rooms for a
+specific time slot. Below in this document the goal is to understand
+and document the requirements of the system, make sure they are 
+feasible and consistent with each other. The purpose and scope are
+written; the description of constraints and assumptions of the project 
+are noted. In the specific requirements section the functional and 
+nonfunctional requirements are documented. A use case model and 
+domain model is present; from which use cases are derived. 
+Critical use cases are identified, the respective system sequence 
+diagrams are shown, with the system operations, the operation 
+contracts followed the interaction diagrams. 
+
 
 Purpose
 
-	The SRS is a contract between developers and stakeholders; given such it is meant to be read by both stakeholders and developers so that both parties can validate and agree upon all requirements and specifications. The structure of the document is such that it firstly describes what is feasible and the constraints that have been set on the system. Following that, the requirements for the system, both functional and nonfunctional, are detailed. The use case model as well as the use cases and the domain model are then presented. The use cases tell the story of how our system behaves in response to an actor’s actions. Stakeholder can verify these "stories" in order to determine if they properly align with their requirements and vision of the system. 
-
-
+	The srs is a contract between developers and stackholders; 
+given such it is meant to be read by both stackholders and developers 
+and validate all requiments. The structure is such that we decribe 
+what is feasable and the constraints we have on the system. Following 
+that the requiments for the system are detailed, both functinal and 
+nonfunctional. Thano use case models, use cases and the domain model. 
+The use cases tell us a story of how our system behaves. 
+Stackholder can verify these "stories" upon reading if it matches 
+their requriments. 
 
 
 Scope
 
-	The project allows a user to log into the webpage. A schedule appears wiht a list of rooms; the user can view the scheduele for different rooms and see avaliable timeslots. The user can thus book a timeslot for a room or if deserired timeslot is taken can go on the waitlist. The goals essentialy is to allow users find a room that is free and book a timeslot, and should it all be taken go on the waitlist. This will allow students to organize meetings with far more ease. 
-
+The project allows a user to log into the webpage. A schedule 
+appears wiht a list of rooms; the user can view the scheduele for 
+different rooms and see avaliable timeslots. The user can thus book 
+a timeslot for a room or if desired timeslot is taken can go on the 
+waitlist. The goals essentialy is to allow users find a room that 
+is free and book a timeslot, and should it all be taken go on the waitlist. 
+This will allow students to organize meetings with far more ease. 
 
 
 
@@ -200,81 +134,86 @@ Srs : Software Requirments Specification
 
 
 
-Term
-Definition
-User
-Someone who interacts with the reservation system.
-Registry
-A system for keeping a official record of room reservation
-Room
-A space that students occupy for academic activities
-Wait list
-A list of people waiting for something, especially housing or admission to a school.
-Reservation
-The action  of reserving something
-Time Slot
-A conventionally defined time interval in a schedule.
-Calendar
-A chart or series of pages showing the days, weeks, and months of a particular year, or giving particular seasonal information
-Stakeholder
-An individual, group, or organization, who may affect, be affected by, or perceive itself to be affected by a decision, activity, or outcome of a project.
-SRS
-Software requirements specification
-SAD
-Software Architecture Documentation
-Python
-Python is a high-level, general-purpose programming language
-
-
+Term	Definition
+User: Someone who interacts with the reservation system.
+Registry: A system for keeping a official record of room reservation
+Room:
+Wait list: A list of people waiting for something, especially 
+			housing or admission to a school.
+Reservation: The action  of reserving something
+Time Slot: A conventionally defined time interval in a schedule.
+Calendar: A chart or series of pages showing the days, weeks, and months 
+			of a particular year, or giving particular seasonal information
+Stakeholder: An individual, group, or organization, who may affect,
+			 be affected by, or perceive itself to be affected by a 
+			 decision, activity, or outcome of a project.
+Python: Python is a high-level, general-purpose programming language
 
 
 References
 Provide a list of all documents referenced in the SRS.
 
-https://en.oxforddictionaries.com/definition/reservation
-https://en.wikipedia.org/wiki/Project_stakeholder
-https://www.google.com 
-
-
-
-
-
-
 
 
 OVERALL DESCRIPTION
-This section describes a background to the requirements: The general factors that affect the product, such as constraints, assumptions and dependencies.
-
-
-
-
-
-
-
-
+This section describes a background to the requirements: 
+The general factors that affect the product, such as 
+constraints, assumptions and dependencies.
 
 
 Product perspective
-	The product is available to all concordia engineering students. It is a web based application that uses layered architecture + client server architecture. It works among all the major browsers. User account, the system allows the user to login to their accounts in the system and provide features of updating and viewing their reservations. The system can support a small to medium number of users as it is hosted off a computer. 
+	The product is available to all concordia engineering students. 
+It is a web based application that uses layered architecture + client 
+server architecture. It works among all the major browsers. User account, 
+the system allows the user to login to their accounts in the system 
+and provide features of updating and viewing their reservations. The 
+system can support a small to medium number of users as it is hosted off a computer. 
 
 
 Product functions
-	The major system functions provided by the product to a user include making a new reservation for an available room at a desired timeslot, entering the waiting list for a booked room at a desired timeslot, deleting an existing room reservation, modifying an existing reservation, and viewing their current reservations. 
+	The major system functions provided by the product to a user 
+include making a new reservation for an available room at a desired 
+timeslot, entering the waiting list for a booked room at a desired 
+timeslot, deleting an existing room reservation, modifying an 
+existing reservation, and viewing their current reservations. 
+
 * User characteristics
-	The intended users of this product are students studying in the Engineering department of Concordia University. The user is not expected to have a particularly high level of experience or technical expertise in software systems, they are merely are expected to be at a University educational level. 
+	The intended users of this product are students studying 
+in the Engineering department of Concordia University. The user 
+is not expected to have a particularly high level of experience 
+or technical expertise in software systems, they are merely are 
+expected to be at a University educational level. 
 
 
 Constraints
-	The system must promote fairness by limiting the number of reservations a given user can occupy at a time. The system must also incorporate a level of safety and security, by ensuring a user’s credentials and information cannot be accessed by other users of the system, and also that a user’s information, such as their current reservations or waiting list status, cannot be overwritten by another user. If two or more users make a reservation for an available room simultaneously, the system must award the reservation to one user, and provide an error message to the other user(s). 
+	The system must promote fairness by limiting the number of 
+reservations a given user can occupy at a time. The system must 
+also incorporate a level of safety and security, by ensuring a 
+user’s credentials and information cannot be accessed by other 
+users of the system, and also that a user’s information, such 
+as their current reservations or waiting list status, cannot 
+be overwritten by another user. If two or more users make a 
+reservation for an available room simultaneously, the system 
+must award the reservation to one user, and provide an error 
+message to the other user(s). 
 
 
 Assumptions and dependencies
-	As a web application, the system’s main dependency will be a web browser. It is assumed that the system will be compatible with all major operating systems (Windows, Linux and macOS). It is expected to be compatible with all modern browsers that respect HTML5 web standards. It assumes that rooms will be available for reservation on any day of the week, including weekends, with the exception of holidays recognized by the University.
+	As a web application, the system’s main dependency will be 
+a web browser. It is assumed that the system will be compatible 
+with all major operating systems (Windows, Linux and macOS). It 
+is expected to be compatible with all modern browsers that respect 
+HTML5 web standards. It assumes that rooms will be available for 
+reservation on any day of the week, including weekends, with 
+the exception of holidays recognized by the University.
 
 
 
 SPECIFIC REQUIREMENTS 
-This section contains all requirements in detail: Functional as well as non-functional requirements (quality attributes and constraints). The quality attributes are listed according to the ISO/IEC 25010 standard that classifies software quality in a structured set of characteristics and sub-characteristics.
+This section contains all requirements in detail: Functional as 
+well as non-functional requirements (quality attributes and constraints). 
+The quality attributes are listed according to the ISO/IEC 25010 standard 
+that classifies software quality in a structured set of characteristics and sub-characteristics.
 
 
 External interfaces
@@ -297,29 +236,14 @@ External interfaces
 Functionality
 
 
-Functional requirements capture the intended behaviour of the system. This section contains the Actor Goal List and the Use Case view.
+Functional requirements capture the intended behaviour of the system. 
+This section contains the Actor Goal List and the Use Case view.
 
 
 Actor goal list
                         
-Actor
+Actor  Goal
                 
-	                        
-Goal
-                
-	                        
-
-
-                        
-                
-	                        
-
-
-                        
-                
-	
-
-
 
 Use case view
 The use case model is shown in Figure 1.
@@ -333,8 +257,7 @@ Description goes here.
 
 
 Usability
-The website’s friendly UI makes it easy for the user to use the different functionalities
-The website can be used by Concordia students
+Description goes here.
 
 
 Efficiency
@@ -369,19 +292,15 @@ Intellectual property
 
 
 
-
-
-
 ANALYSIS MODELS
 
 Domain Model 
 
 (Insert Domain Model)
 
+
+
 Use Cases
-
-
-
 
 Use case UC1: Make Reservation
 Primary Actor: User
@@ -401,14 +320,6 @@ Extensions (or alternative flows):
 If time slot is booked by another user during the transaction, show error and prompt to add to waitlist.
 
 
-
-
-
-
-
-
-
-
 Use case UC2: View Reservation
 Primary Actor: User
 Stakeholders and Interests:
@@ -421,12 +332,6 @@ User chooses the option to view reservations
 System prompts for a room
 User selects room
  System displays all reservations for the selected room
-
-
-
-
-
-
 
 
 Use case UC3: Modify Reservation
@@ -449,18 +354,6 @@ User edits timeslot
  System displays message saying time slot is booked, prompts to ask if user wants to go on waitlist
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 Use case UC4: Cancel Reservation
 Primary Actor: User
 Stakeholders and Interests:
@@ -474,12 +367,6 @@ User selects cancel reservation
 System displays message of confirmation
 
 
-
-
-
-
-
-
 Use case UC4: Log in
 Primary Actor: User
 Stakeholders and Interests:
@@ -490,8 +377,6 @@ User is identified and authenticated
 Main Success Scenario (or basic flow):
 User enters credentials
 System confirms authentication
-
-
 
 
 Use case UC5: Log out
@@ -508,51 +393,32 @@ System confirms log out
 System Sequence Diagrams
 (Insert SSDs)
 
+
 System Operations
 
-
-makeReservation(userId, roomNumber, timeslot)
+makeReservation(username, roomNumber, timeslot)
 viewReservations(roomNumber)
-cancelReservation(userId, roomNumber, timeslot)
-modifyReservation(userId, roomNumber, timeslot, newTimeslot)
-
-
+cancelReservation(username, roomNumber, timeslot)
+modifyReservation(username, roomNumber, timeslot, newTimeslot)
 
 
 Operation Contracts
 
-
-
-
 Contract C01: Make Reservation
-Operation: makeReservation(userId, roomNumber, timeslot)
+Operation: makeReservation(username, roomNumber, timeslot)
 Cross Reference : UC1 Make Reservation
-Preconditions:
-None
+Preconditions: None
 Postconditions:
-A Reservation instance reserv was created. (instance created)
-reserv.timeInterval was modified (attribute modification)
-reserv was associated with Room. (association formed)
-reserv was associated with User. (association formed)
-
-
-
-
-
-
-
-
+	- A Reservation instance reserv was created. (instance created)
+	- reserv was associated with Room. (association formed)
+	- reserv was associated with User. (association formed)
 
 
 Contract C02: View Reservation
-Operation: viewReservation(userId, roomNumber, timeslot)
+Operation: viewReservation(roomNumber, timeslot)
 Cross Reference : UC2 View Reservation
-Preconditions:
-None
-Postconditions:
-None
-
-
+Preconditions:None
+Postconditions:None
 
 
 Contract C03: Modify Reservation
@@ -564,8 +430,6 @@ Postconditions:
 Reservation.timeInterval was set to newTimeslot (attribute modification)
 
 
-
-
 Contract C04: Cancel Reservation
 Operation: cancelReservation(userId, roomNumber, timeslo
 Cross Reference : UC4 Cancel Reservation
@@ -573,18 +437,6 @@ Preconditions:
 A Reservation is associated with User.
 Postconditions:
 A Reservation instance was deleted. (instance deletion)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -601,10 +453,3 @@ ASSUMPTION:
 * Once you have successfully booked a timeslot in a room:
    * All reservations in the waitlist in that timeslot are automatically removed.
    * All new attempts at reserving (whether waitlist or not) are forbidden.
-
-
-MaxReservationPerWeek should be an attribute for User
-
-
-The reservation table should
-
