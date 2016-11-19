@@ -12,13 +12,48 @@ def home(request):
 
 
 def log_in(request):
-    # request.session['username'] = 'Jack'
-    return JsonResponse({'foo':'bar'})
+    response = {}
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
 
+    # Checking if user can be validated with given username and password
+    isUserAuthenticated = userMapper.isRegistered(username, password)
+
+    if isUserAuthenticated:
+        # Sets a session variable 'is-logged-in' to True
+        request.session['is-logged-in'] = True 
+        response['logged-in'] = isUserAuthenticated
+        return JsonResponse(response)
+    else:
+        response['loginError'] = 'The username or password provided is incorrect.'
+        return JsonResponse(response)
 
 def log_out(request):
-    pass
+    response = {}
 
+    # Clearing the session variable 'is-logged-in' 
+    del request.session['is-logged-in']
+
+    # Checks whether the session variable 'is-logged-in' is cleared
+    if not 'is-logged-in' in request.session:
+        response['logged-out'] = True
+    else:
+        response['logged-out'] = False
+
+    return JsonResponse(response)
+
+def getSessionInfo(request):
+    response = {}
+
+    # Checks whether the session key 'is-logged-in' exists 
+    if not 'is-logged-in' in request.session:
+        isLoggedIn = False
+    else:
+        isLoggedIn = True
+        
+    response['is-logged-in'] = isLoggedIn
+
+    return JsonResponse(response)
 
 def makeReservation(request):
     response = {}
