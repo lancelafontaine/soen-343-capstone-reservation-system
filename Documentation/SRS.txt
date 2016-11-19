@@ -183,7 +183,7 @@ Introduction
 
 Purpose
 
-	The SRS is a contract between developers and stakeholders; given such it is meant to be read by both stakeholders and developers so that both parties can validate and agree upon all requirements and specifications. The structure of the document is such that it firstly describes what is feasible and the constraints that have been set on the system. Following that, the requirements for the system, both functional and nonfunctional, are detailed. The use case model as well as the use cases and the domain model are then presented. The use cases tell the story of how our system behaves in response to an actor’s actions. Stakeholder can verify these "stories" in order to determine it properly aligns with their requirements. 
+	The SRS is a contract between developers and stakeholders; given such it is meant to be read by both stakeholders and developers so that both parties can validate and agree upon all requirements and specifications. The structure of the document is such that it firstly describes what is feasible and the constraints that have been set on the system. Following that, the requirements for the system, both functional and nonfunctional, are detailed. The use case model as well as the use cases and the domain model are then presented. The use cases tell the story of how our system behaves in response to an actor’s actions. Stakeholder can verify these "stories" in order to determine if they properly align with their requirements and vision of the system. 
 
 
 
