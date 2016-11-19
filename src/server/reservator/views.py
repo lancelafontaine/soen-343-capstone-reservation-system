@@ -12,9 +12,20 @@ def home(request):
 
 
 def log_in(request):
-    # request.session['username'] = 'Jack'
-    return JsonResponse({'foo':'bar'})
+    response = {}
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
 
+    isUserAuthenticated = userMapper.isRegistered(username, password)
+
+    if isUserAuthenticated:
+        request.session['is-logged-in'] = True
+        response['logged-in'] = isUserAuthenticated
+        response['lol'] = request.session['is-logged-in']
+        return JsonResponse(response)
+    else:
+        response['loginError'] = 'The username or password provided is incorrect.'
+        return JsonResponse(response)
 
 def log_out(request):
     pass
