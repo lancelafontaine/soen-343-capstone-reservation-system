@@ -16,12 +16,13 @@ def log_in(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
 
+    # Checking if user can be validated with given username and password
     isUserAuthenticated = userMapper.isRegistered(username, password)
 
     if isUserAuthenticated:
-        request.session['is-logged-in'] = True
+        # Sets a session variable 'is-logged-in' to True
+        request.session['is-logged-in'] = True 
         response['logged-in'] = isUserAuthenticated
-        response['lol'] = request.session['is-logged-in']
         return JsonResponse(response)
     else:
         response['loginError'] = 'The username or password provided is incorrect.'
@@ -29,8 +30,16 @@ def log_in(request):
 
 def log_out(request):
     response = {}
-    return JsonResponse(response)
+    # Clearing the session variable 'is-logged-in' 
+    del request.session['is-logged-in']
 
+    # Checks whether the session variable 'is-logged-in' is cleared
+    if not 'is-logged-in' in request.session:
+        response['logged-out'] = True
+    else:
+        response['logged-out'] = False
+
+    return JsonResponse(response)
 
 def makeReservation(request):
     response = {}
