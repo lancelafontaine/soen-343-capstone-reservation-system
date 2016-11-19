@@ -207,7 +207,7 @@ Someone who interacts with the reservation system.
 Registry
 A system for keeping a official record of room reservation
 Room
-A space where
+A space that students occupy for academic activities
 Wait list
 A list of people waiting for something, especially housing or admission to a school.
 Reservation
