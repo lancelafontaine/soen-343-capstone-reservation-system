@@ -28,7 +28,8 @@ def log_in(request):
         return JsonResponse(response)
 
 def log_out(request):
-    pass
+    response = {}
+    return JsonResponse(response)
 
 
 def makeReservation(request):
