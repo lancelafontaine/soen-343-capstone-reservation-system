@@ -333,7 +333,8 @@ Description goes here.
 
 
 Usability
-Description goes here.
+The website’s friendly UI makes it easy for the user to use the different functionalities
+The website can be used by Concordia students
 
 
 Efficiency
