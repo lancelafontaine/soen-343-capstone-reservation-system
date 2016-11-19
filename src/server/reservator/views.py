@@ -24,6 +24,7 @@ def log_in(request):
         request.session['is-logged-in'] = True 
         request.session['username'] = username 
         response['logged-in'] = isUserAuthenticated
+        response['username'] = request.session['username']
         return JsonResponse(response)
     else:
         response['loginError'] = 'The username or password provided is incorrect.'
