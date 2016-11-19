@@ -30,7 +30,6 @@ def makeReservation(request):
         response['parameterError'] = 'username, roomNumber and timeslot are required parameters.'
         return JsonResponse(response)
 
-    # Preconditions
     if reservationMapper.getNumOfReservations(username, timeslot) >= 3:
         response['reservationError'] = 'Maximum reservations reached for this week.'
         return JsonResponse(response)
@@ -67,7 +66,12 @@ def modifyReservation(request):
 
     if reservationMapper.hasReservation(username, newRoomNumber, newTimeslot):
         response['reservationError'] = 'Cannot make two reservations for the same date in the same room.'
-        return response
+        return JsonResponse(response)
+
+    oldReservation = reservationMapper.find(username, oldRoomNumber, oldTimeslot)
+    if oldReservation is None:
+        response['reservationError'] = 'Cannot modify nonexistent reservation.'
+        return JsonResponse(response)
 
     status = 'pending'
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -79,8 +83,8 @@ def modifyReservation(request):
     reservationMapper.delete(username, oldRoomNumber, oldTimeslot)
     reservationMapper.insert(username, newRoomNumber, status, newTimeslot, timestamp)
 
-    # TODO: Fix by checking previous reservation status
-    reservationMapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
+    if oldReservation.status == 'filled':
+        reservationMapper.updatePendingReservation(oldRoomNumber, oldTimeslot)
     reservationMapper.commit()
 
     response['reservationStatus'] = status
@@ -96,9 +100,14 @@ def cancelReservation(request):
         response['parameterError'] = 'username, roomNumber and timeslot are required parameters.'
         return JsonResponse(response)
 
+    currentReservation = reservationMapper.find(username, roomNumber, timeslot)
+    if currentReservation is None:
+        response['reservationError'] = 'Cannot cancel nonexistent reservation.'
+        return JsonResponse(response)
+
     reservationMapper.delete(username, roomNumber, timeslot)
-    # TODO: Fix by checking previous reservation status
-    reservationMapper.updatePendingReservation(roomNumber, timeslot)
+    if currentReservation.status == 'filled':
+        reservationMapper.updatePendingReservation(roomNumber, timeslot)
     reservationMapper.commit()
     response['reservationStatus'] = 'cancelled'
     return JsonResponse(response)
