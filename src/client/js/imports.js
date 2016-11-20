@@ -19,7 +19,7 @@ $(document).ready(function(){
 
     // binding login event on to login button
     $("#logout-button").click(function(){
-      authenticateUser();
+      logoutUser();
     });
 
   	//calendar code
@@ -122,16 +122,35 @@ function authenticateUser(){
     success: function(data, status){
       // if user is authenticated, proceed to /home.html
       if(data.loggedIn == true){
+        alert(data);
         console.log(data);
         window.top.location = '/home.html';
       } else {
-        console.log(data);
-        var errorMsg = data.loginError;
+        alert(data);
+        var errorMsg = "The provided credentials are incorrect. Please try again!";
         $("#login-error-msg").html("<font color='red'><b> ERROR: " + errorMsg + "</b></font>");
       }
     }
   });
 }
+
+function logoutUser(){
+  //Ajax 
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/logout/',
+    data: '',
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(data){
+      alert(data);
+      console.log(data);
+      window.top.location = '/';
+    }
+  });
+}
+
 
 /*
 AJAX function
