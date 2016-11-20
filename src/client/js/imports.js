@@ -34,47 +34,32 @@ $(document).ready(function(){
   $("#room-list").on('click','li',function (){
     if (currentRoom != $(this).attr('id')) {
       $(currentRoom).removeClass("active");
-      console.log("switch from " + $(currentRoom).text() + " to " + $(this).text());
       currentRoom = "#" + $(this).attr('id');
       $(this).addClass("active");
-      switchRoom();
+      showBookingByRoom();
     }
   });
   //calendar code
-  var date = new Date();
-  var currentDay = date.getDate();
-  var currentMo = date.getMonth();
-  var currentYr = date.getYear();
   $('#calendar').fullCalendar({
     header: {
       left: "prev, next today",
       center: "title",
       right: "agendaWeek, agendaDay"
     },
+    contentHeight: "auto",
     defaultView: "agendaWeek",
+    defaultTimedEventDuration: "01:00:00",
     //TODO: disable previous date in calendar view
     selectable: true,
-		selectHelper: true,
     allDaySlot: false,
     minTime: "08:00:00",
-    maxTime: "23:00:00",
+    maxTime: "21:00:00",
+    slotDuration: "01:00:00",
     slotEventOverlap: false,
     eventColor: "#FF4A55",
-    editable: true,
-    events: [], //mock bookings, we need more investigation on events implementation
-    //select code: start time, end time
-    select: function(start, end) {
-			var title = prompt('Event Title:');
-			if (title) {
-				calendar.fullCalendar('renderEvent',
-				{
-					title: title,
-					start: start,
-					end: end
-				},
-				true);
-			}
-		}
+    editable: true,  
+    droppable: true,
+    events: [] 
   });
 });
 
@@ -171,15 +156,48 @@ function getRoomList() {
         if (!currentRoom){
           currentRoom = "#room-" + i;
           $("#room-"+i).addClass("active");
-          switchRoom();
+          showBookingByRoom();
         } 
       }
     }
   });
 }
 
-function switchRoom() {
-
+function showBookingByRoom() {
+  var currentRoomReservation = [];
+  var beginOfWeek = $('#calendar').fullCalendar('getDate').startOf('week').format().split("T");
+  console.log(beginOfWeek);
+  $.ajax({
+    method: 'GET',
+    url: "http://localhost:8000/getReservations/?roomNumber=" 
+    + $(currentRoom).text() 
+    + "&startTimeslot=" 
+    + beginOfWeek[0] 
+    + "%20" 
+    + beginOfWeek[1],
+    cache: false,
+    success: function(res){
+      console.log(res);
+      for (var i=0; i < res.reservations.length; i++) {
+        var reservation = res.reservations[i][1].split(" ");
+        var date = reservation[0].split("-");
+        var year = date[0];
+        var month = date[1];
+        var day = date[2];
+        var time = reservation[1].split(":");
+        var hours = time[0];
+        var minutes = time[1];
+        var seconds = time[2];
+        var eventStart = new Date(year, month, day, hours, minutes, seconds);
+        var slot = {
+          title: 'unavailable',
+          start: eventStart,
+          backgroundColor: '#663399'
+        };
+      $('#calendar').fullCalendar("renderEvent", slot, true); 
+      }
+    }
+  });
 }
 
 function getUserSessionInfo() {
