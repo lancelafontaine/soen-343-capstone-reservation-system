@@ -497,6 +497,11 @@ nav
   color: #9A9A9A;
 }
 
+/* This will shade all the past days*/
+td.fc-day.fc-past {
+    background-color: #EEEEEE;
+}
+
 /*
 full calendar override
 */
