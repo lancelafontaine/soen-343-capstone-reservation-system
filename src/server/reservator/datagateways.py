@@ -36,7 +36,7 @@ class ReservationTDG:
                             AND strftime('%%W', TIMESLOT)=strftime('%%W', %s)", [username, timeslot])
             count = int(cursor.fetchone()[0])
         return count
-
+    #select operation
     def find(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
             cursor.execute("SELECT users.USERNAME, \
