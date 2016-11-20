@@ -193,7 +193,7 @@ function getReservationList() {
       withCredentials: true
     },
     success: function(res){
-      //console.log(res);
+      console.log(res);
       var booking = res.reservedList;
       appendBookingList(booking, "reservation-list");
     }
@@ -233,7 +233,7 @@ Helpers
 
 function appendBookingList(booking, listType) {
 	for (var i = 0; i < booking.length; i++) {
-    $("#"+listType).append("<tr><td>" + booking[i]
+    $("#"+listType).append("<tr><td>" + booking[i][1] + " " + booking[i][2]
       + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
       + "<i class='fa fa-times'></i></button></td></tr>"
     );
