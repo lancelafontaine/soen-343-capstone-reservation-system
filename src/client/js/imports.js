@@ -42,10 +42,11 @@ $(document).ready(function(){
   //calendar code
   $('#calendar').fullCalendar({
     header: {
-      left: "prev, next today",
+      left: "",
       center: "title",
-      right: "agendaWeek, agendaDay"
+      right: ""
     },
+    firstDay: 1,
     contentHeight: "auto",
     defaultView: "agendaWeek",
     defaultTimedEventDuration: "01:00:00",
@@ -188,7 +189,7 @@ function showBookingByRoom() {
         var hours = time[0];
         var minutes = time[1];
         var seconds = time[2];
-        var eventStart = new Date(year, month, day, hours, minutes, seconds);
+        var eventStart = new Date(year, month-1, day, hours, minutes, seconds);
         var slot = {
           title: 'unavailable',
           start: eventStart,
