@@ -17,6 +17,11 @@ $(document).ready(function(){
       authenticateUser();
     });
 
+    // binding login event on to login button
+    $("#logout-button").click(function(){
+      authenticateUser();
+    });
+
   	//calendar code
   	var date = new Date();
   	var currentDay = date.getDate();
