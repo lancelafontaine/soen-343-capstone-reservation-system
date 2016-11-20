@@ -17,6 +17,11 @@ $(document).ready(function(){
       authenticateUser();
     });
 
+    // binding login event on to login button
+    $("#logout-button").click(function(){
+      logoutUser();
+    });
+
   	//calendar code
   	var date = new Date();
   	var currentDay = date.getDate();
@@ -117,16 +122,33 @@ function authenticateUser(){
     success: function(data, status){
       // if user is authenticated, proceed to /home.html
       if(data.loggedIn == true){
+        alert(data);
         console.log(data);
         window.top.location = '/home.html';
       } else {
-        console.log(data);
         var errorMsg = data.loginError;
         $("#login-error-msg").html("<font color='red'><b> ERROR: " + errorMsg + "</b></font>");
       }
     }
   });
 }
+
+function logoutUser(){
+  //Ajax 
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/logout/',
+    data: '',
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(data){
+      console.log(data);
+      window.top.location = '/';
+    }
+  });
+}
+
 
 /*
 AJAX function
