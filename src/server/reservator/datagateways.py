@@ -1,25 +1,26 @@
 from django.db import connection
 
 # Warning: Django is set to AUTOCOMMIT mode unless otherwise specified.
+#Reservation Table Datagateway: handles messages sent from domain objects and the Reservation table
 class ReservationTDG:
 
     def __init__(self):
         pass
-    
+    #insert operation
     def insert(self, username, roomNumber, status, timeslot, timestamp):
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO reservations (USER_ID,ROOM_ID,STATUS,TIMESLOT,TSP) \
                             VALUES ((SELECT ID from users WHERE USERNAME=%s), \
                                     (SELECT ID from rooms WHERE ROOMNUMBER=%s),%s,%s,%s)",
                             [username, roomNumber, status, timeslot, timestamp])
-
+    #delete operation
     def delete(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
             cursor.execute("DELETE FROM reservations \
                             WHERE USER_ID=(SELECT ID from users WHERE USERNAME=%s) \
                             AND ROOM_ID=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                             AND TIMESLOT=%s", [username,roomNumber,timeslot])
-
+    #deletes all other pending reservations
     def deleteAllOtherPendingReservations(self, username, roomNumber, timeslot):
         with connection.cursor() as cursor:
             cursor.execute("DELETE FROM reservations \
@@ -27,7 +28,7 @@ class ReservationTDG:
                             AND ROOM_ID!=(SELECT ID from rooms WHERE ROOMNUMBER=%s) \
                             AND STATUS='pending' \
                             AND TIMESLOT=%s", [username, roomNumber, timeslot])
-
+    #get number of reservations
     def getNumOfReservations(self, username, timeslot):
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(TIMESLOT) FROM reservations \
@@ -116,29 +117,29 @@ class ReservationTDG:
                             ORDER BY TIMESLOT ASC", [username, status])
             rows = cursor.fetchall()
         return rows
-
+#Reservation Table Datagateway: handles messages sent from domain objects and the Rooms table
 class RoomTDG:
     def __init__(self):
         pass
-
+    #insert operation
     def insert(self, roomNumber):
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO rooms (ROOMNUMBER) VALUES (%s)", [roomNumber])
-
+    #select operation
     def getRooms(self):
         with connection.cursor() as cursor:
             cursor.execute("SELECT ROOMNUMBER FROM rooms")
             rows = cursor.fetchall()
         return [tupl[0] for tupl in rows]
-
+#Reservation Table Datagateway: handles messages sent from domain objects and the User table
 class UserTDG:
     def __init__(self):
         pass
-
+    #insert operation
     def insert(self, username, password):
         with connection.cursor() as cursor:
             cursor.execute("INSERT INTO users (USERNAME, PASSWORD) VALUES (%s,%s)", [username, password])
-
+    #check if user is registered
     def isRegistered(self, username, password):
         with connection.cursor() as cursor:
             cursor.execute("SELECT COUNT(1) FROM users WHERE USERNAME=%s AND PASSWORD=%s", [username, password])
