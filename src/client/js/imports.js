@@ -245,12 +245,10 @@ function appendBookingList(booking, listType) {
 // EXAMPLE AJAX CALLS TO SERVER //
 //////////////////////////////////
 
-/*
-window.alert('Check the console for example AJAX requests to all backend API endpoints.');
 $.ajax({
   url: 'http://localhost:8000/getReservations/?roomNumber=H-905&startTimeslot=2016-10-27%2014:54:20',
   cache: false,
   success: function(res){
     console.log(res);
   }
-}); */
+}); 
