@@ -13,7 +13,7 @@ def status(request):
 
 def log_in(request):
     response = {}
-<<<<<<< HEAD
+
     if  request.method == 'POST':
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
@@ -30,7 +30,7 @@ def log_in(request):
         else:
             response['loginError'] = 'The username or password provided is incorrect.'
             return JsonResponse(response, status=422)
-=======
+
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
 
@@ -38,13 +38,13 @@ def log_in(request):
     isUserAuthenticated = userMapper.isRegistered(username, password)
 
     if isUserAuthenticated:
-        # Sets a session variable 'is-logged-in' to True 
-        request.session['is-logged-in'] = True 
-        request.session['username'] = username 
+        # Sets a session variable 'is-logged-in' to True
+        request.session['is-logged-in'] = True
+        request.session['username'] = username
         response['logged-in'] = isUserAuthenticated
         response['username'] = request.session['username']
         return JsonResponse(response)
->>>>>>> master
+
     else:
         response['loginError'] = 'Resouce only accepts POST'
         return JsonResponse(response, status=405)
