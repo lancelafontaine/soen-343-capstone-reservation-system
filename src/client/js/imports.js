@@ -126,8 +126,7 @@ function authenticateUser(){
         console.log(data);
         window.top.location = '/home.html';
       } else {
-        alert(data);
-        var errorMsg = "The provided credentials are incorrect. Please try again!";
+        var errorMsg = data.loginError;
         $("#login-error-msg").html("<font color='red'><b> ERROR: " + errorMsg + "</b></font>");
       }
     }
@@ -144,7 +143,6 @@ function logoutUser(){
       withCredentials: true
     },
     success: function(data){
-      alert(data);
       console.log(data);
       window.top.location = '/';
     }

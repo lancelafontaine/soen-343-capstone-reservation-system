@@ -30,10 +30,10 @@ def log_in(request):
         else:
             response['loggedIn'] = False
             response['loginError'] = 'The username or password provided is incorrect.'
-            return JsonResponse(response, status=422)
+            return JsonResponse(response)
     else:
         response['loginError'] = 'Resource only accepts POST requests'
-        return JsonResponse(response, status=405)
+        return JsonResponse(response)
 
 def log_out(request):
     response = {}
@@ -51,7 +51,7 @@ def log_out(request):
         return JsonResponse(response)
     else:
         response['logoutError'] = 'Resource only accepts POST requests'
-        return JsonResponse(response, status=405)
+        return JsonResponse(response)
 
 def getSessionInfo(request):
     response = {}
@@ -72,7 +72,7 @@ def getSessionInfo(request):
         return JsonResponse(response)
     else:
         response['logoutError'] = 'Resource only accepts GET requests'
-        return JsonResponse(response, status=405)
+        return JsonResponse(response)
 
 
 def makeReservation(request):
