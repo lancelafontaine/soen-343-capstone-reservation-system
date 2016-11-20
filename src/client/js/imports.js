@@ -24,6 +24,8 @@ $(document).ready(function(){
   getUserInfo();
   //get user reservation
   getReservationList();
+  //get user waiting list
+  getWaitingList();
   // binding login event on to login button
   $("#login-button").click(function(){
     authenticateUser();
@@ -190,6 +192,21 @@ function getReservationList() {
       console.log(res);
       var booking = res.reservedList;
       appendBookingList(booking, "reservation-list");
+    }
+  });
+}
+
+function getWaitingList() {
+  $.ajax({
+    url: 'http://localhost:8000/getWaitingList',
+    cache: false,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(res){
+      console.log(res);
+      var booking = res.waitingList;
+      appendBookingList(booking, "waiting-list");
     }
   });
 }
