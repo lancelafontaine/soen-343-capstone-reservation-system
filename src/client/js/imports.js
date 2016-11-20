@@ -12,7 +12,7 @@ require('./library/bootstrap.min.js');
 /*
 Init page 
 */
-
+var currentRoom;
 $(document).ready(function(){
   //get all rooms available from back-end
   getRoomList();
@@ -29,6 +29,16 @@ $(document).ready(function(){
   // binding login event on to login button
   $("#logout-button").click(function(){
     logoutUser();
+  });
+  //select room
+  $("#room-list").on('click','li',function (){
+    if (currentRoom != $(this).attr('id')) {
+      $(currentRoom).removeClass("active");
+      console.log("switch from " + $(currentRoom).text() + " to " + $(this).text());
+      currentRoom = "#" + $(this).attr('id');
+      $(this).addClass("active");
+      switchRoom();
+    }
   });
   //calendar code
   var date = new Date();
@@ -126,7 +136,7 @@ function authenticateUser(){
     },
     success: function(data, status){
       if(data.loggedIn == true){
-        console.log(data);
+        //console.log(data);
         window.top.location = '/home.html';
       } else {
         var errorMsg = data.loginError;
@@ -157,10 +167,19 @@ function getRoomList() {
     cache: false,
     success: function(res){
       for (var i=0; i < res.rooms.length; i++) {
-        $("#room-list").append("<li><a><p>" + res.rooms[i] + "</p></a></li>");
+        $("#room-list").append("<li id='room-"+i+"'><a><p>" + res.rooms[i] + "</p></a></li>");
+        if (!currentRoom){
+          currentRoom = "#room-" + i;
+          $("#room-"+i).addClass("active");
+          switchRoom();
+        } 
       }
     }
   });
+}
+
+function switchRoom() {
+
 }
 
 function getUserSessionInfo() {
@@ -172,10 +191,7 @@ function getUserSessionInfo() {
       withCredentials: true
     },
     success: function(res){
-      console.log(res);
-      if (res.username) {
-        console.log(res.username);
-      }
+      //console.log(res);
     }
   });
 }
@@ -193,7 +209,7 @@ function getReservationList() {
       withCredentials: true
     },
     success: function(res){
-      console.log(res);
+      //console.log(res);
       var booking = res.reservedList;
       appendBookingList(booking, "reservation-list");
     }
