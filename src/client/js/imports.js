@@ -6,6 +6,9 @@ require('./library/bootstrap.min.js');
 
 $(document).ready(function(){
 
+    //get all rooms available from back-end
+    getRoomList();
+
     //set sidebar backgoround
     setSideBarConcordia();
 
@@ -35,7 +38,7 @@ $(document).ready(function(){
         },
         defaultView: "agendaWeek",
         selectable: true,
-		selectHelper: true,
+		    selectHelper: true,
         allDaySlot: false,
         minTime: "08:00:00",
         maxTime: "23:00:00",
@@ -167,8 +170,17 @@ function deleteBooking() {
 }
 
 function getRoomList() {
-	//TODO: implementatuon
-	//This is to get a list of room
+	$.ajax({
+    url: 'http://localhost:8000/getRooms/',
+    cache: false,
+    success: function(res){
+      console.log(res);
+      for (var i=0; i < res.rooms.length; i++) {
+        console.log(res.rooms[i]);
+        $("#room-list").append("<li><a><p>" + res.rooms[i] + "</p></a></li>");
+      }
+    }
+  });
 }
 
 function getUserInfo() {
@@ -180,10 +192,6 @@ function getUserInfo() {
 /*
 Helpers
 */
-
-function appendRoomList(roomNumber) {
-	$("#room-list").append("<li><a><p>" + roomNumber + "</p></a></li>");
-}
 
 function appendBookingList(booking, listType) {
 	$("#"+listType).append("<tr><td>"
@@ -198,13 +206,11 @@ function appendBookingList(booking, listType) {
 
 
 
-
-
-
 //////////////////////////////////
 // EXAMPLE AJAX CALLS TO SERVER //
 //////////////////////////////////
 
+/*
 window.alert('Check the console for example AJAX requests to all backend API endpoints.');
 $.ajax({
   url: 'http://localhost:8000/getReservations/?roomNumber=H-905&startTimeslot=2016-10-27%2014:54:20',
@@ -212,12 +218,13 @@ $.ajax({
   success: function(res){
     console.log(res);
   }
-});
+}); */
 
+/*
 $.ajax({
   url: 'http://localhost:8000/getRooms/',
   cache: false,
   success: function(res){
     console.log(res);
   }
-});
+}); */
