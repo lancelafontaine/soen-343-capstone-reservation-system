@@ -13,36 +13,43 @@ def status(request):
 
 def log_in(request):
     response = {}
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
+    if  request.method == 'POST':
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
 
-    # Checking if user can be validated with given username and password
-    isUserAuthenticated = userMapper.isRegistered(username, password)
+        # Checking if user can be validated with given username and password
+        isUserAuthenticated = userMapper.isRegistered(username, password)
 
-    if isUserAuthenticated:
-        # Sets a session variable 'is-logged-in' to True 
-        request.session['is-logged-in'] = True 
-        request.session['username'] = username 
-        response['logged-in'] = isUserAuthenticated
-        return JsonResponse(response)
+        if isUserAuthenticated:
+            # Sets a session variable 'is-logged-in' to True
+            request.session['is-logged-in'] = True
+            request.session['username'] = username
+            response['logged-in'] = isUserAuthenticated
+            return JsonResponse(response)
+        else:
+            response['loginError'] = 'The username or password provided is incorrect.'
+            return JsonResponse(response, status=422)
     else:
-        response['loginError'] = 'The username or password provided is incorrect.'
-        return JsonResponse(response)
+        response['loginError'] = 'Resouce only accepts POST'
+        return JsonResponse(response, status=405)
 
 def log_out(request):
     response = {}
+    if request.method == 'POST':
 
-    # Clearing the session variable 'is-logged-in' and 'username'
-    del request.session['is-logged-in']
-    del request.session['username']
+        if 'is-logged-in' in request.session:
+            del request.session['is-logged-in']
+            response['logged-out'] = True
+        else:
+            response['logged-out'] = False
 
-    # Checks whether the session variable 'is-logged-in' is cleared
-    if not 'is-logged-in' in request.session:
-        response['logged-out'] = True
+        if 'username' in request.session:
+            del request.session['username']
+
+        return JsonResponse(response)
     else:
-        response['logged-out'] = False
-
-    return JsonResponse(response)
+        response['logoutError'] = 'Resouce only accepts POST'
+        return JsonResponse(response, status=405)
 
 def getSessionInfo(request):
     response = {}
