@@ -7,8 +7,8 @@ userMapper = UserMapper()
 roomMapper = RoomMapper()
 
 
-def home(request):
-    return JsonResponse({'list':'bar'})
+def status(request):
+    return JsonResponse({'status':'OK'})
 
 
 def log_in(request):
