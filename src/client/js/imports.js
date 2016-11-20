@@ -201,6 +201,11 @@ function displayUserInfo() {
   getWaitingList();
 }
 
+function clearUserInfo() {
+  $("#reservation-list").remove("*");
+  $("#waiting-list").remove("*");
+}
+
 function getReservationList() {
   $.ajax({
     url: 'http://localhost:8000/getReservedList',
@@ -249,7 +254,7 @@ Helpers
 
 function appendBookingList(booking, listType) {
 	for (var i = 0; i < booking.length; i++) {
-    $("#"+listType).append("<tr><td>" + booking[i][1] + " " + booking[i][2]
+    $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + " " + booking[i][2]
       + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
       + "<i class='fa fa-times'></i></button></td></tr>"
     );
