@@ -12,7 +12,7 @@ $(document).ready(function(){
     //set login page animation
     loginPageAnimation();
 
-    //login page test
+    // binding login event on to login button
     $("#login-button").click(function(){
       authenticateUser();
     });
