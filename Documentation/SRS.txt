@@ -257,7 +257,7 @@ Description goes here.
 
 
 Usability
-Description goes here.
+90% of users will be able to perform all major activities provided by the system in less than 3 minutes.
 
 
 Efficiency
