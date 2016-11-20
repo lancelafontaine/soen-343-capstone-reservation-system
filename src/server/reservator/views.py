@@ -32,7 +32,7 @@ def log_in(request):
             response['loginError'] = 'The username or password provided is incorrect.'
             return JsonResponse(response, status=422)
     else:
-        response['loginError'] = 'Resouce only accepts POST requests'
+        response['loginError'] = 'Resource only accepts POST requests'
         return JsonResponse(response, status=405)
 
 def log_out(request):
@@ -172,31 +172,46 @@ def getReservedList(request):
     if request.method == 'GET':
         username = request.session.get('username','')
         if not username:
-            return JsonResponse({'parameterError': 'username is a required parameter'})
+            return JsonResponse({'parameterError': 'username is a required parameter'}, status=422)
         reservedList = reservationMapper.getReservationForUsername(username, 'filled')
+        reservedList = [elem[1] for elem in reservedList]
         return JsonResponse({'reservedList': reservedList})
     else:
-        return JsonResponse({'getReservedListError': reservedList})
+        return JsonResponse({'getReservedListError': 'Resource only accepts GET requests'}, status=405)
 
 
 def getWaitingList(request):
-    username = request.session.get('username','')
-    if not username:
-        return JsonResponse({'parameterError': 'username is a required parameter'})
-    waitingList = reservationMapper.getReservationForUsername(username, 'pending')
-    return JsonResponse({'waitingList': waitingList})
+    if request.method == 'GET':
+        username = request.session.get('username','')
+        if not username:
+            return JsonResponse({'parameterError': 'username is a required parameter'}, status=422)
+        waitingList = reservationMapper.getReservationForUsername(username, 'pending')
+        waitingList = [elem[1] for elem in waitingList]
+        return JsonResponse({'waitingList': waitingList})
+    else:
+        return JsonResponse({'getWaitingListError': 'Resource only accepts GET requests'}, status=405)
+
 
 def getReservations(request):
     response = {}
-    roomNumber = request.GET.get('roomNumber','')
-    startTimeslot = request.GET.get('startTimeslot','')
+    if request.method == 'GET':
+        roomNumber = request.GET.get('roomNumber','')
+        startTimeslot = request.GET.get('startTimeslot','')
 
-    if not roomNumber or not startTimeslot:
-        response['parameterError'] = 'roomNumber and startTimeslot are required parameters.'
-        return JsonResponse(response, status=422)
+        if not roomNumber or not startTimeslot:
+            response['parameterError'] = 'roomNumber and startTimeslot are required parameters.'
+            return JsonResponse(response, status=422)
 
-    response['reservations'] = reservationMapper.getReservations(roomNumber, startTimeslot)
-    return JsonResponse(response)
+        response['reservations'] = reservationMapper.getReservations(roomNumber, startTimeslot)
+        return JsonResponse(response)
+    else :
+        response['getReservationsError'] = 'Resource only accepts GET requests'
+        return JsonResponse(response, status=405)
+
 
 def getRooms(request):
-    return JsonResponse({'rooms':roomMapper.getRooms()})
+    if request.method == 'GET':
+        return JsonResponse({'rooms':roomMapper.getRooms()})
+    else:
+        return JsonResponse({'getRoomsError': 'Resource only accepts GET requests'}, status=405)
+
