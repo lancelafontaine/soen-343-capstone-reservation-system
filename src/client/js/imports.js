@@ -12,6 +12,8 @@ $(document).ready(function(){
     //set login page animation
     loginPageAnimation();
 
+    getRooms();
+
     // binding login event on to login button
     $("#login-button").click(function(){
       authenticateUser();
@@ -21,6 +23,9 @@ $(document).ready(function(){
     $("#logout-button").click(function(){
       logoutUser();
     });
+
+    //loading rooms logic
+    $("#room-list").append()
 
   	//calendar code
   	var date = new Date();
@@ -149,6 +154,23 @@ function logoutUser(){
   });
 }
 
+function getRooms(){
+  //Ajax
+  $.ajax({
+    url: 'http://localhost:8000/getRooms/',
+    cache: false,
+    success: function(res){
+
+      var rooms = res.rooms;
+      for(r in rooms) {
+        var roomHtml = "<li><a><p>" + rooms[r] + "</p></a></li>"
+        $("#room-list").append(roomHtml);
+        console.log(rooms[r]);
+      }
+      
+    }
+  });
+}
 
 /*
 AJAX function
