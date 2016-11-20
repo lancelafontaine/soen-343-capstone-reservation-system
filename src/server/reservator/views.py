@@ -209,4 +209,8 @@ def getReservations(request):
 
 
 def getRooms(request):
-    return JsonResponse({'rooms':roomMapper.getRooms()})
+    if request.method == 'GET':
+        return JsonResponse({'rooms':roomMapper.getRooms()})
+    else:
+        return JsonResponse({'getRoomsError': 'Resource only accepts GET requests'}, status=405)
+
