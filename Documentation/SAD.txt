@@ -54,14 +54,13 @@ List of figures
 Figure 1: The 4+1 view model.	6
  
 1.	Introduction
-The introduction of the Software Architecture Document provides an overview of the entire document.
 
 Purpose
 	The purpose of the Software Architecture Document (SAD) is to describe the system in terms of its high-level design (the system’s architecture), as well as its low-level design. Firstly, the document will provide an overview on the architecture of the system. It will proceed to present architectural representations of the system through different architectural views. The document will then make reference to architecturally relevant functional and nonfunctional requirements, and will finally address size, performance, and quality attributes of the system. The document is intended for all team members as well as the clients of the product, as the different architectural views provide a different abstraction of the system that is intended for different stakeholders. 
 
 Scope
-A brief description of what the Software Architecture Document applies to; what is affected or influenced by this document.
-
+	This document applies to the software architecture of the system. As such, it details the high-level and low-level design of the system. This has a direct affect on the implementation of the system, as the implementation will be modeled by the system’s architecture. Designers and implementers of the system will make reference to the architectural overview presented in this document when making design decisions during the development of this product.  
+	
 Definitions, acronyms, and abbreviations
 Provides the definitions of all terms, acronyms, and abbreviations required to properly interpret the Software Architecture Document.  This information may be provided by reference to the project’s Glossary. For example:
 
