@@ -42,6 +42,7 @@ $(document).ready(function(){
       right: "agendaWeek, agendaDay"
     },
     defaultView: "agendaWeek",
+    //TODO: disable previous date in calendar view
     selectable: true,
 		selectHelper: true,
     allDaySlot: false,
