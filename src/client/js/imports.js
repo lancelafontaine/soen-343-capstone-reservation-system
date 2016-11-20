@@ -20,12 +20,8 @@ $(document).ready(function(){
   setSideBarConcordia();
   //set login page animation
   loginPageAnimation();
-  //refresh user data
-  getUserInfo();
-  //get user reservation
-  getReservationList();
-  //get user waiting list
-  getWaitingList();
+  //display latest user info
+  displayUserInfo();
   // binding login event on to login button
   $("#login-button").click(function(){
     authenticateUser();
@@ -155,6 +151,7 @@ function logoutUser(){
 
 function getRoomList() {
 	$.ajax({
+    method: 'GET',
     url: 'http://localhost:8000/getRooms/',
     cache: false,
     success: function(res){
@@ -165,8 +162,9 @@ function getRoomList() {
   });
 }
 
-function getUserInfo() {
+function getUserSessionInfo() {
 	$.ajax({
+    method: 'GET',
     url: 'http://localhost:8000/getSessionInfo',
     cache: false,
     xhrFields: {
@@ -181,6 +179,11 @@ function getUserInfo() {
   });
 }
 
+function displayUserInfo() {
+  getReservationList();
+  getWaitingList();
+}
+
 function getReservationList() {
   $.ajax({
     url: 'http://localhost:8000/getReservedList',
@@ -189,7 +192,7 @@ function getReservationList() {
       withCredentials: true
     },
     success: function(res){
-      console.log(res);
+      //console.log(res);
       var booking = res.reservedList;
       appendBookingList(booking, "reservation-list");
     }
@@ -204,7 +207,7 @@ function getWaitingList() {
       withCredentials: true
     },
     success: function(res){
-      console.log(res);
+      //console.log(res);
       var booking = res.waitingList;
       appendBookingList(booking, "waiting-list");
     }
@@ -251,23 +254,3 @@ $.ajax({
     console.log(res);
   }
 }); */
-
-/*
-$.ajax({
-  url: 'http://localhost:8000/getRooms/',
-  cache: false,
-  success: function(res){
-    console.log(res);
-  }
-}); */
-
-/*$.ajax({
-  url: 'http://localhost:8000/getReservedList',
-  cache: false,
-  xhrFields: {
-    withCredentials: true
-  },
-  success: function(res){
-    console.log(res);
-  }
-});*/
