@@ -31,7 +31,7 @@ def log_in(request):
             response['loginError'] = 'The username or password provided is incorrect.'
             return JsonResponse(response, status=422)
     else:
-        response['loginError'] = 'Resouce only accepts POST'
+        response['loginError'] = 'Resouce only accepts POST requests'
         return JsonResponse(response, status=405)
 
 def log_out(request):
@@ -49,21 +49,30 @@ def log_out(request):
 
         return JsonResponse(response)
     else:
-        response['logoutError'] = 'Resouce only accepts POST'
+        response['logoutError'] = 'Resource only accepts POST requests'
         return JsonResponse(response, status=405)
 
 def getSessionInfo(request):
     response = {}
 
-    # Checks whether the session key 'is-logged-in' exists 
-    if not 'is-logged-in' in request.session:
-        isLoggedIn = False
-    else:
-        isLoggedIn = True
-        
-    response['is-logged-in'] = isLoggedIn
+    if request.method == 'GET':
+        # Checks whether the session key 'is-logged-in' exists
+        if 'is-logged-in' in request.session:
+            isLoggedIn = True
+        else:
+            isLoggedIn = False
 
-    return JsonResponse(response)
+        response['is-logged-in'] = isLoggedIn
+
+        # Checks whether the session key 'username' exists
+        if 'username' in request.session:
+            response['username'] = request.session['username']
+
+        return JsonResponse(response)
+    else:
+        response['logoutError'] = 'Resource only accepts GET requests'
+        return JsonResponse(response, status=405)
+
 
 def makeReservation(request):
     response = {}
@@ -159,11 +168,14 @@ def cancelReservation(request):
 
 
 def getReservedList(request):
-    username = request.session.get('username','')
-    if not username:
-        return JsonResponse({'parameterError': 'username is a required parameter'})
-    reservedList = reservationMapper.getReservationForUsername(username, 'filled')
-    return JsonResponse({'reservedList': reservedList})
+    if request.method == 'GET':
+        username = request.session.get('username','')
+        if not username:
+            return JsonResponse({'parameterError': 'username is a required parameter'})
+        reservedList = reservationMapper.getReservationForUsername(username, 'filled')
+        return JsonResponse({'reservedList': reservedList})
+    else:
+        return JsonResponse({'getReservedListError': reservedList})
 
 
 def getWaitingList(request):
