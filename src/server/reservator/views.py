@@ -30,21 +30,6 @@ def log_in(request):
         else:
             response['loginError'] = 'The username or password provided is incorrect.'
             return JsonResponse(response, status=422)
-
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-
-    # Checking if user can be validated with given username and password
-    isUserAuthenticated = userMapper.isRegistered(username, password)
-
-    if isUserAuthenticated:
-        # Sets a session variable 'is-logged-in' to True
-        request.session['is-logged-in'] = True
-        request.session['username'] = username
-        response['logged-in'] = isUserAuthenticated
-        response['username'] = request.session['username']
-        return JsonResponse(response)
-
     else:
         response['loginError'] = 'Resouce only accepts POST'
         return JsonResponse(response, status=405)
