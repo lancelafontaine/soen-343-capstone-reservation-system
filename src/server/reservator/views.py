@@ -23,10 +23,11 @@ def log_in(request):
         # Sets a session variable 'is-logged-in' to True 
         request.session['is-logged-in'] = True 
         request.session['username'] = username 
-        response['logged-in'] = isUserAuthenticated
+        response['loggedIn'] = isUserAuthenticated
         response['username'] = request.session['username']
         return JsonResponse(response)
     else:
+        response['loggedIn'] = False
         response['loginError'] = 'The username or password provided is incorrect.'
         return JsonResponse(response)
 
@@ -39,9 +40,9 @@ def log_out(request):
 
     # Checks whether the session variable 'is-logged-in' is cleared
     if not 'is-logged-in' in request.session:
-        response['logged-out'] = True
+        response['loggedOut'] = True
     else:
-        response['logged-out'] = False
+        response['loggedOut'] = False
 
     return JsonResponse(response)
 
