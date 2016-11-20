@@ -174,7 +174,6 @@ def getReservedList(request):
         if not username:
             return JsonResponse({'parameterError': 'username is a required parameter'}, status=422)
         reservedList = reservationMapper.getReservationForUsername(username, 'filled')
-        reservedList = [elem[1] for elem in reservedList]
         return JsonResponse({'reservedList': reservedList})
     else:
         return JsonResponse({'getReservedListError': 'Resource only accepts GET requests'}, status=405)
@@ -186,7 +185,6 @@ def getWaitingList(request):
         if not username:
             return JsonResponse({'parameterError': 'username is a required parameter'}, status=422)
         waitingList = reservationMapper.getReservationForUsername(username, 'pending')
-        waitingList = [elem[1] for elem in waitingList]
         return JsonResponse({'waitingList': waitingList})
     else:
         return JsonResponse({'getWaitingListError': 'Resource only accepts GET requests'}, status=405)
