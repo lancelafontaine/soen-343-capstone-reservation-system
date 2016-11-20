@@ -12,6 +12,7 @@ $(document).ready(function(){
     //set login page animation
     loginPageAnimation();
 
+    // load rooms from backend api
     getRooms();
 
     // binding login event on to login button
@@ -23,9 +24,6 @@ $(document).ready(function(){
     $("#logout-button").click(function(){
       logoutUser();
     });
-
-    //loading rooms logic
-    $("#room-list").append()
 
   	//calendar code
   	var date = new Date();
