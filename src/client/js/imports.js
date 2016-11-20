@@ -9,28 +9,13 @@ $(document).ready(function(){
     //set sidebar backgoround
     setSideBarConcordia();
 
-    //these codes need to be organized
-    $('input').blur(function() {
-    	var $this = $(this);
-    	if ($this.val()) $this.addClass('used');
-    	else $this.removeClass('used');
-  	});
-  	var $ripples = $('.ripples');
-  	$ripples.on('click.Ripples', function(e) {
-    	var $this = $(this);
-    	var $offset = $this.parent().offset();
-    	var $circle = $this.find('.ripplesCircle');
-    	var x = e.pageX - $offset.left;
-    	var y = e.pageY - $offset.top;
-    	$circle.css({
-      		top: y + 'px',
-      		left: x + 'px'
-    	});
-    	$this.addClass('is-active');
-  	});
-  	$ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
-  		$(this).removeClass('is-active');
-  	});
+    //set login page animation
+    loginPageAnimation();
+
+    //login page test
+    $("#login-button").click(function(){
+      authenticateUser();
+    });
 
   	//calendar code
   	var date = new Date();
@@ -77,6 +62,70 @@ function setSideBarConcordia(){
         sidebar_container = '<div class="sidebar-background" style="background-image: url(' + image_src + ') "/>'
         $sidebar.append(sidebar_container);
     }
+}
+
+// Method to set animation on login screen
+function loginPageAnimation(){
+    $('input').blur(function() {
+      var $this = $(this);
+      if ($this.val()) $this.addClass('used');
+      else $this.removeClass('used');
+    });
+    var $ripples = $('.ripples');
+    $ripples.on('click.Ripples', function(e) {
+      var $this = $(this);
+      var $offset = $this.parent().offset();
+      var $circle = $this.find('.ripplesCircle');
+      var x = e.pageX - $offset.left;
+      var y = e.pageY - $offset.top;
+      $circle.css({
+          top: y + 'px',
+          left: x + 'px'
+      });
+      $this.addClass('is-active');
+    });
+    $ripples.on('animationend webkitAnimationEnd mozAnimationEnd oanimationend MSAnimationEnd', function(e) {
+      $(this).removeClass('is-active');
+    });
+}
+
+// Method to authenticate user
+function authenticateUser(){
+  // Retrieving username and password from login page
+  var username = $("#username").val();
+  var password = $("#password").val();
+
+  // Logging on console for debugging purpose
+  console.log("Username: " + username);
+  console.log("Password: " + password);
+
+  if( username.length == 0 || password.length == 0 ){
+    $("#login-error-msg").html("<font color='red'><b> ERROR: One of the fields above is empty. </b></font>");
+  } 
+  
+  var requestData = "username=" + username + "&password=" + password; 
+
+  //Ajax 
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/login/',
+    data: requestData,
+    dataType: "json",
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(data, status){
+      // if user is authenticated, proceed to /home.html
+      if(data.loggedIn == true){
+        console.log(data);
+        window.top.location = '/home.html';
+      } else {
+        console.log(data);
+        var errorMsg = data.loginError;
+        $("#login-error-msg").html("<font color='red'><b> ERROR: " + errorMsg + "</b></font>");
+      }
+    }
+  });
 }
 
 /*
@@ -150,7 +199,3 @@ $.ajax({
     console.log(res);
   }
 });
-
-
-
-
