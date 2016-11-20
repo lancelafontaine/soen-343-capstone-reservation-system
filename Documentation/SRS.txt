@@ -252,22 +252,15 @@ The use case model is shown in Figure 1.
 Figure 1. Use case model.
 
 
-Reliability
-Description goes here.
+Accessibility
+Only ENCS registered students in the database should have access to the web application. 
 
 
 Usability
 90% of users will be able to perform all major activities provided by the system in less than 3 minutes.
 
-
-Efficiency
-Description goes here.-------
-Maintainability
-Description goes here.------
-
-
 Portability
-Desktop friendly user interface
+The web application should function on all major web browsers and operating systems. 
 
 
 Design constraints
