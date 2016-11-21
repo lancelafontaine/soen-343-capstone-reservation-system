@@ -6,11 +6,11 @@ Dependencies
 
 $ = jQuery = require('jquery');
 require('fullcalendar');
-require('moment');
+moment = require('moment');
 require('./library/bootstrap.min.js');
 
 /*
-Init page 
+Init page
 */
 var currentRoom;
 $(document).ready(function(){
@@ -28,7 +28,7 @@ $(document).ready(function(){
   });
   // binding login event on to login button
   $("#logout-button").click(function(){
-     logoutUser();
+    logoutUser();
   });
   //Select the clicked reservation
   $("#reservation-list").click(function(event) {
@@ -62,9 +62,15 @@ $(document).ready(function(){
     slotDuration: "01:00:00",
     slotEventOverlap: false,
     eventColor: "#FF4A55",
-    editable: true,  
+    editable: true,
     droppable: true,
-    events: [] 
+    events: [],
+    select: function(start, end, jsEvent, view){
+         var room = $(currentRoom).text();
+         var startDate = moment(start).format("YYYY-MM-DD h:mm:ss");
+         makeReservation(room, startDate);
+    }
+
   });
 });
 
@@ -114,8 +120,8 @@ function authenticateUser(){
   //console.log("Password: " + password);
   if( username.length == 0 || password.length == 0 ){
     $("#login-error-msg").html("<font color='red'><b> ERROR: One of the fields above is empty. </b></font>");
-  } 
-  var requestData = "username=" + username + "&password=" + password; 
+  }
+  var requestData = "username=" + username + "&password=" + password;
   $.ajax({
     method: 'POST',
     url: 'http://localhost:8000/login/',
@@ -162,7 +168,7 @@ function getRoomList() {
           currentRoom = "#room-" + i;
           $("#room-"+i).addClass("active");
           showBookingByRoom();
-        } 
+        }
       }
     }
   });
@@ -174,11 +180,11 @@ function showBookingByRoom() {
   console.log(beginOfWeek);
   $.ajax({
     method: 'GET',
-    url: "http://localhost:8000/getReservations/?roomNumber=" 
-    + $(currentRoom).text() 
-    + "&startTimeslot=" 
-    + beginOfWeek[0] 
-    + "%20" 
+    url: "http://localhost:8000/getReservations/?roomNumber="
+    + $(currentRoom).text()
+    + "&startTimeslot="
+    + beginOfWeek[0]
+    + "%20"
     + beginOfWeek[1],
     cache: false,
     success: function(res){
@@ -199,7 +205,7 @@ function showBookingByRoom() {
           start: eventStart,
           backgroundColor: '#663399'
         };
-      $('#calendar').fullCalendar("renderEvent", slot, true); 
+      $('#calendar').fullCalendar("renderEvent", slot, true);
       }
     }
   });
@@ -259,19 +265,11 @@ function getWaitingList() {
   });
 }
 
-function updateBooking() {
-  //TODO: implementatuon
-}
-
-function createBooking() {
-  //TODO: implementatuon
-}
-
 function cancelReservation() {
-    //Select the current reservation list 
+    //Select the current reservation list
     var selectCurrent = $( event.target ).closest( "tr" ).text();
     var roomNumber = selectCurrent.substring(0,5);
-    var timeslot = selectCurrent.substring(6,25);
+    var timeslot = selectCurrent.substring(6,selectCurrent.length);
     var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
 
   $.ajax({
@@ -284,18 +282,25 @@ function cancelReservation() {
       withCredentials: true
     },
     success: function(res){
-      console.log(res);
+     // console.log(res);
 
     }
   });
+  location.reload();
+}
+
+//this is modifyReservation
+function updateBooking() {
+  //TODO: implementatuon
 }
 
 /*
 Helpers
 */
+
 function appendBookingList(booking, listType) {
 	for (var i = 0; i < booking.length; i++) {
-    $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + " " + booking[i][2]
+    $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + "@" + booking[i][2]
       + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
       + "<i class='fa fa-times'></i></button></td></tr>"
     );
