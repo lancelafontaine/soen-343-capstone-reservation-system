@@ -11,7 +11,8 @@ urlpatterns = [
         url(r'^getReservedList/$', views.getReservedList, name='getReservedList'),
         url(r'^getWaitingList/$', views.getWaitingList, name='getWaitingList'),
         url(r'^makeReservation/$', views.makeReservation, name='makeReservation'),
-        url(r'^cancelReservation/$', views.cancelReservation, name='cancelReservation')
+        url(r'^cancelReservation/$', views.cancelReservation, name='cancelReservation'),
+        url(r'^modifyReservation/$', views.modifyReservation, name='modifyReservation'),
 ]
       # url(r'^modifyReservation/$', views.modifyReservation, name='modifyReservation'),
       # url(r'^cancelReservation/$', views.cancelReservation, name='cancelReservation'),

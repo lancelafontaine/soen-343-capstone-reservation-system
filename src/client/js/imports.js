@@ -308,9 +308,26 @@ function cancelReservation() {
   location.reload();
 }
 
-//this is modifyReservation
-function updateBooking() {
-  //TODO: implementatuon
+//This function will modify the reservation
+function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) {
+
+    var requestData = "oldRoomNumber=" + oldRoomNumber + "&newRoomNumber=" + newRoomNumber  + "&oldTimeslot=" + oldTimeslot + "&newTimeslot=" + newTimeslot ;
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/modifyReservation/',
+    data: requestData,
+    dataType : "json",
+    cache: false,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(res){
+      console.log(res);
+
+    }
+  });
+  location.reload();
 }
 
 /*
