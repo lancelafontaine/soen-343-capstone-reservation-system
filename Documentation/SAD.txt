@@ -175,8 +175,11 @@ In this section you have to illustrate how use cases are translated into UML int
 
 
 
-Reuse of components and frameworks
-Describe any third-party or home-made components and frameworks that will be reused.
+Framework and technological re-use
+The web framework which was used in the implementation of this application was Django. Django is a python based web framework. Due to requirements in the project outline, we were restricted from incorporating certain functionalities of the framework, as certain limitations were imposed. In addition to this, Node.js, a run-time environment for JavaScript, was used to assist with front-end development. 
+
+
+
 
 14.	Size and performance
 Describe how the architecture supports the key sizing and performance requirements, as described in the Supplementary Specification. For example:
