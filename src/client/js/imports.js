@@ -6,7 +6,7 @@ Dependencies
 
 $ = jQuery = require('jquery');
 require('fullcalendar');
-require('moment');
+moment = require('moment');
 require('./library/bootstrap.min.js');
 
 /*
@@ -29,6 +29,10 @@ $(document).ready(function(){
   // binding login event on to login button
   $("#logout-button").click(function(){
     logoutUser();
+  });
+  // binding event to user's reservations
+  $("#reservation-list").click(function(event) {
+    cancelReservation();
   });
   //select room
   $("#room-list").on('click','li',function (){
@@ -60,7 +64,13 @@ $(document).ready(function(){
     eventColor: "#FF4A55",
     editable: true,  
     droppable: true,
-    events: [] 
+    events: [],
+    select: function(start, end, jsEvent, view){
+         var room = $(currentRoom).text();
+         var startDate = moment(start).format("YYYY-MM-DD HH:mm:ss");
+         makeReservation(room, startDate);
+    }
+
   });
 });
 
@@ -256,16 +266,74 @@ function getWaitingList() {
   });
 }
 
-function updateBooking() {
-  //TODO: implementatuon
+function makeReservation(room, timeslot){
+  //building the request
+  var requestData = "roomNumber=" + room + "&" + "timeslot=" + timeslot;
+  //ajax call
+  $.ajax({
+      method: 'POST',
+      url: 'http://localhost:8000/makeReservation/',
+      data: requestData,
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function(data, status){
+        if( data.madeReservation == false ){
+          var reservationErrorMsg = data.reservationError;
+          $("#reservation-error-msg").html("<font color='red'><b>ERROR: " + reservationErrorMsg + " </b></font>");
+        } else {
+          console.log(data);
+          location.reload();
+        }
+      }
+  });
 }
 
-function createBooking() {
-  //TODO: implementatuon
+function cancelReservation() {
+    //Select the current reservation list
+    var selectCurrent = $( event.target ).closest( "tr" ).text();
+    var roomNumber = selectCurrent.substring(0,5);
+    var timeslot = selectCurrent.substring(6,selectCurrent.length);
+    var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/cancelReservation/',
+    data: requestData,
+    dataType : "json",
+    cache: false,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(res){
+     // console.log(res);
+
+    }
+  });
+  location.reload();
 }
 
-function deleteBooking() {
-  //TODO: implementatuon
+//This function will modify the reservation
+function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) {
+
+    var requestData = "oldRoomNumber=" + oldRoomNumber + "&newRoomNumber=" + newRoomNumber  + "&oldTimeslot=" + oldTimeslot + "&newTimeslot=" + newTimeslot ;
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/modifyReservation/',
+    data: requestData,
+    dataType : "json",
+    cache: false,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(res){
+      console.log(res);
+
+    }
+  });
+  location.reload();
 }
 
 /*
@@ -274,7 +342,7 @@ Helpers
 
 function appendBookingList(booking, listType) {
 	for (var i = 0; i < booking.length; i++) {
-    $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + " " + booking[i][2]
+    $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + "@" + booking[i][2]
       + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
       + "<i class='fa fa-times'></i></button></td></tr>"
     );

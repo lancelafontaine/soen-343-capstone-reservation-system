@@ -1,11 +1,11 @@
-
+﻿
 Software Architecture Document
 
 Version X.X
 
 for
 
- <Project name>
+Concordia Capstone Scheduler
 
 Prepared by
 
@@ -94,19 +94,57 @@ Requirements are already described in SRS. In this section describe key requirem
 
 Functional requirements (Use case view)
 
-Refer to Use Cases or Use Case scenarios which are relevant with respect to the software architecture. The Use Cases referred to should contain central functionality, many architectural elements or specific delicate parts of the architecture.
 
-The overview below refers to architecturally relevant Use Cases from the Use Case Model (see references).
 
-Source	Name	Architectural relevance	Addressed in:
-Use case(s) or scenario(s).	Name of case(s) or scenario(s).	Description on why this use case or scenario is relevant to the architecture.	Section number where this use case or scenario is addressed in this document.
+UC1
+Make Reservation
+Requires us to interactive with database and verify other reservations; this was the bulk of business logic complexity, designed around this use case. 
+Sequence Diagram 2
+UC2
+View Reservation
+Needs to be updated often in the front end; forced us to implement some form of an observer
+Sequence Diagram 1 
+
+UC3,UC4
+Modify Reservation
+Cancel Reservation
+Given that we may be modifying and cancelling often we implemented a unit of work to reduce load on the database. 
+Sequence Diagram 3,
+Sequence Diagram 4 
+
 
 Non-functional requirements
+Accessibility
+Only ENCS registered students in the database should have access to the web application. 
+Usability
+90% of users will be able to perform all major activities provided by the system in less than 3 minutes.
+Portability
+The web application should function on all major web browsers and operating systems.
+Maintainability
+This system is expected to be modified in the future therefore the less coupling and most cohesion as possible is requirment
 
-Describe the architecturally relevant non-functional requirements, i.e. those which are important for developing the software architecture. Think of security, privacy, third-party products, system dependencies, distribution and reuse. Also environmental factors such as context, design, implementation strategy, team composition, development tools, time to market, use of legacy code may be addressed.
+Non functional table
 
-Usually, the non-functional requirements are already in place and can be referenced here. This document is not meant to be the source of non-functional requirements, but to address them. Provide a reference per requirement, and where the requirement is addressed.
- 
+
+SRS
+Accessibility
+Login and logout functionality has to access database of registered students
+Logical View 
+SRS
+Usablity
+Made a Calender UI that marked which timeslots were taken, this visual value makes system easier to use 
+Logical View
+SRS
+Portability
+Used standard libraries, web standards and popular frameworks to ensure compatibility on all major operating systems, web browsers.
+Physical View
+SRS
+Maintainability
+Separation of concerns among classes, allows for changes to be modular
+Logical View
+
+
+
 
 Source	Name	Architectural relevance	Addressed in:
 e.g. Vision, SRS.	Name of requirement.	Description on why this requirement is relevant to the software architecture.	Section number where this requirement is addressed in this document.
@@ -123,10 +161,11 @@ The scenarios (or functional view) represent the behavior of the system as seen 
 The logical view captures the functionality provided by the system; it illustrates the collaborations between system components in order to realize the system's use cases. Describe the architecturally significant logical structure of the system. Think of decomposition in tiers and subsystem. Also describe the way in which, in view of the decomposition, Use Cases are technically translated into Use Case Realizations.
 
 Layers, tiers etc.
-Describe the top-level architecture style. Deploy a UML class diagram.
+Layered Architecture Class Diagram
+(Insert)
 
 Subsystems
-Describe the decomposition of the system in subsystems and show their relation.
+	The web application can be divided into two discrete subsystems: the client and the server. The client handles the presentation layer of the system, which is the only portion of the overall system that is visible to the user. This includes the Graphical User Interface, and also handles all user actions and requests. If the client receives a request from a user, it is then processed and sent to the next subsystem: the server, which contains the domain and data source layer of the system. The server handles the core business logic of the application and also contains the relational database, which contains tables to store domain object information in order to develop persistence in the overall system. These two subsystems interact with each other (the client sends a request to the server upon user input, the server then processes the action and sends a response), to form the overall system. 
 
 Architecturally significant design packages
 Desribe packages of individual subsystems that are architecturally significant. For each package nclude a subsection with its name, its brief description, and a diagram with all significant classes and packages contained within the package.
@@ -134,40 +173,26 @@ Desribe packages of individual subsystems that are architecturally significant. 
 Use case realizations
 In this section you have to illustrate how use cases are translated into UML interaction diagrams. Give examples of the way in which the Use Case Specifications are technically translated into Use Case Realizations, for example, by providing a sequence-diagram. Explain how the tiers communicate and clarify how the components or objects used realize the functionality.
 
- 
-10.	Development (Implementation) view
 
-The development (or implementation) view describes the components used to assemble the system. Use a UML component diagram to capture this view.
 
-Reuse of components and frameworks
-Describe any third-party or home-made components and frameworks that will be reused.
- 
-11.	Process view
+Framework and technological re-use
+The web framework which was used in the implementation of this application was Django. Django is a python based web framework. Due to requirements in the project outline, we were restricted from incorporating certain functionalities of the framework, as certain limitations were imposed. In addition to this, Node.js, a run-time environment for JavaScript, was used to assist with front-end development. 
 
-The process view illustrates the system's processes, focusing on the runtime behavior of the system. The view illustrates parallelism and concurrency. Deploy a UML activity diagram to capture this view.
 
- 
-12.	Deployment (Physical) view
 
-The deployment (or physical) view illustrates the physical components of the architecture, their connectors and their topology. Describe the physical network and hardware configurations on which the software will be deployed. This includes at least the various physical nodes (computers, CPUs), the interaction between (sub)systems and the connections between these nodes (bus, LAN, point-to-point, messaging, SOAP, http, http). Use a UML deployment diagram to capture this view.
 
-Name	Type	Description
-Name of the node.	Node type.	Technical specifications.
-
- 
-13.	Data view (optional)
-An enterprise software system would additonally require a data view. The data view describes the data entities and their relationships. Deploy an Entity-Relationship (ER) Model to represent this view. Note that the ER model is not part of the UML specification. Additionally you can deploy a UML class diagram to represent the data view where classes would correspond to data entities.
- 
 14.	Size and performance
 Describe how the architecture supports the key sizing and performance requirements, as described in the Supplementary Specification. For example:
 
 Volumes:
-•	Estimated online orders : 100 a day, with peaks in the evening
-•	Registered individual customers : about 100
-•	Corporate customers : about 200
+•	Estimated ENCS Capstone students : 400 students
+•	Number of Capstone rooms: 15
+•	Total number of Capstone room timeslots: 60
 
 Performance:
-•	Time to process and online payment (credit card validation + confirmation) : less that 15 seconds required.
+•	Time for a user to login: less than 5 seconds
+•	Time for the system to perform operations on the schedule (add, cancel, modify): less than 8 seconds
+
 15.	Quality 
 A description of how the software architecture contributes to the quality attributes of the system as described in the ISO-9126 (I) standard. For example: The following quality goals have been identified:
 
