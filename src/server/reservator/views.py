@@ -86,10 +86,12 @@ def makeReservation(request):
         return JsonResponse(response)
 
     if reservationMapper.getNumOfReservations(username, timeslot) >= 3:
+        response['madeReservation'] = False
         response['reservationError'] = 'Maximum reservations reached for this week.'
         return JsonResponse(response)
 
     if reservationMapper.hasReservation(username, roomNumber, timeslot):
+        response['madeReservation'] = False
         response['reservationError'] = 'Cannot make two reservations for the same timeslot in the same room.'
         return JsonResponse(response)
 
@@ -104,6 +106,7 @@ def makeReservation(request):
     reservationMapper.commit()
 
     response['reservationStatus'] = status
+    response['madeReservation'] = True
     return JsonResponse(response)
 
 def modifyReservation(request):
