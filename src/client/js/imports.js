@@ -6,7 +6,7 @@ Dependencies
 
 $ = jQuery = require('jquery');
 require('fullcalendar');
-require('moment');
+moment = require('moment');
 require('./library/bootstrap.min.js');
 
 /*
@@ -60,7 +60,13 @@ $(document).ready(function(){
     eventColor: "#FF4A55",
     editable: true,  
     droppable: true,
-    events: [] 
+    events: [],
+    select: function(start, end, jsEvent, view){
+         var room = $(currentRoom).text();
+         var startDate = moment(start).format("YYYY-MM-DD h:mm:ss");
+         makeReservation(room, startDate);
+    }
+
   });
 });
 
@@ -255,15 +261,26 @@ function getWaitingList() {
   });
 }
 
+function makeReservation(room, timeslot){
+  //building the request
+  var requestData = "roomNumber=" + room + "&" + "timeslot=" + timeslot;
+  //ajax call
+  $.ajax({
+      method: 'POST',
+      url: 'http://localhost:8000/makeReservation/',
+      data: requestData,
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function(data, status){
+        console.log(data);
+      }
+  });
+}
+
+//this is modifyReservation
 function updateBooking() {
-  //TODO: implementatuon
-}
-
-function createBooking() {
-  //TODO: implementatuon
-}
-
-function deleteBooking() {
   //TODO: implementatuon
 }
 
@@ -273,7 +290,7 @@ Helpers
 
 function appendBookingList(booking, listType) {
 	for (var i = 0; i < booking.length; i++) {
-    $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + " " + booking[i][2]
+    $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + "@" + booking[i][2]
       + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
       + "<i class='fa fa-times'></i></button></td></tr>"
     );
