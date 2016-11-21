@@ -295,89 +295,106 @@ Domain Model
 
 Use Cases
 
-UC1: Make Reservation
-Level: user goal
+
+Use case UC1: Make Reservation
 Primary Actor: User
-Preconditions: User is authenticated.
-Success Guarantee: User reserved a room for a timeslot.
-Main Success Scenario:
-	1. User chooses the option to make a reservation.
-	2. System prompts for a room and timeslot.
-	3. User selects a room and timeslot.
-	4. System creates a reservation and cancels all other User's reserations that are on a waiting list for the same timeslot in all rooms.
-	5. System returns a confirmation message.
-Alternative Flow:
-	4a. Timeslot is already reserved by another user.
-		4a.1 System creates a reservation and place it on the waiting list for that timeslot in the selected room.
-	4b. User has exceeded the number of allowed reservations for that week.
-		4b.1 System returns an error message.
-	4c. User already has a reservation for that timeslot.
-		4c.1 System returns an error message.
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+Success Guarantee (Postconditions):
+User has booked a room
+Main Success Scenario (or basic flow):
+User chooses the option to make a reservation.
+System prompts for a room and timeslot
+User selects a room and timeslot.
+System creates a reservation and cancels all other User's reserations that are on a waiting list for the same timeslot in all rooms.
+System returns a confirmation message.
+Extensions (or alternative flows):
+4a. Timeslot is already reserved by another user
+4a.1 System creates a reservation and place it on the waiting list for that timeslot in the selected room.
+4b. User has exceeded the number of allowed reservations for that week.
+4b.1 System returns an error message.
+4c. User already has a reservation for that timeslot.
+4c.1 System returns an error message.
 
 
-UC2: View Reservations
-Level: user goal
+
+Use case UC2: View Reservation
 Primary Actor: User
-Preconditions: User is authenticated.
-Main Scenario:
-	1. User selects room and week.
-	2. System displays all weekly reservations for the selected room.
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+Success Guarantee (Postconditions):
+User can view a room’s weekly calender
+Main Success Scenario (or basic flow):
+User selects room and week.
+System displays all weekly reservations for the selected room.
 
 
-UC3: Modify Reservation
-Level: user goal
+
+Use case UC3: Modify Reservation
 Primary Actor: User
-Preconditions: User is authenticated. User has a reservation.
-Success Guarantee: User reserved a room for a timeslot. 
-Main Success Scenario:
-	1. User chooses the option to modify a reservation.
-	2. System prompts for a room, week and timeslot.
-	3. User selects a room, week and timeslot.
-	4. System modifies the reservation and cancels all other User's reserations that are on a waiting list for the same timeslot in all rooms.
-	5. System returns a confirmation message.
-Alternative Flow:
-	4a. Timeslot is already reserved by another user.
-		4a.1 System creates a reservation and place it on the waiting list for that timeslot in the select room.
-	4b. User has exceeded the number of allowed reservations for that week.
-		4b.1 System returns an error message.
-	4c. User already has a reservation for that timeslot.
-		4c.1 System returns an error message.
+Stakeholders and Interests:
+Preconditions: 
+User is authenticated in system
+User is authenticated. User has a reservation.
+Success Guarantee (Postconditions):
+User reserved a room for a timeslot. 
+Main Success Scenario (or basic flow):
+User chooses the option to modify a reservation.
+System prompts for a room, week and timeslot.
+User selects a room, week and timeslot.
+ System modifies the reservation and cancels all other User's reserations that are on a waiting list for the same timeslot in all rooms.
+System returns a confirmation message.
+Extensions (or alternative flows):
+4a. Timeslot is already reserved by another user
+4a.1 System creates a reservation and place it on the waiting list for that timeslot in the select room.
+4b. User has exceeded the number of allowed reservations for that week.
+4b.1 System returns an error message.
+ 4c. User already has a reservation for that timeslot.
+4c.1 System returns an error message.
+
 		
 		
-UC4: Cancel Reservation
-Level: user goal
+Use case UC4: Cancel Reservation
 Primary Actor: User
-Preconditions: User has a reservation.
-Postconditions: User's reservation is canceled.
-Main Success Scenario:
-	1. User chooses the option to cancel a reservation.
-	2. System prompts for a reservation.
-	3. User selects one of his/her reservations.
-	4. System cancels the reservation.
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+The user has an existing reservation
+Success Guarantee (Postconditions):
+User has cancelled his reservation 
+Main Success Scenario (or basic flow):
+User chooses the option to cancel a reservation.
+
 	
 
-UC5: Log in
-Level: subfunction
+Use case UC5: Log in
+Level : subroutine
 Primary Actor: User
-Preconditions: User is registered in the system.
-Postconditions: User is identified and authenticated.
-Main Scenario: 
-	1. User enters username and password.
-	2. System authenticates User.
-Alternative flow:
-	2a. Invalid username or password
-		2a.1 System returns error message.
-	
-	
-UC6: Log out
-Level: subfunction
-Primary Actor: User
-Preconditions: User is logged in.
-Postconditions: User is logged out.
-Main Scenario:
-	1. User indicates that he/she wants to log out
-	2. System logs out User.
+Stakeholders and Interests:
+Preconditions:
+User is registered in the system
+Success Guarantee (Postconditions):
+User is identified and authenticated
+Main Success Scenario (or basic flow):
+User enters credentials
+System confirms authentication
+Extensions (or alternative flows):
+2a. Invalid username or password
+2a.1 System returns error message
 
+Use case UC5: Log out
+Level: subroutine
+Primary Actor: User
+Stakeholders and Interests:
+Preconditions:
+User is authenticated in system
+Success Guarantee (Postconditions):
+User is logged out 
+Main Success Scenario (or basic flow):
+User indicates that he/she wants to log out
+System logs out User
 
 
 System Sequence Diagrams
