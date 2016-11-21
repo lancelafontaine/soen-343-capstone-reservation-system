@@ -112,12 +112,17 @@ Given that we may be modifying and cancelling often we implemented a unit of wor
 Sequence Diagram 3,
 Sequence Diagram 4 
 
+
 Non-functional requirements
+Accessibility
+Only ENCS registered students in the database should have access to the web application. 
+Usability
+90% of users will be able to perform all major activities provided by the system in less than 3 minutes.
+Portability
+The web application should function on all major web browsers and operating systems.
+Maintainability
+This system is expected to be modified in the future therefore the less coupling and most cohesion as possible is requirment
 
-Describe the architecturally relevant non-functional requirements, i.e. those which are important for developing the software architecture. Think of security, privacy, third-party products, system dependencies, distribution and reuse. Also environmental factors such as context, design, implementation strategy, team composition, development tools, time to market, use of legacy code may be addressed.
-
-Usually, the non-functional requirements are already in place and can be referenced here. This document is not meant to be the source of non-functional requirements, but to address them. Provide a reference per requirement, and where the requirement is addressed.
- 
 
 Source	Name	Architectural relevance	Addressed in:
 e.g. Vision, SRS.	Name of requirement.	Description on why this requirement is relevant to the software architecture.	Section number where this requirement is addressed in this document.
