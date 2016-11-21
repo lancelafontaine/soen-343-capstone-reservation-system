@@ -30,6 +30,10 @@ $(document).ready(function(){
   $("#logout-button").click(function(){
     logoutUser();
   });
+  // binding event to user's reservations
+  $("#reservation-list").click(function(event) {
+    cancelReservation();
+  });
   //select room
   $("#room-list").on('click','li',function (){
     if (currentRoom != $(this).attr('id')) {
@@ -65,6 +69,7 @@ $(document).ready(function(){
          var room = $(currentRoom).text();
          var startDate = moment(start).format("YYYY-MM-DD h:mm:ss");
          makeReservation(room, startDate);
+         location.reload();
     }
 
   });
@@ -277,6 +282,30 @@ function makeReservation(room, timeslot){
         console.log(data);
       }
   });
+}
+
+function cancelReservation() {
+    //Select the current reservation list
+    var selectCurrent = $( event.target ).closest( "tr" ).text();
+    var roomNumber = selectCurrent.substring(0,5);
+    var timeslot = selectCurrent.substring(6,selectCurrent.length);
+    var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/cancelReservation/',
+    data: requestData,
+    dataType : "json",
+    cache: false,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(res){
+     // console.log(res);
+
+    }
+  });
+  location.reload();
 }
 
 //this is modifyReservation
