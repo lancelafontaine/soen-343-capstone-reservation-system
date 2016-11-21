@@ -161,7 +161,8 @@ The scenarios (or functional view) represent the behavior of the system as seen 
 The logical view captures the functionality provided by the system; it illustrates the collaborations between system components in order to realize the system's use cases. Describe the architecturally significant logical structure of the system. Think of decomposition in tiers and subsystem. Also describe the way in which, in view of the decomposition, Use Cases are technically translated into Use Case Realizations.
 
 Layers, tiers etc.
-Describe the top-level architecture style. Deploy a UML class diagram.
+Layered Architecture Class Diagram
+(Insert)
 
 Subsystems
 	The web application can be divided into two discrete subsystems: the client and the server. The client handles the presentation layer of the system, which is the only portion of the overall system that is visible to the user. This includes the Graphical User Interface, and also handles all user actions and requests. If the client receives a request from a user, it is then processed and sent to the next subsystem: the server, which contains the domain and data source layer of the system. The server handles the core business logic of the application and also contains the relational database, which contains tables to store domain object information in order to develop persistence in the overall system. These two subsystems interact with each other (the client sends a request to the server upon user input, the server then processes the action and sends a response), to form the overall system. 
