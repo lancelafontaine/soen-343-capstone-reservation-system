@@ -28,7 +28,7 @@ $(document).ready(function(){
   });
   // binding login event on to login button
   $("#logout-button").click(function(){
-    logoutUser();
+   logoutUser();
   });
   //select room
   $("#room-list").on('click','li',function (){
@@ -263,8 +263,25 @@ function createBooking() {
   //TODO: implementatuon
 }
 
-function deleteBooking() {
-  //TODO: implementatuon
+function cancelReservation() {
+   var roomNumber = "H-905";
+   var timeslot = "2016-10-28 14:00:00";
+   var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
+
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:8000/cancelReservation/',
+    data: requestData,
+    dataType : "json",
+    cache: false,
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(res){
+      console.log(res);
+
+    }
+  });
 }
 
 /*
