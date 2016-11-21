@@ -28,8 +28,12 @@ $(document).ready(function(){
   });
   // binding login event on to login button
   $("#logout-button").click(function(){
-   logoutUser();
+     logoutUser();
   });
+  //Select the clicked reservation
+  $("#reservation-list").click(function(event) {
+    cancelReservation();
+    });
   //select room
   $("#room-list").on('click','li',function (){
     if (currentRoom != $(this).attr('id')) {
@@ -264,9 +268,11 @@ function createBooking() {
 }
 
 function cancelReservation() {
-   var roomNumber = "H-905";
-   var timeslot = "2016-10-28 14:00:00";
-   var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
+    //Select the current reservation list 
+    var selectCurrent = $( event.target ).closest( "tr" ).text();
+    var roomNumber = selectCurrent.substring(0,5);
+    var timeslot = selectCurrent.substring(6,25);
+    var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
 
   $.ajax({
     method: 'POST',
@@ -287,7 +293,6 @@ function cancelReservation() {
 /*
 Helpers
 */
-
 function appendBookingList(booking, listType) {
 	for (var i = 0; i < booking.length; i++) {
     $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + " " + booking[i][2]
