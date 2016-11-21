@@ -69,7 +69,6 @@ $(document).ready(function(){
          var room = $(currentRoom).text();
          var startDate = moment(start).format("YYYY-MM-DD HH:mm:ss");
          makeReservation(room, startDate);
-         location.reload();
     }
 
   });
@@ -279,7 +278,13 @@ function makeReservation(room, timeslot){
         withCredentials: true
       },
       success: function(data, status){
-        console.log(data);
+        if( data.madeReservation == false ){
+          var reservationErrorMsg = data.reservationError;
+          $("#reservation-error-msg").html("<font color='red'><b>ERROR: " + reservationErrorMsg + " </b></font>");
+        } else {
+          console.log(data);
+          location.reload();
+        }
       }
   });
 }
