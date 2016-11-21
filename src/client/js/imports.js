@@ -165,6 +165,7 @@ function getRoomList() {
 }
 
 function showBookingByRoom() {
+  $('#calendar').fullCalendar('removeEvents');
   var currentRoomReservation = [];
   var beginOfWeek = $('#calendar').fullCalendar('getDate').startOf('week').format().split("T");
   console.log(beginOfWeek);
