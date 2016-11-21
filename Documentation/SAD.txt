@@ -200,9 +200,9 @@ An enterprise software system would additonally require a data view. The data vi
 Describe how the architecture supports the key sizing and performance requirements, as described in the Supplementary Specification. For example:
 
 Volumes:
-•	Estimated online orders : 100 a day, with peaks in the evening
-•	Registered individual customers : about 100
-•	Corporate customers : about 200
+•	Estimated ENCS Capstone students : 400 students
+•	Number of Capstone rooms: 15
+•	Total number of Capstone room timeslots: 60
 
 Performance:
 •	Time to process and online payment (credit card validation + confirmation) : less that 15 seconds required.
