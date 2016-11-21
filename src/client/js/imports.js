@@ -271,32 +271,31 @@ function makeReservation(room, timeslot){
   var requestData = "roomNumber=" + room + "&" + "timeslot=" + timeslot;
   //ajax call
   $.ajax({
-      method: 'POST',
-      url: 'http://localhost:8000/makeReservation/',
-      data: requestData,
-      dataType: "json",
-      xhrFields: {
-        withCredentials: true
-      },
-      success: function(data, status){
-        if( data.madeReservation == false ){
-          var reservationErrorMsg = data.reservationError;
-          $("#reservation-error-msg").html("<font color='red'><b>ERROR: " + reservationErrorMsg + " </b></font>");
-        } else {
-          console.log(data);
-          location.reload();
-        }
+    method: 'POST',
+    url: 'http://localhost:8000/makeReservation/',
+    data: requestData,
+    dataType: "json",
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function(data, status){
+      if( data.madeReservation == false ){
+        var reservationErrorMsg = data.reservationError;
+        $("#reservation-error-msg").html("<font color='red'><b>ERROR: " + reservationErrorMsg + " </b></font>");
+      } else {
+        console.log(data);
+        location.reload();
       }
+    }
   });
 }
 
 function cancelReservation() {
-    //Select the current reservation list
-    var selectCurrent = $( event.target ).closest( "tr" ).text();
-    var roomNumber = selectCurrent.substring(0,5);
-    var timeslot = selectCurrent.substring(6,selectCurrent.length);
-    var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
-
+  //Select the current reservation list
+  var selectCurrent = $( event.target ).closest( "tr" ).text();
+  var roomNumber = selectCurrent.substring(0,5);
+  var timeslot = selectCurrent.substring(6,selectCurrent.length);
+  var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
   $.ajax({
     method: 'POST',
     url: 'http://localhost:8000/cancelReservation/',
@@ -308,7 +307,6 @@ function cancelReservation() {
     },
     success: function(res){
      // console.log(res);
-
     }
   });
   location.reload();
@@ -316,9 +314,14 @@ function cancelReservation() {
 
 //This function will modify the reservation
 function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) {
-
-    var requestData = "oldRoomNumber=" + oldRoomNumber + "&newRoomNumber=" + newRoomNumber  + "&oldTimeslot=" + oldTimeslot + "&newTimeslot=" + newTimeslot ;
-
+  var requestData = "oldRoomNumber=" 
+  + oldRoomNumber 
+  + "&newRoomNumber=" 
+  + newRoomNumber  
+  + "&oldTimeslot=" 
+  + oldTimeslot 
+  + "&newTimeslot=" 
+  + newTimeslot;
   $.ajax({
     method: 'POST',
     url: 'http://localhost:8000/modifyReservation/',
@@ -330,7 +333,6 @@ function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) 
     },
     success: function(res){
       console.log(res);
-
     }
   });
   location.reload();
