@@ -172,30 +172,11 @@ Desribe packages of individual subsystems that are architecturally significant. 
 Use case realizations
 In this section you have to illustrate how use cases are translated into UML interaction diagrams. Give examples of the way in which the Use Case Specifications are technically translated into Use Case Realizations, for example, by providing a sequence-diagram. Explain how the tiers communicate and clarify how the components or objects used realize the functionality.
 
- 
-10.	Development (Implementation) view
 
-The development (or implementation) view describes the components used to assemble the system. Use a UML component diagram to capture this view.
 
 Reuse of components and frameworks
 Describe any third-party or home-made components and frameworks that will be reused.
- 
-11.	Process view
 
-The process view illustrates the system's processes, focusing on the runtime behavior of the system. The view illustrates parallelism and concurrency. Deploy a UML activity diagram to capture this view.
-
- 
-12.	Deployment (Physical) view
-
-The deployment (or physical) view illustrates the physical components of the architecture, their connectors and their topology. Describe the physical network and hardware configurations on which the software will be deployed. This includes at least the various physical nodes (computers, CPUs), the interaction between (sub)systems and the connections between these nodes (bus, LAN, point-to-point, messaging, SOAP, http, http). Use a UML deployment diagram to capture this view.
-
-Name	Type	Description
-Name of the node.	Node type.	Technical specifications.
-
- 
-13.	Data view (optional)
-An enterprise software system would additonally require a data view. The data view describes the data entities and their relationships. Deploy an Entity-Relationship (ER) Model to represent this view. Note that the ER model is not part of the UML specification. Additionally you can deploy a UML class diagram to represent the data view where classes would correspond to data entities.
- 
 14.	Size and performance
 Describe how the architecture supports the key sizing and performance requirements, as described in the Supplementary Specification. For example:
 
