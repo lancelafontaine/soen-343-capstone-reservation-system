@@ -123,6 +123,28 @@ The web application should function on all major web browsers and operating syst
 Maintainability
 This system is expected to be modified in the future therefore the less coupling and most cohesion as possible is requirment
 
+Non functional table
+
+
+SRS
+Accessibility
+Login and logout functionality has to access database of registered students
+Logical View 
+SRS
+Usablity
+Made a Calender UI that marked which timeslots were taken, this visual value makes system easier to use 
+Logical View
+SRS
+Portability
+Used standard libraries, web standards and popular frameworks to ensure compatibility on all major operating systems, web browsers.
+Physical View
+SRS
+Maintainability
+Separation of concerns among classes, allows for changes to be modular
+Logical View
+
+
+
 
 Source	Name	Architectural relevance	Addressed in:
 e.g. Vision, SRS.	Name of requirement.	Description on why this requirement is relevant to the software architecture.	Section number where this requirement is addressed in this document.
