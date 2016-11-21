@@ -1,11 +1,11 @@
-
+﻿
 Software Architecture Document
 
 Version X.X
 
 for
 
- <Project name>
+Concordia Capstone Scheduler
 
 Prepared by
 
@@ -94,12 +94,23 @@ Requirements are already described in SRS. In this section describe key requirem
 
 Functional requirements (Use case view)
 
-Refer to Use Cases or Use Case scenarios which are relevant with respect to the software architecture. The Use Cases referred to should contain central functionality, many architectural elements or specific delicate parts of the architecture.
 
-The overview below refers to architecturally relevant Use Cases from the Use Case Model (see references).
 
-Source	Name	Architectural relevance	Addressed in:
-Use case(s) or scenario(s).	Name of case(s) or scenario(s).	Description on why this use case or scenario is relevant to the architecture.	Section number where this use case or scenario is addressed in this document.
+UC1
+Make Reservation
+Requires us to interactive with database and verify other reservations; this was the bulk of business logic complexity, designed around this use case. 
+Sequence Diagram 2
+UC2
+View Reservation
+Needs to be updated often in the front end; forced us to implement some form of an observer
+Sequence Diagram 1 
+
+UC3,UC4
+Modify Reservation
+Cancel Reservation
+Given that we may be modifying and cancelling often we implemented a unit of work to reduce load on the database. 
+Sequence Diagram 3,
+Sequence Diagram 4 
 
 Non-functional requirements
 
