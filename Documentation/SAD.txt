@@ -205,7 +205,9 @@ Volumes:
 •	Total number of Capstone room timeslots: 60
 
 Performance:
-•	Time to process and online payment (credit card validation + confirmation) : less that 15 seconds required.
+•	Time for a user to login: less than 5 seconds
+•	Time for the system to perform operations on the schedule (add, cancel, modify): less than 8 seconds
+
 15.	Quality 
 A description of how the software architecture contributes to the quality attributes of the system as described in the ISO-9126 (I) standard. For example: The following quality goals have been identified:
 
