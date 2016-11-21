@@ -62,9 +62,6 @@ $(document).ready(function(){
     droppable: true,
     events: [],
     select: function(start, end, jsEvent, view){
-      //test
-      //$(currentRoom).text()
-         var allDay = !start.hasTime() && !end.hasTime();
          var room = $(currentRoom).text();
          var startDate = moment(start).format("YYYY-MM-DD h:mm:ss");
          makeReservation(room, startDate);
@@ -286,7 +283,6 @@ function makeReservation(room, timeslot){
 function updateBooking() {
   //TODO: implementatuon
 }
-
 
 /*
 Helpers
