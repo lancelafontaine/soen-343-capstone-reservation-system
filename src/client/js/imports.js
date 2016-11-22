@@ -41,6 +41,8 @@ $(document).ready(function(){
     var selectCurrent = $( event.target ).closest( "tr" ).text();
     var oldRoomNumber = selectCurrent.substring(0,5);
     var oldTimeSlot = selectCurrent.substring(6,selectCurrent.length);
+    var newRoomNumber = "";
+    var newTimeSlot = "";
     var re1='.*?';	// Non-greedy match on filler
     var re2='([-+]\\d+)';	// Integer Number 1
     //Regex for timeStamp
@@ -49,29 +51,24 @@ $(document).ready(function(){
     var prompt2 = true;
 
     while(prompt1){
-    var newRoomNumber = prompt("Please enter the room in format ex: H-905 ");
-    if(newRoomNumber.match(re1+re2,["i"])){
+    var input1 = prompt("Please enter the room in format ex: H-905 ", newRoomNumber);
+    if(input1.match(re1+re2,["i"])){
     var prompt1 = false;
     break;
     }
     }
     while(prompt2){
-    var newTimeSlot = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ");
-    if(newTimeSlot.match(re3,["i"])){
+    var input2 = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ", newTimeSlot);
+    if(input2.match(re3,["i"])){
     var prompt2 = false;
     break;
     }
     }
 
-    if((newRoomNumber && newTimeSlot) != null){
-    //Selection of  oldRoomNumber  oldTimeSlot newRoomNumber newTimeSlot working .
-    //console.log(oldRoomNumber);
-    //console.log(oldTimeSlot);
-    //console.log(newRoomNumber);
-    //console.log(newTimeSlot);
-    //Selection of  oldRoomNumber  oldTimeSlot newRoomNumber newTimeSlot working .
-    modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
-    
+
+    if((input1 && input2) != null){
+    //modifyReservation("H-905","H-831","2016-11-24 15:00:00","2016-11-24 15:00:00");
+     modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
     }
   });
   //select room
@@ -102,7 +99,7 @@ $(document).ready(function(){
     slotDuration: "01:00:00",
     slotEventOverlap: false,
     eventColor: "#FF4A55",
-    editable: true,  
+    editable: true,
     droppable: true,
     events: [],
     select: function(start, end, jsEvent, view){
@@ -169,8 +166,8 @@ function authenticateUser(){
   //console.log("Password: " + password);
   if( username.length == 0 || password.length == 0 ){
     $("#login-error-msg").html("<font color='red'><b> ERROR: One of the fields above is empty. </b></font>");
-  } 
-  var requestData = "username=" + username + "&password=" + password; 
+  }
+  var requestData = "username=" + username + "&password=" + password;
   $.ajax({
     method: 'POST',
     url: 'http://localhost:8000/login/',
@@ -217,7 +214,7 @@ function getRoomList() {
           currentRoom = "#room-" + i;
           $("#room-"+i).addClass("active");
           showBookingByRoom();
-        } 
+        }
       }
     }
   });
@@ -230,11 +227,11 @@ function showBookingByRoom() {
   console.log(beginOfWeek);
   $.ajax({
     method: 'GET',
-    url: "http://localhost:8000/getReservations/?roomNumber=" 
-    + $(currentRoom).text() 
-    + "&startTimeslot=" 
-    + beginOfWeek[0] 
-    + "%20" 
+    url: "http://localhost:8000/getReservations/?roomNumber="
+    + $(currentRoom).text()
+    + "&startTimeslot="
+    + beginOfWeek[0]
+    + "%20"
     + beginOfWeek[1],
     cache: false,
     success: function(res){
@@ -391,7 +388,7 @@ function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) 
       console.log(res);
     }
   });
-  //location.reload();
+  location.reload();
 }
 
 /*
