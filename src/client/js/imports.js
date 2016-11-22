@@ -279,6 +279,10 @@ function getUserSessionInfo() {
     },
     success: function(res){
       session = res;
+      currentURL = window.location.href;
+      if (!session['is-logged-in']&& /home/.test(currentURL)) {
+        window.top.location = '/index.html';
+      }
     }
   });
 }
