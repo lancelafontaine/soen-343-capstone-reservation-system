@@ -10,18 +10,21 @@ moment = require('moment');
 require('./library/bootstrap.min.js');
 
 /*
-Init page 
+Init page
 */
 var currentRoom;
+var session;
+var waitingList;
+var reservedList;
+
 $(document).ready(function(){
-  //get all rooms available from back-end
-  getRoomList();
+  getUserSessionInfo();
+  //display latest user info
+  displayUserInfo();
   //set sidebar backgoround
   setSideBarConcordia();
   //set login page animation
   loginPageAnimation();
-  //display latest user info
-  displayUserInfo();
   // binding login event on to login button
   $("#login-button").click(function(){
     authenticateUser();
@@ -66,11 +69,20 @@ $(document).ready(function(){
     droppable: true,
     events: [],
     select: function(start, end, jsEvent, view){
-         var room = $(currentRoom).text();
-         var startDate = moment(start).format("YYYY-MM-DD HH:mm:ss");
-         makeReservation(room, startDate);
+      var room = $(currentRoom).text();
+      var startDate = moment(start).format("YYYY-MM-DD HH:mm:ss");
+      makeReservation(room, startDate);
+    },
+    eventClick: function(calEvent, jsEvent, view) {
+      eventUsername = calEvent.title
+      if (eventUsername == session.username){
+        window.alert("Already registered for timeslot.")
+      } else {
+        var room = $(currentRoom).text();
+        var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");
+        makeReservation(room, startDate);
+      }
     }
-
   });
 });
 
@@ -202,19 +214,29 @@ function showBookingByRoom() {
         var minutes = time[1];
         var seconds = time[2];
         var eventStart = new Date(year, month-1, day, hours, minutes, seconds);
+
+        var backgroundColor = '#663399';
+
+        for (var j=0; j < waitingList.length; j++){
+          if (res.reservations[i][1] == waitingList[j][2]) {
+        console.log(waitingList)
+            var backgroundColor = '#f982e8';
+          }
+        }
+
         var slot = {
-          title: 'reserved by ' + user,
+          title: user,
           start: eventStart,
-          backgroundColor: '#663399'
+          backgroundColor: backgroundColor
         };
-      $('#calendar').fullCalendar("renderEvent", slot, true); 
+      $('#calendar').fullCalendar("renderEvent", slot, true);
       }
     }
   });
 }
 
 function getUserSessionInfo() {
-	$.ajax({
+  $.ajax({
     method: 'GET',
     url: 'http://localhost:8000/getSessionInfo',
     cache: false,
@@ -222,7 +244,7 @@ function getUserSessionInfo() {
       withCredentials: true
     },
     success: function(res){
-      //console.log(res);
+      session = res;
     }
   });
 }
@@ -246,8 +268,8 @@ function getReservationList() {
     },
     success: function(res){
       //console.log(res);
-      var booking = res.reservedList;
-      appendBookingList(booking, "reservation-list");
+      reservedList = res.reservedList;
+      appendBookingList(reservedList, "reservation-list");
     }
   });
 }
@@ -260,9 +282,12 @@ function getWaitingList() {
       withCredentials: true
     },
     success: function(res){
-      //console.log(res);
-      var booking = res.waitingList;
-      appendBookingList(booking, "waiting-list");
+      waitingList = res.waitingList;
+      console.log(waitingList)
+      appendBookingList(waitingList, "waiting-list");
+
+      //get all rooms available from back-end
+      getRoomList();
     }
   });
 }
@@ -355,6 +380,3 @@ function appendBookingList(booking, listType) {
 
 })();
 
-//////////////////////////////////
-// EXAMPLE AJAX CALLS TO SERVER //
-//////////////////////////////////
