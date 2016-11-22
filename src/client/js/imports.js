@@ -71,6 +71,7 @@ $(document).ready(function(){
     //console.log(newTimeSlot);
     //Selection of  oldRoomNumber  oldTimeSlot newRoomNumber newTimeSlot working .
     modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+    
     }
   });
   //select room
