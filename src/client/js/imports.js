@@ -41,8 +41,6 @@ $(document).ready(function(){
     var selectCurrent = $( event.target ).closest( "tr" ).text();
     var oldRoomNumber = selectCurrent.substring(0,5);
     var oldTimeSlot = selectCurrent.substring(6,selectCurrent.length);
-    var newRoomNumber = "";
-    var newTimeSlot = "";
     var re1='.*?';	// Non-greedy match on filler
     var re2='([-+]\\d+)';	// Integer Number 1
     //Regex for timeStamp
@@ -51,24 +49,23 @@ $(document).ready(function(){
     var prompt2 = true;
 
     while(prompt1){
-    var input1 = prompt("Please enter the room in format ex: H-905 ", newRoomNumber);
-    if(input1.match(re1+re2,["i"])){
+    var newRoomNumber = prompt("Please enter the room in format ex: H-905 ");
+    if(newRoomNumber.match(re1+re2,["i"])){
     var prompt1 = false;
     break;
     }
     }
     while(prompt2){
-    var input2 = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ", newTimeSlot);
-    if(input2.match(re3,["i"])){
+    var newTimeSlot = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ");
+    if(newTimeSlot.match(re3,["i"])){
     var prompt2 = false;
     break;
     }
     }
 
 
-    if((input1 && input2) != null){
-    //modifyReservation("H-905","H-831","2016-11-24 15:00:00","2016-11-24 15:00:00");
-     modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+    if((newRoomNumber && newTimeSlot) != null){
+    modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
     }
   });
   //select room
@@ -394,7 +391,7 @@ function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) 
       console.log(res);
     }
   });
-  location.reload();
+  //location.reload();
 }
 
 /*
