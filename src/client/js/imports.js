@@ -346,7 +346,8 @@ Helpers
 function appendBookingList(booking, listType) {
 	for (var i = 0; i < booking.length; i++) {
     $("#"+listType).append("<tr id='" + listType + "-" + i + "'><td>" + booking[i][1] + "@" + booking[i][2]
-      + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Remove' class='btn'>"
+      + "</td><td class='td-actions text-right'><button type='button' rel='tooltip' title='Modify' class='btn modify-reserved'><i class='fa fa-pencil'></i></button>"
+      + "<button type='button' rel='tooltip' title='Cancel' class='btn cancel-reserved'>"
       + "<i class='fa fa-times'></i></button></td></tr>"
     );
   }
