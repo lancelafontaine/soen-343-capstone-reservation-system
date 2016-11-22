@@ -122,10 +122,6 @@ def modifyReservation(request):
                                       required parameters.'
         return JsonResponse(response)
 
-    if reservationMapper.getNumOfReservations(username, newTimeslot) >= 3:
-        response['reservationError'] = 'Maximum reservations reached for this week.'
-        return JsonResponse(response)
-
     if reservationMapper.hasReservation(username, newRoomNumber, newTimeslot):
         response['reservationError'] = 'Cannot make two reservations for the same date in the same room.'
         return JsonResponse(response)

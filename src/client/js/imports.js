@@ -41,8 +41,6 @@ $(document).ready(function(){
     var selectCurrent = $( event.target ).closest( "tr" ).text();
     var oldRoomNumber = selectCurrent.substring(0,5);
     var oldTimeSlot = selectCurrent.substring(6,selectCurrent.length);
-    var newRoomNumber = "";
-    var newTimeSlot = "";
     var re1='.*?';	// Non-greedy match on filler
     var re2='([-+]\\d+)';	// Integer Number 1
     //Regex for timeStamp
@@ -51,24 +49,23 @@ $(document).ready(function(){
     var prompt2 = true;
 
     while(prompt1){
-    var input1 = prompt("Please enter the room in format ex: H-905 ", newRoomNumber);
-    if(input1.match(re1+re2,["i"])){
+    var newRoomNumber = prompt("Please enter the room in format ex: H-905 ");
+    if(newRoomNumber.match(re1+re2,["i"])){
     var prompt1 = false;
     break;
     }
     }
     while(prompt2){
-    var input2 = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ", newTimeSlot);
-    if(input2.match(re3,["i"])){
+    var newTimeSlot = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ");
+    if(newTimeSlot.match(re3,["i"])){
     var prompt2 = false;
     break;
     }
     }
 
 
-    if((input1 && input2) != null){
-    //modifyReservation("H-905","H-831","2016-11-24 15:00:00","2016-11-24 15:00:00");
-     modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+    if((newRoomNumber && newTimeSlot) != null){
+    modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
     }
   });
   //select room
@@ -99,18 +96,23 @@ $(document).ready(function(){
     slotDuration: "01:00:00",
     slotEventOverlap: false,
     eventColor: "#FF4A55",
-    editable: true,  
+    editable: true,
     droppable: true,
     events: [],
     select: function(start, end, jsEvent, view){
       var room = $(currentRoom).text();
       var startDate = moment(start).format("YYYY-MM-DD HH:mm:ss");
+      if (moment(startDate).isBefore(moment())) {
+        window.alert('Can\'t book times in the past');
+      }
       makeReservation(room, startDate);
     },
     eventClick: function(calEvent, jsEvent, view) {
-      eventUsername = calEvent.title
+      eventUsername = calEvent.title;
       if (eventUsername == session.username){
         window.alert("Already registered for timeslot.")
+      } else if (moment(calEvent.start).isBefore(moment())) {
+        window.alert('Can\'t book times in the past');
       } else {
         var room = $(currentRoom).text();
         var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");
@@ -161,13 +163,10 @@ function authenticateUser(){
   // Retrieving username and password from login page
   var username = $("#username").val();
   var password = $("#password").val();
-  // Logging on console for debugging purpose
-  //console.log("Username: " + username);
-  //console.log("Password: " + password);
   if( username.length == 0 || password.length == 0 ){
     $("#login-error-msg").html("<font color='red'><b> ERROR: One of the fields above is empty. </b></font>");
-  } 
-  var requestData = "username=" + username + "&password=" + password; 
+  }
+  var requestData = "username=" + username + "&password=" + password;
   $.ajax({
     method: 'POST',
     url: 'http://localhost:8000/login/',
@@ -178,7 +177,6 @@ function authenticateUser(){
     },
     success: function(data, status){
       if(data.loggedIn == true){
-        //console.log(data);
         window.top.location = '/home.html';
       } else {
         var errorMsg = data.loginError;
@@ -214,7 +212,7 @@ function getRoomList() {
           currentRoom = "#room-" + i;
           $("#room-"+i).addClass("active");
           showBookingByRoom();
-        } 
+        }
       }
     }
   });
@@ -227,11 +225,11 @@ function showBookingByRoom() {
   console.log(beginOfWeek);
   $.ajax({
     method: 'GET',
-    url: "http://localhost:8000/getReservations/?roomNumber=" 
-    + $(currentRoom).text() 
-    + "&startTimeslot=" 
-    + beginOfWeek[0] 
-    + "%20" 
+    url: "http://localhost:8000/getReservations/?roomNumber="
+    + $(currentRoom).text()
+    + "&startTimeslot="
+    + beginOfWeek[0]
+    + "%20"
     + beginOfWeek[1],
     cache: false,
     success: function(res){
@@ -251,11 +249,16 @@ function showBookingByRoom() {
 
         var backgroundColor = '#663399';
 
+        // Check if any of these are on the users waiting list
         for (var j=0; j < waitingList.length; j++){
           if (res.reservations[i][1] == waitingList[j][2]) {
         console.log(waitingList)
-            var backgroundColor = '#f982e8';
+            backgroundColor = '#f982e8';
           }
+        }
+        // Greyed-out timeslot are ones that before the current time.
+        if (moment(res.reservations[i][1]).isBefore(moment())) {
+            backgroundColor = '#adadad';
         }
 
         var slot = {
@@ -279,6 +282,10 @@ function getUserSessionInfo() {
     },
     success: function(res){
       session = res;
+      currentURL = window.location.href;
+      if (!session['is-logged-in']&& /home/.test(currentURL)) {
+        window.top.location = '/index.html';
+      }
     }
   });
 }
@@ -301,7 +308,6 @@ function getReservationList() {
       withCredentials: true
     },
     success: function(res){
-      //console.log(res);
       reservedList = res.reservedList;
       appendBookingList(reservedList, "reservation-list");
     }
@@ -317,7 +323,6 @@ function getWaitingList() {
     },
     success: function(res){
       waitingList = res.waitingList;
-      console.log(waitingList)
       appendBookingList(waitingList, "waiting-list");
 
       //get all rooms available from back-end
@@ -343,7 +348,6 @@ function makeReservation(room, timeslot){
         var reservationErrorMsg = data.reservationError;
         $("#reservation-error-msg").html("<font color='red'><b>ERROR: " + reservationErrorMsg + " </b></font>");
       } else {
-        console.log(data);
         location.reload();
       }
     }
@@ -366,7 +370,6 @@ function cancelReservation() {
       withCredentials: true
     },
     success: function(res){
-     // console.log(res);
     }
   });
   location.reload();
@@ -388,7 +391,7 @@ function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) 
       console.log(res);
     }
   });
-  location.reload();
+  //location.reload();
 }
 
 /*
