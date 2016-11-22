@@ -105,12 +105,17 @@ $(document).ready(function(){
     select: function(start, end, jsEvent, view){
       var room = $(currentRoom).text();
       var startDate = moment(start).format("YYYY-MM-DD HH:mm:ss");
+      if (moment(startDate).isBefore(moment())) {
+        window.alert('Can\'t book times in the past');
+      }
       makeReservation(room, startDate);
     },
     eventClick: function(calEvent, jsEvent, view) {
-      eventUsername = calEvent.title
+      eventUsername = calEvent.title;
       if (eventUsername == session.username){
         window.alert("Already registered for timeslot.")
+      } else if (moment(calEvent.start).isBefore(moment())) {
+        window.alert('Can\'t book times in the past');
       } else {
         var room = $(currentRoom).text();
         var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");
@@ -161,9 +166,6 @@ function authenticateUser(){
   // Retrieving username and password from login page
   var username = $("#username").val();
   var password = $("#password").val();
-  // Logging on console for debugging purpose
-  //console.log("Username: " + username);
-  //console.log("Password: " + password);
   if( username.length == 0 || password.length == 0 ){
     $("#login-error-msg").html("<font color='red'><b> ERROR: One of the fields above is empty. </b></font>");
   }
@@ -178,7 +180,6 @@ function authenticateUser(){
     },
     success: function(data, status){
       if(data.loggedIn == true){
-        //console.log(data);
         window.top.location = '/home.html';
       } else {
         var errorMsg = data.loginError;
@@ -251,11 +252,16 @@ function showBookingByRoom() {
 
         var backgroundColor = '#663399';
 
+        // Check if any of these are on the users waiting list
         for (var j=0; j < waitingList.length; j++){
           if (res.reservations[i][1] == waitingList[j][2]) {
         console.log(waitingList)
-            var backgroundColor = '#f982e8';
+            backgroundColor = '#f982e8';
           }
+        }
+        // Greyed-out timeslot are ones that before the current time.
+        if (moment(res.reservations[i][1]).isBefore(moment())) {
+            backgroundColor = '#adadad';
         }
 
         var slot = {
@@ -305,7 +311,6 @@ function getReservationList() {
       withCredentials: true
     },
     success: function(res){
-      //console.log(res);
       reservedList = res.reservedList;
       appendBookingList(reservedList, "reservation-list");
     }
@@ -321,7 +326,6 @@ function getWaitingList() {
     },
     success: function(res){
       waitingList = res.waitingList;
-      console.log(waitingList)
       appendBookingList(waitingList, "waiting-list");
 
       //get all rooms available from back-end
@@ -347,7 +351,6 @@ function makeReservation(room, timeslot){
         var reservationErrorMsg = data.reservationError;
         $("#reservation-error-msg").html("<font color='red'><b>ERROR: " + reservationErrorMsg + " </b></font>");
       } else {
-        console.log(data);
         location.reload();
       }
     }
@@ -370,7 +373,6 @@ function cancelReservation() {
       withCredentials: true
     },
     success: function(res){
-     // console.log(res);
     }
   });
   location.reload();
