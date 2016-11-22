@@ -192,6 +192,7 @@ function showBookingByRoom() {
       console.log(res);
       for (var i=0; i < res.reservations.length; i++) {
         var reservation = res.reservations[i][1].split(" ");
+        var user = res.reservations[i][0];
         var date = reservation[0].split("-");
         var year = date[0];
         var month = date[1];
@@ -202,7 +203,7 @@ function showBookingByRoom() {
         var seconds = time[2];
         var eventStart = new Date(year, month-1, day, hours, minutes, seconds);
         var slot = {
-          title: 'unavailable',
+          title: 'reserved by ' + user,
           start: eventStart,
           backgroundColor: '#663399'
         };
