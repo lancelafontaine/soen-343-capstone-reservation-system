@@ -34,8 +34,42 @@ $(document).ready(function(){
     logoutUser();
   });
   // binding event to user's reservations
-  $("#reservation-list").click(function(event) {
-    cancelReservation();
+  $("#reservation-list").delegate('.cancel-reserved','click',function(){
+      cancelReservation();
+  });
+  $("#reservation-list").delegate('.modify-reserved','click',function(){
+    var selectCurrent = $( event.target ).closest( "tr" ).text();
+    var oldRoomNumber = selectCurrent.substring(0,5);
+    var oldTimeSlot = selectCurrent.substring(6,selectCurrent.length);
+    var newRoomNumber = "";
+    var newTimeSlot = "";
+    var re1='.*?';	// Non-greedy match on filler
+    var re2='([-+]\\d+)';	// Integer Number 1
+    //Regex for timeStamp
+    var re3='((?:2|1)\\d{3}(?:-|\\/)(?:(?:0[1-9])|(?:1[0-2]))(?:-|\\/)(?:(?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(?:T|\\s)(?:(?:[0-1][0-9])|(?:2[0-3])):(?:[0-5][0-9]):(?:[0-5][0-9]))';
+    var prompt1 = true;
+    var prompt2 = true;
+
+    while(prompt1){
+    var input1 = prompt("Please enter the room in format ex: H-905 ", newRoomNumber);
+    if(input1.match(re1+re2,["i"])){
+    var prompt1 = false;
+    break;
+    }
+    }
+    while(prompt2){
+    var input2 = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ", newTimeSlot);
+    if(input2.match(re3,["i"])){
+    var prompt2 = false;
+    break;
+    }
+    }
+
+
+    if((input1 && input2) != null){
+    //modifyReservation("H-905","H-831","2016-11-24 15:00:00","2016-11-24 15:00:00");
+     modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+    }
   });
   //select room
   $("#room-list").on('click','li',function (){
@@ -340,14 +374,7 @@ function cancelReservation() {
 
 //This function will modify the reservation
 function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) {
-  var requestData = "oldRoomNumber=" 
-  + oldRoomNumber 
-  + "&newRoomNumber=" 
-  + newRoomNumber  
-  + "&oldTimeslot=" 
-  + oldTimeslot 
-  + "&newTimeslot=" 
-  + newTimeslot;
+  var requestData = "oldRoomNumber=" + oldRoomNumber + "&newRoomNumber=" + newRoomNumber  + "&oldTimeslot=" + oldTimeslot + "&newTimeslot=" + newTimeslot ;
   $.ajax({
     method: 'POST',
     url: 'http://localhost:8000/modifyReservation/',
