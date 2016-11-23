@@ -8,6 +8,7 @@ $ = jQuery = require('jquery');
 require('fullcalendar');
 moment = require('moment');
 require('./library/bootstrap.min.js');
+var bootbox = require('bootbox');
 
 /*
 Init page
@@ -16,6 +17,7 @@ var currentRoom;
 var session;
 var waitingList;
 var reservedList;
+
 
 $(document).ready(function(){
   getUserSessionInfo();
@@ -34,10 +36,10 @@ $(document).ready(function(){
     logoutUser();
   });
   // binding event to user's reservations
-  $("#reservation-list").delegate('.cancel-reserved','click',function(){
-      cancelReservation();
+  $("#reservation-list, #waiting-list").delegate('.cancel-reserved','click',function(){
+    cancelReservation();
   });
-  $("#reservation-list").delegate('.modify-reserved','click',function(){
+  $("#reservation-list, #waiting-list").delegate('.modify-reserved','click',function(){
     var selectCurrent = $( event.target ).closest( "tr" ).text();
     var oldRoomNumber = selectCurrent.substring(0,5);
     var oldTimeSlot = selectCurrent.substring(6,selectCurrent.length);
@@ -45,28 +47,32 @@ $(document).ready(function(){
     var re2='([-+]\\d+)';	// Integer Number 1
     //Regex for timeStamp
     var re3='((?:2|1)\\d{3}(?:-|\\/)(?:(?:0[1-9])|(?:1[0-2]))(?:-|\\/)(?:(?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(?:T|\\s)(?:(?:[0-1][0-9])|(?:2[0-3])):(?:[0-5][0-9]):(?:[0-5][0-9]))';
-    var prompt1 = true;
-    var prompt2 = true;
 
-    while(prompt1){
-    var newRoomNumber = prompt("Please enter the room in format ex: H-905 ");
-    if(newRoomNumber.match(re1+re2,["i"])){
-    var prompt1 = false;
-    break;
+    function prompt1() {
+      var newRoomNumber;
+      bootbox.prompt("Please enter the room in format ex: H-905", function(result){
+        newRoomNumber = result;
+        if(!newRoomNumber.match(re1+re2,["i"])){
+          prompt1();
+        } else {
+          prompt2(newRoomNumber);
+        }
+      });
     }
-    }
-    while(prompt2){
-    var newTimeSlot = prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ");
-    if(newTimeSlot.match(re3,["i"])){
-    var prompt2 = false;
-    break;
-    }
+    function prompt2(newRoomNumber) {
+      var newTimeSlot;
+      bootbox.prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ", function(result){
+        newTimeSlot = result;
+        if(!newTimeSlot.match(re3,["i"])){
+          prompt2(newRoomNumber);
+        } else{
+          modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+        }
+      });
     }
 
+    prompt1();
 
-    if((newRoomNumber && newTimeSlot) != null){
-    modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
-    }
   });
   //select room
   $("#room-list").on('click','li',function (){
@@ -103,16 +109,38 @@ $(document).ready(function(){
       var room = $(currentRoom).text();
       var startDate = moment(start).format("YYYY-MM-DD HH:mm:ss");
       if (moment(startDate).isBefore(moment())) {
-        window.alert('Can\'t book times in the past');
+        bootbox.alert({
+          message: "<div style='width:100%;text-align:center;'><i class='fa fa-close fa-4x' style='color:red;'></i></div><br/><span style='font-size:22px;'>" +
+              "Can't book reservations in the past!" +
+              "</span>",
+            size: 'small',
+            backdrop: true,
+            closeButton: false
+        });
+      } else {
+        makeReservation(room, startDate);
       }
-      makeReservation(room, startDate);
     },
     eventClick: function(calEvent, jsEvent, view) {
       eventUsername = calEvent.title;
       if (eventUsername == session.username){
-        window.alert("Already registered for timeslot.")
+        bootbox.alert({
+          message: "<div style='width:100%;text-align:center;'><i class='fa fa-close fa-4x' style='color:red;'></i></div><br/><span style='font-size:22px;'>" +
+              "You are already registered for that timeslot!" +
+              "</span>",
+            size: 'small',
+            backdrop: true,
+            closeButton: false
+        });
       } else if (moment(calEvent.start).isBefore(moment())) {
-        window.alert('Can\'t book times in the past');
+        bootbox.alert({
+          message: "<div style='width:100%;text-align:center;'><i class='fa fa-close fa-4x' style='color:red;'></i></div><br/><span style='font-size:22px;'>" +
+              "Can't book reservations in the past!" +
+              "</span>",
+            size: 'small',
+            backdrop: true,
+            closeButton: false
+        });
       } else {
         var room = $(currentRoom).text();
         var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");

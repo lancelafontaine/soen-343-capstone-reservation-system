@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/softwarebrah/soen-343-capstone-reservation-system#readme",
   "dependencies": {
+    "bootbox": "^4.4.0",
     "browserify": "^13.1.1",
     "del": "^2.2.2",
     "fullcalendar": "^3.0.1",
