@@ -12,7 +12,7 @@
 
 ## Quick Start Guide for Development
 
-- **Developed strictly for the Google Chrome browser**.
+## Developed strictly for the Google Chrome browser.
 
 ### Client-Side
 
