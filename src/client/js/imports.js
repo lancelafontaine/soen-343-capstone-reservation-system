@@ -119,7 +119,7 @@ $(document).ready(function(){
   //calendar code
   $('#calendar').fullCalendar({
     header: {
-      left: "prev, next today",
+      left: "",
       center: "title",
       right: ""
     },
