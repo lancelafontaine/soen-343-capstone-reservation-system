@@ -17,6 +17,7 @@ var currentRoom;
 var session;
 var waitingList;
 var reservedList;
+var rooms;
 
 
 $(document).ready(function(){
@@ -43,10 +44,6 @@ $(document).ready(function(){
     var selectCurrent = $( event.target ).closest( "tr" ).text();
     var oldRoomNumber = selectCurrent.substring(0,5);
     var oldTimeSlot = selectCurrent.substring(6,selectCurrent.length);
-    var re1='.*?';	// Non-greedy match on filler
-    var re2='([-+]\\d+)';	// Integer Number 1
-    //Regex for timeStamp
-    var re3='((?:2|1)\\d{3}(?:-|\\/)(?:(?:0[1-9])|(?:1[0-2]))(?:-|\\/)(?:(?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(?:T|\\s)(?:(?:[0-1][0-9])|(?:2[0-3])):(?:[0-5][0-9]):(?:[0-5][0-9]))';
 
     // check if reservation is on waiting list
     var isOnWaitingList = false;
@@ -79,7 +76,7 @@ $(document).ready(function(){
         callback: function(result){
           newRoomNumber = result;
           if (newRoomNumber) {
-            if(!newRoomNumber.match(re1+re2,["i"])){
+            if(rooms.indexOf(newRoomNumber) == -1){
               prompt1();
             } else {
               prompt2(newRoomNumber);
@@ -97,7 +94,7 @@ $(document).ready(function(){
         callback: function(result){
           newTimeSlot = result;
           if (newTimeSlot){
-            if(!newTimeSlot.match(re3,["i"])){
+            if(!/\d{4}-\d{2}-\d{2}\ \d{2}:\d{2}:\d{2}/.test(newTimeSlot)){
               prompt2(newRoomNumber);
             } else{
               modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
@@ -270,6 +267,9 @@ function getRoomList() {
     url: 'http://localhost:8000/getRooms/',
     cache: false,
     success: function(res){
+      rooms = res.rooms;
+      console.log("rooms")
+      console.log(rooms)
       for (var i=0; i < res.rooms.length; i++) {
         $("#room-list").append("<li id='room-"+i+"'><a><p>" + res.rooms[i] + "</p></a></li>");
         if (!currentRoom){
@@ -312,10 +312,6 @@ function showBookingByRoom() {
         var backgroundColor = '#663399';
 
         // Check if any of these are on the users waiting list
-        console.log("waiting list:")
-        console.log(waitingList)
-        console.log("reserved list:")
-        console.log(reservedList)
         for (var j=0; j < waitingList.length; j++){
           if (res.reservations[i][1] == waitingList[j][2] ) {
             if ($(currentRoom).text() == waitingList[j][1]){
