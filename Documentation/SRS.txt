@@ -217,20 +217,24 @@ that classifies software quality in a structured set of characteristics and sub-
 
 
 External interfaces
-1-	Input: Username and Password (login)
+1-	Input: Username and Password (login credentials)
 	Output: Error message if the user isn’t found in the database
 
 
-2-	Input: Room information (day, timeslot, room number)
-	Output: Display room status (Free or full)
+2-	Input: Make room reservation (Day, Time slot, Room number)
+	Output: Success message if reservation was made, error message if not.
 
 
-3-	Input: View rooms calendar
-	Output: Calendar showing the information of each room
+3-	Input: Room Number
+	Output: Weekly Calendar showing the room information (time slot statuses)
 
 
-4-	Input: Modified room reservation ( delete reservation, new day, new timesolt)
-	Output: Display room status (Free or full)
+4-	Input: Modify room reservation (Room Number, Old Time Slot, New Time Slot)
+Output: Success message if modification is successful, error message if not.
+
+
+5-	Input: Cancel room reservation (Day, Time Slot, Room Number)
+Output: Success message if cancellation is successful, error message if not.
 
 
 Functionality
