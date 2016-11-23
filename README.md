@@ -1,5 +1,13 @@
 # SOEN 343 Team Project - Capstone Room Reservation System
 
+## Team Members
+- Rameen Rastan-Vadiveloo 27191863 - rameenrastan
+- Benny Zhao 27205104 - SoftwareBrah
+- Jason Tsalikis 25892120 - jason10129
+- Lenz Petion 26775837 - jason10129
+- Simeon Cvetkovic 27430515 - cvesim
+- Lance Lafontaine 26349188 - lancelafontaine
+
 ## Quick Start Guide for Development
 
 ### Client-Side
