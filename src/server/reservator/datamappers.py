@@ -63,7 +63,7 @@ class ReservationMapper:
 
     def removeFromAllOtherWaitingLists(self, username, roomNumber, timeslot):
         reservations = self.identitymap.findAllOtherPendingReservations(username, roomNumber, timeslot)
-        if reservations is not None:
+        if reservations:
             for r in reservations:
                 self.uow.registerRemoved(r)
             self.identitymap.deleteAll(reservations)

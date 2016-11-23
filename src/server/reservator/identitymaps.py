@@ -41,7 +41,7 @@ class ReservationIdentityMap:
         return reservation
 
     def findAllOtherPendingReservations(self, username, roomNumber, timeslot):
-        reservations = None
+        reservations = []
         for key, value in self.ids.iteritems():
             if value.username == username and value.timeslot == timeslot and value.roomNumber != roomNumber:
                 reservations.append(value)
