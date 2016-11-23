@@ -154,7 +154,15 @@ $(document).ready(function(){
             closeButton: false
         });
       } else {
-        makeReservation(room, startDate);
+        bootbox.confirm({ 
+          size: "small",
+          message: "Confirm reservation?", 
+          callback: function(result){
+            if(result) {
+              makeReservation(room, startDate);
+            }
+          }
+        })
       }
     },
     eventClick: function(calEvent, jsEvent, view) {
