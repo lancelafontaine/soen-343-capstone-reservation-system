@@ -309,9 +309,15 @@ function showBookingByRoom() {
         var backgroundColor = '#663399';
 
         // Check if any of these are on the users waiting list
+        console.log("waiting list:")
+        console.log(waitingList)
+        console.log("reserved list:")
+        console.log(reservedList)
         for (var j=0; j < waitingList.length; j++){
-          if (res.reservations[i][1] == waitingList[j][2]) {
-            backgroundColor = '#f982e8';
+          if (res.reservations[i][1] == waitingList[j][2] ) {
+            if ($(currentRoom).text() == waitingList[j][1]){
+              backgroundColor = '#f982e8';
+            }
           }
         }
         // Greyed-out timeslot are ones that before the current time.
