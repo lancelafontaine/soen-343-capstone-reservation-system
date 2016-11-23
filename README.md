@@ -12,7 +12,7 @@
 
 ## Quick Start Guide for Development
 
-## Developed strictly for the Google Chrome browser.
+#### Developed strictly for the Google Chrome browser.
 
 ### Client-Side
 
@@ -36,5 +36,10 @@
 - `python manage.py < setupdatabase.py`
 - `python2 manage.py runserver`
 
+### User Accounts
+
+- `testuser` / `testuser`
+- `testuser2` / `testuser3`
+- `testuser2` / `testuser3`
 
 
