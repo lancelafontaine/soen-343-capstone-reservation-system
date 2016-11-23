@@ -162,7 +162,7 @@ $(document).ready(function(){
               makeReservation(room, startDate);
             }
           }
-        })
+        });
       }
     },
     eventClick: function(calEvent, jsEvent, view) {
@@ -186,9 +186,17 @@ $(document).ready(function(){
             closeButton: false
         });
       } else {
-        var room = $(currentRoom).text();
-        var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");
-        makeReservation(room, startDate);
+        bootbox.confirm({ 
+          size: "small",
+          message: "The timeslot is booked. Do you want to be in waiting list?", 
+          callback: function(result){
+            if(result) {
+              var room = $(currentRoom).text();
+              var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");
+              makeReservation(room, startDate);
+            }
+          }
+        });
       }
     }
   });
