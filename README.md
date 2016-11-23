@@ -30,5 +30,9 @@
 - `cd src/`
 - `pip2 install -r requirements.txt`
 - `cd server/`
+- `python manage.py migrate`
+- `python manage.py < setupdatabase.py`
 - `python2 manage.py runserver`
+
+
 
