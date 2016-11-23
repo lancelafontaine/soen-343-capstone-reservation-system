@@ -261,6 +261,42 @@ The system shall permit a student to enter the wait list for a reservation at an
 Actor goal list
                         
 Actor  Goal
+
+
+			
+Actor: Student
+		
+Goal:  Log in
+
+
+Actor : Student
+
+
+Goal : View rooms
+
+
+Actor : Student 
+
+
+Goal : Make room reservation
+
+
+Actor : Student 
+
+
+Goal : View room weekly calendar
+
+
+Actor : Student 
+
+
+Goal : Cancel room reservation
+
+
+Actor : Student 
+
+
+Goal : Modify room reservation
                 
 
 Use case view
