@@ -52,13 +52,14 @@ $(document).ready(function(){
     var isOnWaitingList = false;
     for (var j=0; j < waitingList.length; j++){
       if (oldTimeSlot == waitingList[j][2]) {
-        if (roomNumber == waitingList[j][1]){
+        if (oldRoomNumber == waitingList[j][1]){
           isOnWaitingList = true;
         }
       }
     }
     if (!isOnWaitingList && moment(oldTimeSlot).isBefore(moment())) {
       bootbox.alert({
+        title: "Error",
         message: "<div style='width:100%;text-align:center;'><i class='fa fa-close fa-4x' style='color:red;'></i></div><br/><span style='font-size:22px;'>" +
             "Can't modify booked reservations from the past!" +
             "</span>",
@@ -72,16 +73,17 @@ $(document).ready(function(){
     function prompt1() {
       var newRoomNumber;
       bootbox.prompt({
-        message: "Please enter the room in format ex: H-905",
-        size: 'small',
+        title: "Please enter the room in format ex: H-905",
         backdrop: true,
         closeButton: false,
         callback: function(result){
           newRoomNumber = result;
-          if(!newRoomNumber.match(re1+re2,["i"])){
-            prompt1();
-          } else {
-            prompt2(newRoomNumber);
+          if (newRoomNumber) {
+            if(!newRoomNumber.match(re1+re2,["i"])){
+              prompt1();
+            } else {
+              prompt2(newRoomNumber);
+            }
           }
         }
       });
@@ -89,16 +91,17 @@ $(document).ready(function(){
     function prompt2(newRoomNumber) {
       var newTimeSlot;
       bootbox.prompt({
-        message: "Please enter the time in format ex: 2016-11-24 15:00:00",
-        size: 'small',
+        title: "Please enter the time in format ex: 2016-11-24 15:00:00",
         backdrop: true,
         closeButton: false,
         callback: function(result){
           newTimeSlot = result;
-          if(!newTimeSlot.match(re3,["i"])){
-            prompt2(newRoomNumber);
-          } else{
-            modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+          if (newTimeSlot){
+            if(!newTimeSlot.match(re3,["i"])){
+              prompt2(newRoomNumber);
+            } else{
+              modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+            }
           }
         }
       });

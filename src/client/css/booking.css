@@ -14,19 +14,20 @@ p {
 }
 
 .time-slot-unavailable, .time-slot-unavailable:hover {
-  color: #663399 !important;
+  color: rgba(0,0,0,0);
+
 }
 
 .text-success, .text-success:hover {
-  color: #87CB16 !important;
+  color: rgba(0,0,0,0);
 }
 
 .time-slot-waiting, .time-slot-waiting:hover {
-  color: #FF9500 !important;
+  color: rgba(0,0,0,0);
 }
 
 .time-slot-booked, .time-slot-booked:hover {
-  color: #00ff3b !important;
+  color: rgba(0,0,0,0);
 }
 
 /*     
