@@ -391,7 +391,7 @@ function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) 
       console.log(res);
     }
   });
-  //location.reload();
+  location.reload();
 }
 
 /*
