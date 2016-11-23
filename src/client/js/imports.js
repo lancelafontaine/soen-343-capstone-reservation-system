@@ -154,15 +154,7 @@ $(document).ready(function(){
             closeButton: false
         });
       } else {
-        bootbox.confirm({ 
-          size: "small",
-          message: "Confirm reservation?", 
-          callback: function(result){
-            if(result) {
-              makeReservation(room, startDate);
-            }
-          }
-        });
+        makeReservation(room, startDate);
       }
     },
     eventClick: function(calEvent, jsEvent, view) {
@@ -186,17 +178,9 @@ $(document).ready(function(){
             closeButton: false
         });
       } else {
-        bootbox.confirm({ 
-          size: "small",
-          message: "The timeslot is booked. Do you want to be in waiting list?", 
-          callback: function(result){
-            if(result) {
-              var room = $(currentRoom).text();
-              var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");
-              makeReservation(room, startDate);
-            }
-          }
-        });
+        var room = $(currentRoom).text();
+        var startDate = moment(calEvent.start).format("YYYY-MM-DD HH:mm:ss");
+        makeReservation(room, startDate);
       }
     }
   });
