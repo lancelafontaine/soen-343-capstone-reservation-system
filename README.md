@@ -2,12 +2,13 @@
 
 ## Team Members
 - Rameen Rastan-Vadiveloo (27191863) / [rameenrastan](https://github.com/rameenrastan)
-- Benny Zhao (27205104) / [SoftwareBrah](https://github.com/SoftwareBrah)
+- Benny Zhao (27205104) / [softwarebrah](https://github.com/SoftwareBrah)
 - Jason Tsalikis (25892120) / [jason10129](https://github.com/jason10129)
 - Lenz Petion (26775837) / [monsieurpetion](https://github.com/monsieurpetion)
 - Simeon Cvetkovic (27430515) / [cvesim](https://github.com/cvesim)
 - Lance Lafontaine (26349188) / [lancelafontaine](https://github.com/lancelafontaine)
 - Bruce Cai (21346482) / [choitwao](https://github.com/choitwao)
+- Sam Alexander Moosavi (27185731) / [sammoosavi](https://github.com/sammoosavi)
 
 ## Quick Start Guide for Development
 
