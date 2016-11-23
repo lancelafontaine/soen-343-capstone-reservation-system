@@ -1,0 +1,10 @@
+The system shall permit a student to book a room reservation at a given time slot.
+
+The system shall permit a student to modify an existing room reservation to a new time slot.
+
+The system shall permit a student to cancel an existing room reservation.
+
+The system shall permit a student to view a weekly calendar of all reservation availabilities for a room.
+
+The system shall permit a student to enter the wait list for a reservation at an unavailable time slot. 
+

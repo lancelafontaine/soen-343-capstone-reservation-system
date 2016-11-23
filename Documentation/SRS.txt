@@ -217,32 +217,86 @@ that classifies software quality in a structured set of characteristics and sub-
 
 
 External interfaces
-1-	Input: Username and Password (login)
+1-	Input: Username and Password (login credentials)
 	Output: Error message if the user isn’t found in the database
 
 
-2-	Input: Room information (day, timeslot, room number)
-	Output: Display room status (Free or full)
+2-	Input: Make room reservation (Day, Time slot, Room number)
+	Output: Success message if reservation was made, error message if not.
 
 
-3-	Input: View rooms calendar
-	Output: Calendar showing the information of each room
+3-	Input: Room Number
+	Output: Weekly Calendar showing the room information (time slot statuses)
 
 
-4-	Input: Modified room reservation ( delete reservation, new day, new timesolt)
-	Output: Display room status (Free or full)
+4-	Input: Modify room reservation (Room Number, Old Time Slot, New Time Slot)
+Output: Success message if modification is successful, error message if not.
+
+
+5-	Input: Cancel room reservation (Day, Time Slot, Room Number)
+Output: Success message if cancellation is successful, error message if not.
 
 
 Functionality
 
 
-Functional requirements capture the intended behaviour of the system. 
-This section contains the Actor Goal List and the Use Case view.
+Functional Requirements
+
+
+The system shall permit a student to book a room reservation at a given time slot.
+
+
+The system shall permit a student to modify an existing room reservation to a new time slot.
+
+
+The system shall permit a student to cancel an existing room reservation.
+
+
+The system shall permit a student to view a weekly calendar of all reservation availabilities for a room.
+
+
+The system shall permit a student to enter the wait list for a reservation at an unavailable time slot. 
 
 
 Actor goal list
                         
 Actor  Goal
+
+
+			
+Actor: Student
+		
+Goal:  Log in
+
+
+Actor : Student
+
+
+Goal : View rooms
+
+
+Actor : Student 
+
+
+Goal : Make room reservation
+
+
+Actor : Student 
+
+
+Goal : View room weekly calendar
+
+
+Actor : Student 
+
+
+Goal : Cancel room reservation
+
+
+Actor : Student 
+
+
+Goal : Modify room reservation
                 
 
 Use case view
