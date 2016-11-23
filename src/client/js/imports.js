@@ -48,25 +48,58 @@ $(document).ready(function(){
     //Regex for timeStamp
     var re3='((?:2|1)\\d{3}(?:-|\\/)(?:(?:0[1-9])|(?:1[0-2]))(?:-|\\/)(?:(?:0[1-9])|(?:[1-2][0-9])|(?:3[0-1]))(?:T|\\s)(?:(?:[0-1][0-9])|(?:2[0-3])):(?:[0-5][0-9]):(?:[0-5][0-9]))';
 
+    // check if reservation is on waiting list
+    var isOnWaitingList = false;
+    for (var j=0; j < waitingList.length; j++){
+      if (oldTimeSlot == waitingList[j][2]) {
+        if (roomNumber == waitingList[j][1]){
+          isOnWaitingList = true;
+        }
+      }
+    }
+    if (!isOnWaitingList && moment(oldTimeSlot).isBefore(moment())) {
+      bootbox.alert({
+        message: "<div style='width:100%;text-align:center;'><i class='fa fa-close fa-4x' style='color:red;'></i></div><br/><span style='font-size:22px;'>" +
+            "Can't modify booked reservations from the past!" +
+            "</span>",
+          size: 'small',
+          backdrop: true,
+          closeButton: false
+      });
+      return;
+    }
+
     function prompt1() {
       var newRoomNumber;
-      bootbox.prompt("Please enter the room in format ex: H-905", function(result){
-        newRoomNumber = result;
-        if(!newRoomNumber.match(re1+re2,["i"])){
-          prompt1();
-        } else {
-          prompt2(newRoomNumber);
+      bootbox.prompt({
+        message: "Please enter the room in format ex: H-905",
+        size: 'small',
+        backdrop: true,
+        closeButton: false,
+        callback: function(result){
+          newRoomNumber = result;
+          if(!newRoomNumber.match(re1+re2,["i"])){
+            prompt1();
+          } else {
+            prompt2(newRoomNumber);
+          }
         }
       });
     }
     function prompt2(newRoomNumber) {
       var newTimeSlot;
-      bootbox.prompt("Please enter the time in format ex: 2016-11-24 15:00:00 ", function(result){
-        newTimeSlot = result;
-        if(!newTimeSlot.match(re3,["i"])){
-          prompt2(newRoomNumber);
-        } else{
-          modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+      bootbox.prompt({
+        message: "Please enter the time in format ex: 2016-11-24 15:00:00",
+        size: 'small',
+        backdrop: true,
+        closeButton: false,
+        callback: function(result){
+          newTimeSlot = result;
+          if(!newTimeSlot.match(re3,["i"])){
+            prompt2(newRoomNumber);
+          } else{
+            modifyReservation(oldRoomNumber,newRoomNumber,oldTimeSlot,newTimeSlot);
+          }
         }
       });
     }
@@ -250,7 +283,6 @@ function showBookingByRoom() {
   $('#calendar').fullCalendar('removeEvents');
   var currentRoomReservation = [];
   var beginOfWeek = $('#calendar').fullCalendar('getDate').startOf('week').format().split("T");
-  console.log(beginOfWeek);
   $.ajax({
     method: 'GET',
     url: "http://localhost:8000/getReservations/?roomNumber="
@@ -261,7 +293,6 @@ function showBookingByRoom() {
     + beginOfWeek[1],
     cache: false,
     success: function(res){
-      console.log(res);
       for (var i=0; i < res.reservations.length; i++) {
         var reservation = res.reservations[i][1].split(" ");
         var user = res.reservations[i][0];
@@ -280,7 +311,6 @@ function showBookingByRoom() {
         // Check if any of these are on the users waiting list
         for (var j=0; j < waitingList.length; j++){
           if (res.reservations[i][1] == waitingList[j][2]) {
-        console.log(waitingList)
             backgroundColor = '#f982e8';
           }
         }
@@ -337,7 +367,17 @@ function getReservationList() {
     },
     success: function(res){
       reservedList = res.reservedList;
-      appendBookingList(reservedList, "reservation-list");
+      filteredReservedList = [];
+
+      // Filter through reservations that occurred before this week
+      for (var i = 0; i < reservedList.length; i++) {
+        if (moment(reservedList[i][2]).isBefore(moment().startOf('isoWeek'))) {
+          continue;
+        } else {
+          filteredReservedList.push(reservedList[i]);
+        }
+      }
+      appendBookingList(filteredReservedList, "reservation-list");
     }
   });
 }
@@ -351,7 +391,17 @@ function getWaitingList() {
     },
     success: function(res){
       waitingList = res.waitingList;
-      appendBookingList(waitingList, "waiting-list");
+      filteredWaitingList = [];
+
+      // Filter through reservations that occurred before this week
+      for (var i = 0; i < waitingList.length; i++) {
+        if (moment(waitingList[i][2]).isBefore(moment().startOf('isoWeek'))) {
+          continue;
+        } else {
+          filteredWaitingList.push(waitingList[i]);
+        }
+      }
+      appendBookingList(filteredWaitingList, "waiting-list");
 
       //get all rooms available from back-end
       getRoomList();
@@ -388,24 +438,47 @@ function cancelReservation() {
   var roomNumber = selectCurrent.substring(0,5);
   var timeslot = selectCurrent.substring(6,selectCurrent.length);
   var requestData = "roomNumber=" + roomNumber + "&timeslot=" + timeslot;
-  $.ajax({
-    method: 'POST',
-    url: 'http://localhost:8000/cancelReservation/',
-    data: requestData,
-    dataType : "json",
-    cache: false,
-    xhrFields: {
-      withCredentials: true
-    },
-    success: function(res){
+
+  // check if reservation is on waiting list
+  var isOnWaitingList = false;
+  for (var j=0; j < waitingList.length; j++){
+    if (timeslot == waitingList[j][2]) {
+      if (roomNumber == waitingList[j][1]){
+        isOnWaitingList = true;
+      }
     }
-  });
-  location.reload();
+  }
+
+  if (!isOnWaitingList && moment(timeslot).isBefore(moment())) {
+    bootbox.alert({
+      message: "<div style='width:100%;text-align:center;'><i class='fa fa-close fa-4x' style='color:red;'></i></div><br/><span style='font-size:22px;'>" +
+          "Can't remove booked reservations from the past!" +
+          "</span>",
+        size: 'small',
+        backdrop: true,
+        closeButton: false
+    });
+  } else {
+    $.ajax({
+      method: 'POST',
+      url: 'http://localhost:8000/cancelReservation/',
+      data: requestData,
+      dataType : "json",
+      cache: false,
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function(res){
+      }
+    });
+    location.reload();
+  }
 }
 
 //This function will modify the reservation
 function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) {
   var requestData = "oldRoomNumber=" + oldRoomNumber + "&newRoomNumber=" + newRoomNumber  + "&oldTimeslot=" + oldTimeslot + "&newTimeslot=" + newTimeslot ;
+
   $.ajax({
     method: 'POST',
     url: 'http://localhost:8000/modifyReservation/',
@@ -416,7 +489,6 @@ function modifyReservation(oldRoomNumber,newRoomNumber,oldTimeslot,newTimeslot) 
       withCredentials: true
     },
     success: function(res){
-      console.log(res);
     }
   });
   location.reload();
