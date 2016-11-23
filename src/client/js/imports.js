@@ -226,7 +226,6 @@ function authenticateUser(){
   var password = $("#password").val();
   if( username.length == 0 || password.length == 0 ){
     $("#login-error-msg").html("<font color='red'><b> ERROR: One of the fields above is empty. </b></font>");
-    $("#login-error-msg").show(0).delay(2000).hide(0);
   }
   var requestData = "username=" + username + "&password=" + password;
   $.ajax({
@@ -243,7 +242,6 @@ function authenticateUser(){
       } else {
         var errorMsg = data.loginError;
         $("#login-error-msg").html("<font color='red'><b> ERROR: " + errorMsg + "</b></font>");
-        $("#login-error-msg").show(0).delay(2000).hide(0);
       }
     }
   });
@@ -270,8 +268,6 @@ function getRoomList() {
     cache: false,
     success: function(res){
       rooms = res.rooms;
-      console.log("rooms")
-      console.log(rooms)
       for (var i=0; i < res.rooms.length; i++) {
         $("#room-list").append("<li id='room-"+i+"'><a><p>" + res.rooms[i] + "</p></a></li>");
         if (!currentRoom){
@@ -432,7 +428,6 @@ function makeReservation(room, timeslot){
       if( data.madeReservation == false ){
         var reservationErrorMsg = data.reservationError;
         $("#reservation-error-msg").html("<font color='red'><b>ERROR: " + reservationErrorMsg + " </b></font>");
-        $("#reservation-error-msg").show(0).delay(2000).hide(0);
       } else {
         location.reload();
       }
