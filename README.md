@@ -12,6 +12,8 @@
 
 ## Quick Start Guide for Development
 
+- **Developed strictly for the Google Chrome browser**.
+
 ### Client-Side
 
 - If you are on Windows, download [`GitBash`](https://git-for-windows.github.io/).
