@@ -28,12 +28,12 @@
 ### Server-Side
 
 - Install [`Python 2.7.9+`](https://www.python.org/downloads/release/python-2712/).
-- Set `python27` and `python27/scripts` in windows environment variables
+- Set `python27` and `python27/scripts` in windows environment variables if on Windows
 - `cd src/`
 - `pip2 install -r requirements.txt`
 - `cd server/`
-- `python manage.py migrate`
-- `python manage.py < setupdatabase.py`
+- `python2 manage.py migrate`
+- `python2 manage.py shell < setupdatabase.py`
 - `python2 manage.py runserver`
 
 ### User Accounts
